@@ -103,6 +103,16 @@ void show(ALGraph *G){
 	}
 }
 
+//显示堆栈的内容
+void showStack(){
+	
+}
+
+//显示队列的内容
+void showQueue(){
+
+}
+
 typedef EdgeNode*  TYPE;
 EdgeNode*  open[MaxVertexNum]; //open表，next指向父节点
 EdgeNode*  close[MaxVertexNum];//close表，next指向父节点，下标表示编号

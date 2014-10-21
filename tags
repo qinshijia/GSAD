@@ -1,0 +1,83 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.7	//
+ALGraph	mytu.c	/^} ALGraph;               \/\/图类型$/;"	t	typeref:struct:__anon1	file:
+ALGraph	tu.c	/^} ALGraph;               \/\/图类型$/;"	t	typeref:struct:__anon5	file:
+ALGraph	tuc.c	/^}ALGraph;				\/\/对于简单的应用，无须定义此类型，可直接使用AdjList类型$/;"	t	typeref:struct:__anon3	file:
+AdjList	mytu.c	/^typedef VertexNode AdjList[MaxVertexNum];       \/\/AdjList是邻接表类型$/;"	t	file:
+AdjList	tu.c	/^typedef VertexNode AdjList[MaxVertexNum];       \/\/AdjList是邻接表类型$/;"	t	file:
+AdjList	tuc.c	/^typedef VertexNode AdjList[MaxVertexNum];	\/\/AdjList是邻接表类型$/;"	t	file:
+BFS	tu.c	/^void BFS(ALGraph *G)$/;"	f
+BFS	tuc.c	/^void BFS(ALGraph*G,int k)$/;"	f
+BFSTraverseM	tuc.c	/^void BFSTraverseM(ALGraph *G)   $/;"	f
+Boolean	tu.c	/^typedef enum{FALSE,TRUE} Boolean;$/;"	t	typeref:enum:__anon6	file:
+Boolean	tuc.c	/^typedef enum{FALSE,TRUE}Boolean;   $/;"	t	typeref:enum:__anon2	file:
+CirQueue	tuc.c	/^}CirQueue;   $/;"	t	typeref:struct:__anon4	file:
+CreatALGraph	mytu.c	/^void CreatALGraph(ALGraph *G)$/;"	f
+CreatALGraph	tu.c	/^void CreatALGraph(ALGraph *G)$/;"	f
+CreateGraphAL	tuc.c	/^void CreateGraphAL (ALGraph *G)   $/;"	f
+DFS	tu.c	/^void DFS(ALGraph *G)$/;"	f
+DFS	tuc.c	/^void DFS(ALGraph *G,int i)$/;"	f
+DFSM	tu.c	/^void DFSM(ALGraph *G,int i)$/;"	f
+DFSTraverseM	tuc.c	/^void DFSTraverseM(ALGraph *G)   $/;"	f
+DeQueue	tuc.c	/^int DeQueue(CirQueue *Q)   $/;"	f
+EdgeNode	mytu.c	/^}EdgeNode;$/;"	t	typeref:struct:node	file:
+EdgeNode	tu.c	/^}EdgeNode;$/;"	t	typeref:struct:node	file:
+EdgeNode	tuc.c	/^}EdgeNode;$/;"	t	typeref:struct:node	file:
+EdgeType	tuc.c	/^typedef int EdgeType;$/;"	t	file:
+EnQueue	tuc.c	/^void EnQueue(CirQueue *Q,int x)   $/;"	f
+FALSE	tu.c	/^typedef enum{FALSE,TRUE} Boolean;$/;"	e	enum:__anon6	file:
+FALSE	tuc.c	/^typedef enum{FALSE,TRUE}Boolean;   $/;"	e	enum:__anon2	file:
+InitQueue	tuc.c	/^void InitQueue(CirQueue *Q)   $/;"	f
+MaxVertexNum	mytu.c	5;"	d	file:
+MaxVertexNum	tu.c	7;"	d	file:
+MaxVertexNum	tuc.c	5;"	d	file:
+QueueEmpty	tuc.c	/^int QueueEmpty(CirQueue *Q)   $/;"	f
+QueueFull	tuc.c	/^int QueueFull(CirQueue *Q)   $/;"	f
+QueueSize	tuc.c	6;"	d	file:
+TRUE	tu.c	/^typedef enum{FALSE,TRUE} Boolean;$/;"	e	enum:__anon6	file:
+TRUE	tuc.c	/^typedef enum{FALSE,TRUE}Boolean;   $/;"	e	enum:__anon2	file:
+VertexNode	mytu.c	/^}VertexNode;$/;"	t	typeref:struct:vnode	file:
+VertexNode	tu.c	/^}VertexNode;$/;"	t	typeref:struct:vnode	file:
+VertexNode	tuc.c	/^}VertexNode;$/;"	t	typeref:struct:vnode	file:
+VertexType	tuc.c	/^typedef char VertexType;$/;"	t	file:
+adjlist	mytu.c	/^	AdjList adjlist;     \/\/邻接表$/;"	m	struct:__anon1	file:
+adjlist	tu.c	/^	AdjList adjlist;     \/\/邻接表$/;"	m	struct:__anon5	file:
+adjlist	tuc.c	/^	AdjList adjlist;	\/\/邻接表$/;"	m	struct:__anon3	file:
+adjvex	mytu.c	/^	char adjvex;          \/\/邻接点域$/;"	m	struct:node	file:
+adjvex	tu.c	/^	char adjvex;          \/\/邻接点域$/;"	m	struct:node	file:
+adjvex	tuc.c	/^	int adjvex;			\/\/邻接点域$/;"	m	struct:node	file:
+count	tuc.c	/^	int count;   $/;"	m	struct:__anon4	file:
+data	tuc.c	/^	int data[QueueSize];   $/;"	m	struct:__anon4	file:
+e	mytu.c	/^	int n,e;             \/\/图中当前顶点数和边数$/;"	m	struct:__anon1	file:
+e	tu.c	/^	int n,e;             \/\/图中当前顶点数和边数$/;"	m	struct:__anon5	file:
+e	tuc.c	/^	int n,e;			\/\/图中当前顶点数和边数$/;"	m	struct:__anon3	file:
+firstedge	mytu.c	/^	EdgeNode *firstedge; \/\/边表头指针$/;"	m	struct:vnode	file:
+firstedge	tu.c	/^	EdgeNode *firstedge; \/\/边表头指针$/;"	m	struct:vnode	file:
+firstedge	tuc.c	/^	EdgeNode *firstedge;\/\/边表头指针$/;"	m	struct:vnode	file:
+front	tuc.c	/^	int front;   $/;"	m	struct:__anon4	file:
+main	mytu.c	/^int main(){$/;"	f
+main	tu.c	/^int main()$/;"	f
+main	tuc.c	/^int main()$/;"	f
+n	mytu.c	/^	int n,e;             \/\/图中当前顶点数和边数$/;"	m	struct:__anon1	file:
+n	tu.c	/^	int n,e;             \/\/图中当前顶点数和边数$/;"	m	struct:__anon5	file:
+n	tuc.c	/^	int n,e;			\/\/图中当前顶点数和边数$/;"	m	struct:__anon3	file:
+next	mytu.c	/^	struct node *next;    \/\/链域$/;"	m	struct:node	typeref:struct:node::node	file:
+next	tu.c	/^	struct node *next;    \/\/链域$/;"	m	struct:node	typeref:struct:node::node	file:
+next	tuc.c	/^	struct node *next;	\/\/域链$/;"	m	struct:node	typeref:struct:node::node	file:
+node	mytu.c	/^typedef struct node{       \/\/边表结点$/;"	s	file:
+node	tu.c	/^typedef struct node{       \/\/边表结点$/;"	s	file:
+node	tuc.c	/^typedef struct node		\/\/边表结点$/;"	s	file:
+rear	tuc.c	/^	int rear;   $/;"	m	struct:__anon4	file:
+std	tu.c	/^using namespace std;$/;"	v
+vertex	mytu.c	/^	char vertex;           \/\/顶点域$/;"	m	struct:vnode	file:
+vertex	tu.c	/^	char vertex;           \/\/顶点域$/;"	m	struct:vnode	file:
+vertex	tuc.c	/^	VertexType vertex;	\/\/顶点域$/;"	m	struct:vnode	file:
+visited	tu.c	/^Boolean visited[MaxVertexNum];$/;"	v
+visited	tuc.c	/^Boolean visited[MaxVertexNum];  $/;"	v
+vnode	mytu.c	/^typedef struct vnode{     \/\/顶点表结点$/;"	s	file:
+vnode	tu.c	/^typedef struct vnode{     \/\/顶点表结点$/;"	s	file:
+vnode	tuc.c	/^typedef struct vnode	\/\/顶点边结点$/;"	s	file:
