@@ -5,79 +5,280 @@
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.7	//
 ALGraph	mytu.c	/^} ALGraph;               \/\/图类型$/;"	t	typeref:struct:__anon1	file:
-ALGraph	tu.c	/^} ALGraph;               \/\/图类型$/;"	t	typeref:struct:__anon5	file:
-ALGraph	tuc.c	/^}ALGraph;				\/\/对于简单的应用，无须定义此类型，可直接使用AdjList类型$/;"	t	typeref:struct:__anon3	file:
+ALGraph	mytu0.1.c	/^} ALGraph;               \/\/图类型$/;"	t	typeref:struct:__anon2	file:
+ALGraph	mytu0.2.c	/^} ALGraph;               \/\/图类型$/;"	t	typeref:struct:__anon4	file:
+ALGraph	mytu0.3.c	/^} ALGraph;               \/\/图类型$/;"	t	typeref:struct:__anon3	file:
+ALGraph	mytu0.4.c	/^} ALGraph;               \/\/图类型$/;"	t	typeref:struct:__anon5	file:
+ALGraph	tu.c	/^} ALGraph;               \/\/图类型$/;"	t	typeref:struct:__anon9	file:
+ALGraph	tuc.c	/^}ALGraph;				\/\/对于简单的应用，无须定义此类型，可直接使用AdjList类型$/;"	t	typeref:struct:__anon7	file:
 AdjList	mytu.c	/^typedef VertexNode AdjList[MaxVertexNum];       \/\/AdjList是邻接表类型$/;"	t	file:
+AdjList	mytu0.1.c	/^typedef VertexNode AdjList[MaxVertexNum];       \/\/AdjList是邻接表类型$/;"	t	file:
+AdjList	mytu0.2.c	/^typedef VertexNode AdjList[MaxVertexNum];       \/\/AdjList是邻接表类型$/;"	t	file:
+AdjList	mytu0.3.c	/^typedef VertexNode AdjList[MaxVertexNum];       \/\/AdjList是邻接表类型$/;"	t	file:
+AdjList	mytu0.4.c	/^typedef VertexNode AdjList[MaxVertexNum];       \/\/AdjList是邻接表类型$/;"	t	file:
 AdjList	tu.c	/^typedef VertexNode AdjList[MaxVertexNum];       \/\/AdjList是邻接表类型$/;"	t	file:
 AdjList	tuc.c	/^typedef VertexNode AdjList[MaxVertexNum];	\/\/AdjList是邻接表类型$/;"	t	file:
+BFS	mytu.c	/^int  BFS(ALGraph *G,char value){$/;"	f
+BFS	mytu0.2.c	/^int  BFS(ALGraph *G,char value){$/;"	f
+BFS	mytu0.3.c	/^int  BFS(ALGraph *G,char value){$/;"	f
+BFS	mytu0.4.c	/^int  BFS(ALGraph *G,char value){$/;"	f
 BFS	tu.c	/^void BFS(ALGraph *G)$/;"	f
 BFS	tuc.c	/^void BFS(ALGraph*G,int k)$/;"	f
 BFSTraverseM	tuc.c	/^void BFSTraverseM(ALGraph *G)   $/;"	f
-Boolean	tu.c	/^typedef enum{FALSE,TRUE} Boolean;$/;"	t	typeref:enum:__anon6	file:
-Boolean	tuc.c	/^typedef enum{FALSE,TRUE}Boolean;   $/;"	t	typeref:enum:__anon2	file:
-CirQueue	tuc.c	/^}CirQueue;   $/;"	t	typeref:struct:__anon4	file:
-CreatALGraph	mytu.c	/^void CreatALGraph(ALGraph *G)$/;"	f
+BestSearch	mytu.c	/^int  BestSearch(ALGraph *G,char value){$/;"	f
+Boolean	tu.c	/^typedef enum{FALSE,TRUE} Boolean;$/;"	t	typeref:enum:__anon10	file:
+Boolean	tuc.c	/^typedef enum{FALSE,TRUE}Boolean;   $/;"	t	typeref:enum:__anon6	file:
+CirQueue	tuc.c	/^}CirQueue;   $/;"	t	typeref:struct:__anon8	file:
+CostSearch	mytu.c	/^int  CostSearch(ALGraph *G,char value){$/;"	f
+CostSearch	mytu0.4.c	/^int  CostSearch(ALGraph *G,char value){$/;"	f
+CreatALGraph	mytu.c	/^void CreatALGraph(ALGraph *G,char fileName[])$/;"	f
+CreatALGraph	mytu0.1.c	/^void CreatALGraph(ALGraph *G)$/;"	f
+CreatALGraph	mytu0.2.c	/^void CreatALGraph(ALGraph *G)$/;"	f
+CreatALGraph	mytu0.3.c	/^void CreatALGraph(ALGraph *G)$/;"	f
+CreatALGraph	mytu0.4.c	/^void CreatALGraph(ALGraph *G)$/;"	f
 CreatALGraph	tu.c	/^void CreatALGraph(ALGraph *G)$/;"	f
 CreateGraphAL	tuc.c	/^void CreateGraphAL (ALGraph *G)   $/;"	f
+DEEPLIMIT	mytu.c	11;"	d	file:
+DEEPLIMIT	mytu0.2.c	11;"	d	file:
+DEEPLIMIT	mytu0.3.c	11;"	d	file:
+DEEPLIMIT	mytu0.4.c	11;"	d	file:
+DFS	mytu.c	/^int DFS(ALGraph *G,char value){$/;"	f
+DFS	mytu0.1.c	/^int  DFS(ALGraph *G,char value){$/;"	f
+DFS	mytu0.2.c	/^int DFS(ALGraph *G,char value){$/;"	f
+DFS	mytu0.3.c	/^int DFS(ALGraph *G,char value){$/;"	f
+DFS	mytu0.4.c	/^int DFS(ALGraph *G,char value){$/;"	f
 DFS	tu.c	/^void DFS(ALGraph *G)$/;"	f
 DFS	tuc.c	/^void DFS(ALGraph *G,int i)$/;"	f
 DFSM	tu.c	/^void DFSM(ALGraph *G,int i)$/;"	f
 DFSTraverseM	tuc.c	/^void DFSTraverseM(ALGraph *G)   $/;"	f
 DeQueue	tuc.c	/^int DeQueue(CirQueue *Q)   $/;"	f
+ERROR	ArrayQueue.c	8;"	d	file:
+ERROR	ArrayStack.c	6;"	d	file:
+ERROR	list.c	25;"	d	file:
+ERROR	mytu.c	8;"	d	file:
+ERROR	mytu0.1.c	7;"	d	file:
+ERROR	mytu0.2.c	8;"	d	file:
+ERROR	mytu0.3.c	8;"	d	file:
+ERROR	mytu0.4.c	8;"	d	file:
 EdgeNode	mytu.c	/^}EdgeNode;$/;"	t	typeref:struct:node	file:
+EdgeNode	mytu0.1.c	/^}EdgeNode;$/;"	t	typeref:struct:node	file:
+EdgeNode	mytu0.2.c	/^}EdgeNode;$/;"	t	typeref:struct:node	file:
+EdgeNode	mytu0.3.c	/^}EdgeNode;$/;"	t	typeref:struct:node	file:
+EdgeNode	mytu0.4.c	/^}EdgeNode;$/;"	t	typeref:struct:node	file:
 EdgeNode	tu.c	/^}EdgeNode;$/;"	t	typeref:struct:node	file:
 EdgeNode	tuc.c	/^}EdgeNode;$/;"	t	typeref:struct:node	file:
 EdgeType	tuc.c	/^typedef int EdgeType;$/;"	t	file:
+EnQueue	ArrayQueue.c	/^int EnQueue(TYPE *open,int *in,int *out,TYPE value){$/;"	f
+EnQueue	mytu.c	/^int EnQueue(TYPE *open,int *in,int *out,TYPE value){$/;"	f
+EnQueue	mytu0.1.c	/^int EnQueue(TYPE *open,int *in,int *out,TYPE value){$/;"	f
+EnQueue	mytu0.2.c	/^int EnQueue(TYPE *open,int *in,int *out,TYPE value){$/;"	f
+EnQueue	mytu0.3.c	/^int EnQueue(TYPE *open,int *in,int *out,TYPE value){$/;"	f
+EnQueue	mytu0.4.c	/^int EnQueue(TYPE *open,int *in,int *out,TYPE value){$/;"	f
 EnQueue	tuc.c	/^void EnQueue(CirQueue *Q,int x)   $/;"	f
-FALSE	tu.c	/^typedef enum{FALSE,TRUE} Boolean;$/;"	e	enum:__anon6	file:
-FALSE	tuc.c	/^typedef enum{FALSE,TRUE}Boolean;   $/;"	e	enum:__anon2	file:
+FAILURE	mytu.c	7;"	d	file:
+FAILURE	mytu0.1.c	6;"	d	file:
+FAILURE	mytu0.2.c	7;"	d	file:
+FAILURE	mytu0.3.c	7;"	d	file:
+FAILURE	mytu0.4.c	7;"	d	file:
+FALSE	mytu.c	10;"	d	file:
+FALSE	mytu0.1.c	9;"	d	file:
+FALSE	mytu0.2.c	10;"	d	file:
+FALSE	mytu0.3.c	10;"	d	file:
+FALSE	mytu0.4.c	10;"	d	file:
+FALSE	tu.c	/^typedef enum{FALSE,TRUE} Boolean;$/;"	e	enum:__anon10	file:
+FALSE	tuc.c	/^typedef enum{FALSE,TRUE}Boolean;   $/;"	e	enum:__anon6	file:
+GetQueue	ArrayQueue.c	/^TYPE GetQueue(TYPE *open,int *in,int *out){$/;"	f
+GetQueue	mytu.c	/^int GetQueue(TYPE *open,int *in,int *out,TYPE *value){$/;"	f
+GetQueue	mytu0.1.c	/^int GetQueue(TYPE *open,int *in,int *out,TYPE *value){$/;"	f
+GetQueue	mytu0.2.c	/^int GetQueue(TYPE *open,int *in,int *out,TYPE *value){$/;"	f
+GetQueue	mytu0.3.c	/^int GetQueue(TYPE *open,int *in,int *out,TYPE *value){$/;"	f
+GetQueue	mytu0.4.c	/^int GetQueue(TYPE *open,int *in,int *out,TYPE *value){$/;"	f
 InitQueue	tuc.c	/^void InitQueue(CirQueue *Q)   $/;"	f
+LimitDFS	mytu.c	/^int LimitDFS(ALGraph *G,char value){$/;"	f
+LimitDFS	mytu0.3.c	/^int LimitDFS(ALGraph *G,char value){$/;"	f
+LimitDFS	mytu0.4.c	/^int LimitDFS(ALGraph *G,char value){$/;"	f
+ListClear	list.c	/^int ListClear(struct node *L){$/;"	f
+ListDelete	list.c	/^int ListDelete(struct node *L,int i){$/;"	f
+ListDestory	list.c	/^void ListDestory(struct node **L){$/;"	f
+ListEmpty	list.c	/^int ListEmpty(struct node *L){$/;"	f
+ListGetElem	list.c	/^int ListGetElem(struct node *L,int i,TYPE *e){$/;"	f
+ListInit	list.c	/^int ListInit(struct node **L){$/;"	f
+ListInsert	list.c	/^int ListInsert(struct node *L,int i,TYPE e){$/;"	f
+ListLength	list.c	/^int ListLength(struct node *L){$/;"	f
+ListLocateElem	list.c	/^int ListLocateElem(struct node *L,TYPE e){$/;"	f
+ListShow	list.c	/^int ListShow(struct node *L){$/;"	f
+MaxSize	ArrayQueue.c	9;"	d	file:
+MaxSize	ArrayStack.c	4;"	d	file:
 MaxVertexNum	mytu.c	5;"	d	file:
+MaxVertexNum	mytu0.1.c	4;"	d	file:
+MaxVertexNum	mytu0.2.c	5;"	d	file:
+MaxVertexNum	mytu0.3.c	5;"	d	file:
+MaxVertexNum	mytu0.4.c	5;"	d	file:
 MaxVertexNum	tu.c	7;"	d	file:
 MaxVertexNum	tuc.c	5;"	d	file:
+OrderEnQueue	mytu.c	/^int OrderEnQueue(TYPE *open,int *in,int *out,TYPE value){$/;"	f
+OrderEnQueue	mytu0.4.c	/^int OrderEnQueue(TYPE *open,int *in,int *out,TYPE value){$/;"	f
+Pop	ArrayStack.c	/^int Pop(int *open,int *out){$/;"	f
+Pop	mytu.c	/^int Pop(TYPE *open,int *out,TYPE *value){$/;"	f
+Pop	mytu0.1.c	/^int Pop(TYPE *open,int *out,TYPE *value){$/;"	f
+Pop	mytu0.2.c	/^int Pop(TYPE *open,int *out,TYPE *value){$/;"	f
+Pop	mytu0.3.c	/^int Pop(TYPE *open,int *out,TYPE *value){$/;"	f
+Pop	mytu0.4.c	/^int Pop(TYPE *open,int *out,TYPE *value){$/;"	f
+Push	ArrayStack.c	/^int Push(int *open,int *in,int value){$/;"	f
+Push	mytu.c	/^int Push(TYPE *open,int *in,TYPE value){$/;"	f
+Push	mytu0.1.c	/^int Push(TYPE *open,int *in,TYPE value){$/;"	f
+Push	mytu0.2.c	/^int Push(TYPE *open,int *in,TYPE value){$/;"	f
+Push	mytu0.3.c	/^int Push(TYPE *open,int *in,TYPE value){$/;"	f
+Push	mytu0.4.c	/^int Push(TYPE *open,int *in,TYPE value){$/;"	f
 QueueEmpty	tuc.c	/^int QueueEmpty(CirQueue *Q)   $/;"	f
 QueueFull	tuc.c	/^int QueueFull(CirQueue *Q)   $/;"	f
 QueueSize	tuc.c	6;"	d	file:
-TRUE	tu.c	/^typedef enum{FALSE,TRUE} Boolean;$/;"	e	enum:__anon6	file:
-TRUE	tuc.c	/^typedef enum{FALSE,TRUE}Boolean;   $/;"	e	enum:__anon2	file:
+SUCCESS	ArrayQueue.c	7;"	d	file:
+SUCCESS	ArrayStack.c	5;"	d	file:
+SUCCESS	list.c	24;"	d	file:
+SUCCESS	mytu.c	6;"	d	file:
+SUCCESS	mytu0.1.c	5;"	d	file:
+SUCCESS	mytu0.2.c	6;"	d	file:
+SUCCESS	mytu0.3.c	6;"	d	file:
+SUCCESS	mytu0.4.c	6;"	d	file:
+TRUE	mytu.c	9;"	d	file:
+TRUE	mytu0.1.c	8;"	d	file:
+TRUE	mytu0.2.c	9;"	d	file:
+TRUE	mytu0.3.c	9;"	d	file:
+TRUE	mytu0.4.c	9;"	d	file:
+TRUE	tu.c	/^typedef enum{FALSE,TRUE} Boolean;$/;"	e	enum:__anon10	file:
+TRUE	tuc.c	/^typedef enum{FALSE,TRUE}Boolean;   $/;"	e	enum:__anon6	file:
+TYPE	ArrayQueue.c	/^typedef	int	TYPE;		\/\/��������$/;"	t	file:
+TYPE	list.c	/^typedef	int TYPE ;			\/*ָ��Ԫ�ص�����*\/$/;"	t	file:
+TYPE	mytu.c	/^typedef EdgeNode*  TYPE;$/;"	t	file:
+TYPE	mytu0.1.c	/^typedef EdgeNode*  TYPE;$/;"	t	file:
+TYPE	mytu0.2.c	/^typedef EdgeNode*  TYPE;$/;"	t	file:
+TYPE	mytu0.3.c	/^typedef EdgeNode*  TYPE;$/;"	t	file:
+TYPE	mytu0.4.c	/^typedef EdgeNode*  TYPE;$/;"	t	file:
 VertexNode	mytu.c	/^}VertexNode;$/;"	t	typeref:struct:vnode	file:
+VertexNode	mytu0.1.c	/^}VertexNode;$/;"	t	typeref:struct:vnode	file:
+VertexNode	mytu0.2.c	/^}VertexNode;$/;"	t	typeref:struct:vnode	file:
+VertexNode	mytu0.3.c	/^}VertexNode;$/;"	t	typeref:struct:vnode	file:
+VertexNode	mytu0.4.c	/^}VertexNode;$/;"	t	typeref:struct:vnode	file:
 VertexNode	tu.c	/^}VertexNode;$/;"	t	typeref:struct:vnode	file:
 VertexNode	tuc.c	/^}VertexNode;$/;"	t	typeref:struct:vnode	file:
 VertexType	tuc.c	/^typedef char VertexType;$/;"	t	file:
 adjlist	mytu.c	/^	AdjList adjlist;     \/\/邻接表$/;"	m	struct:__anon1	file:
-adjlist	tu.c	/^	AdjList adjlist;     \/\/邻接表$/;"	m	struct:__anon5	file:
-adjlist	tuc.c	/^	AdjList adjlist;	\/\/邻接表$/;"	m	struct:__anon3	file:
-adjvex	mytu.c	/^	char adjvex;          \/\/邻接点域$/;"	m	struct:node	file:
+adjlist	mytu0.1.c	/^	AdjList adjlist;     \/\/邻接表$/;"	m	struct:__anon2	file:
+adjlist	mytu0.2.c	/^	AdjList adjlist;     \/\/邻接表$/;"	m	struct:__anon4	file:
+adjlist	mytu0.3.c	/^	AdjList adjlist;     \/\/邻接表$/;"	m	struct:__anon3	file:
+adjlist	mytu0.4.c	/^	AdjList adjlist;     \/\/邻接表$/;"	m	struct:__anon5	file:
+adjlist	tu.c	/^	AdjList adjlist;     \/\/邻接表$/;"	m	struct:__anon9	file:
+adjlist	tuc.c	/^	AdjList adjlist;	\/\/邻接表$/;"	m	struct:__anon7	file:
+adjvex	mytu.c	/^	char adjvex;          	\/\/邻接点域$/;"	m	struct:node	file:
+adjvex	mytu0.1.c	/^	char adjvex;          \/\/邻接点域$/;"	m	struct:node	file:
+adjvex	mytu0.2.c	/^	char adjvex;          \/\/邻接点域$/;"	m	struct:node	file:
+adjvex	mytu0.3.c	/^	char adjvex;          \/\/邻接点域$/;"	m	struct:node	file:
+adjvex	mytu0.4.c	/^	char adjvex;          	\/\/邻接点域$/;"	m	struct:node	file:
 adjvex	tu.c	/^	char adjvex;          \/\/邻接点域$/;"	m	struct:node	file:
 adjvex	tuc.c	/^	int adjvex;			\/\/邻接点域$/;"	m	struct:node	file:
-count	tuc.c	/^	int count;   $/;"	m	struct:__anon4	file:
-data	tuc.c	/^	int data[QueueSize];   $/;"	m	struct:__anon4	file:
+close	mytu.c	/^EdgeNode*  close[MaxVertexNum];\/\/close表，next指向父节点，下标表示编号$/;"	v
+close	mytu0.1.c	/^EdgeNode*  close[MaxVertexNum];\/\/close表，next指向父节点，下标表示编号$/;"	v
+close	mytu0.2.c	/^EdgeNode*  close[MaxVertexNum];\/\/close表，next指向父节点，下标表示编号$/;"	v
+close	mytu0.3.c	/^EdgeNode*  close[MaxVertexNum];\/\/close表，next指向父节点，下标表示编号$/;"	v
+close	mytu0.4.c	/^EdgeNode*  close[MaxVertexNum];\/\/close表，next指向父节点，下标表示编号$/;"	v
+cost	mytu.c	/^	int cost;		\/\/代价$/;"	m	struct:node	file:
+cost	mytu0.4.c	/^	int cost;		\/\/代价$/;"	m	struct:node	file:
+count	tuc.c	/^	int count;   $/;"	m	struct:__anon8	file:
+data	list.c	/^	TYPE	data;$/;"	m	struct:node	file:
+data	tuc.c	/^	int data[QueueSize];   $/;"	m	struct:__anon8	file:
+deep	mytu.c	/^	int deep;		\/\/节点深度$/;"	m	struct:node	file:
+deep	mytu0.2.c	/^	int deep;$/;"	m	struct:node	file:
+deep	mytu0.3.c	/^	int deep;$/;"	m	struct:node	file:
+deep	mytu0.4.c	/^	int deep;		\/\/节点深度$/;"	m	struct:node	file:
 e	mytu.c	/^	int n,e;             \/\/图中当前顶点数和边数$/;"	m	struct:__anon1	file:
-e	tu.c	/^	int n,e;             \/\/图中当前顶点数和边数$/;"	m	struct:__anon5	file:
-e	tuc.c	/^	int n,e;			\/\/图中当前顶点数和边数$/;"	m	struct:__anon3	file:
+e	mytu0.1.c	/^	int n,e;             \/\/图中当前顶点数和边数$/;"	m	struct:__anon2	file:
+e	mytu0.2.c	/^	int n,e;             \/\/图中当前顶点数和边数$/;"	m	struct:__anon4	file:
+e	mytu0.3.c	/^	int n,e;             \/\/图中当前顶点数和边数$/;"	m	struct:__anon3	file:
+e	mytu0.4.c	/^	int n,e;             \/\/图中当前顶点数和边数$/;"	m	struct:__anon5	file:
+e	tu.c	/^	int n,e;             \/\/图中当前顶点数和边数$/;"	m	struct:__anon9	file:
+e	tuc.c	/^	int n,e;			\/\/图中当前顶点数和边数$/;"	m	struct:__anon7	file:
+enQueue	ArrayStack.c	/^int enQueue(int *open,int *in,int value){$/;"	f
+evaluate	mytu.c	/^	int evaluate;		\/\/估价$/;"	m	struct:node	file:
+father	mytu.c	/^	struct node *next,*father;    \/\/链域$/;"	m	struct:node	typeref:struct:node::	file:
+father	mytu0.2.c	/^	struct node *next,*father;    \/\/链域$/;"	m	struct:node	typeref:struct:node::	file:
+father	mytu0.3.c	/^	struct node *next,*father;    \/\/链域$/;"	m	struct:node	typeref:struct:node::	file:
+father	mytu0.4.c	/^	struct node *next,*father;    \/\/链域$/;"	m	struct:node	typeref:struct:node::	file:
 firstedge	mytu.c	/^	EdgeNode *firstedge; \/\/边表头指针$/;"	m	struct:vnode	file:
+firstedge	mytu0.1.c	/^	EdgeNode *firstedge; \/\/边表头指针$/;"	m	struct:vnode	file:
+firstedge	mytu0.2.c	/^	EdgeNode *firstedge; \/\/边表头指针$/;"	m	struct:vnode	file:
+firstedge	mytu0.3.c	/^	EdgeNode *firstedge; \/\/边表头指针$/;"	m	struct:vnode	file:
+firstedge	mytu0.4.c	/^	EdgeNode *firstedge; \/\/边表头指针$/;"	m	struct:vnode	file:
 firstedge	tu.c	/^	EdgeNode *firstedge; \/\/边表头指针$/;"	m	struct:vnode	file:
 firstedge	tuc.c	/^	EdgeNode *firstedge;\/\/边表头指针$/;"	m	struct:vnode	file:
-front	tuc.c	/^	int front;   $/;"	m	struct:__anon4	file:
+front	tuc.c	/^	int front;   $/;"	m	struct:__anon8	file:
+main	ArrayQueue.c	/^int main(){$/;"	f
+main	ArrayStack.c	/^int main(){$/;"	f
+main	file.c	/^int main(){$/;"	f
 main	mytu.c	/^int main(){$/;"	f
+main	mytu0.1.c	/^int main(){$/;"	f
+main	mytu0.2.c	/^int main(){$/;"	f
+main	mytu0.3.c	/^int main(){$/;"	f
+main	mytu0.4.c	/^int main(){$/;"	f
 main	tu.c	/^int main()$/;"	f
 main	tuc.c	/^int main()$/;"	f
 n	mytu.c	/^	int n,e;             \/\/图中当前顶点数和边数$/;"	m	struct:__anon1	file:
-n	tu.c	/^	int n,e;             \/\/图中当前顶点数和边数$/;"	m	struct:__anon5	file:
-n	tuc.c	/^	int n,e;			\/\/图中当前顶点数和边数$/;"	m	struct:__anon3	file:
-next	mytu.c	/^	struct node *next;    \/\/链域$/;"	m	struct:node	typeref:struct:node::node	file:
+n	mytu0.1.c	/^	int n,e;             \/\/图中当前顶点数和边数$/;"	m	struct:__anon2	file:
+n	mytu0.2.c	/^	int n,e;             \/\/图中当前顶点数和边数$/;"	m	struct:__anon4	file:
+n	mytu0.3.c	/^	int n,e;             \/\/图中当前顶点数和边数$/;"	m	struct:__anon3	file:
+n	mytu0.4.c	/^	int n,e;             \/\/图中当前顶点数和边数$/;"	m	struct:__anon5	file:
+n	tu.c	/^	int n,e;             \/\/图中当前顶点数和边数$/;"	m	struct:__anon9	file:
+n	tuc.c	/^	int n,e;			\/\/图中当前顶点数和边数$/;"	m	struct:__anon7	file:
+next	list.c	/^	struct node	*prior,*next;$/;"	m	struct:node	typeref:struct:node::	file:
+next	mytu.c	/^	struct node *next,*father;    \/\/链域$/;"	m	struct:node	typeref:struct:node::node	file:
+next	mytu0.1.c	/^	struct node *next;    \/\/链域$/;"	m	struct:node	typeref:struct:node::node	file:
+next	mytu0.2.c	/^	struct node *next,*father;    \/\/链域$/;"	m	struct:node	typeref:struct:node::node	file:
+next	mytu0.3.c	/^	struct node *next,*father;    \/\/链域$/;"	m	struct:node	typeref:struct:node::node	file:
+next	mytu0.4.c	/^	struct node *next,*father;    \/\/链域$/;"	m	struct:node	typeref:struct:node::node	file:
 next	tu.c	/^	struct node *next;    \/\/链域$/;"	m	struct:node	typeref:struct:node::node	file:
 next	tuc.c	/^	struct node *next;	\/\/域链$/;"	m	struct:node	typeref:struct:node::node	file:
-node	mytu.c	/^typedef struct node{       \/\/边表结点$/;"	s	file:
+node	list.c	/^struct node{$/;"	s	file:
+node	mytu.c	/^typedef struct node{       	\/\/边表结点$/;"	s	file:
+node	mytu0.1.c	/^typedef struct node{       \/\/边表结点$/;"	s	file:
+node	mytu0.2.c	/^typedef struct node{       \/\/边表结点$/;"	s	file:
+node	mytu0.3.c	/^typedef struct node{       \/\/边表结点$/;"	s	file:
+node	mytu0.4.c	/^typedef struct node{       	\/\/边表结点$/;"	s	file:
 node	tu.c	/^typedef struct node{       \/\/边表结点$/;"	s	file:
 node	tuc.c	/^typedef struct node		\/\/边表结点$/;"	s	file:
-rear	tuc.c	/^	int rear;   $/;"	m	struct:__anon4	file:
+open	ArrayStack.c	/^int open[MaxSize];$/;"	v
+open	mytu.c	/^EdgeNode*  open[MaxVertexNum]; \/\/open表，next指向父节点$/;"	v
+open	mytu0.1.c	/^EdgeNode*  open[MaxVertexNum]; \/\/open表，next指向父节点$/;"	v
+open	mytu0.2.c	/^EdgeNode*  open[MaxVertexNum]; \/\/open表，next指向父节点$/;"	v
+open	mytu0.3.c	/^EdgeNode*  open[MaxVertexNum]; \/\/open表，next指向父节点$/;"	v
+open	mytu0.4.c	/^EdgeNode*  open[MaxVertexNum]; \/\/open表，next指向父节点$/;"	v
+prior	list.c	/^	struct node	*prior,*next;$/;"	m	struct:node	typeref:struct:node::node	file:
+rear	tuc.c	/^	int rear;   $/;"	m	struct:__anon8	file:
+show	mytu.c	/^void show(ALGraph *G){$/;"	f
+show	mytu0.1.c	/^void show(ALGraph *G){$/;"	f
+show	mytu0.2.c	/^void show(ALGraph *G){$/;"	f
+show	mytu0.3.c	/^void show(ALGraph *G){$/;"	f
+show	mytu0.4.c	/^void show(ALGraph *G){$/;"	f
+showQueue	mytu.c	/^void showQueue(){$/;"	f
+showStack	mytu.c	/^void showStack(){$/;"	f
 std	tu.c	/^using namespace std;$/;"	v
 vertex	mytu.c	/^	char vertex;           \/\/顶点域$/;"	m	struct:vnode	file:
+vertex	mytu0.1.c	/^	char vertex;           \/\/顶点域$/;"	m	struct:vnode	file:
+vertex	mytu0.2.c	/^	char vertex;           \/\/顶点域$/;"	m	struct:vnode	file:
+vertex	mytu0.3.c	/^	char vertex;           \/\/顶点域$/;"	m	struct:vnode	file:
+vertex	mytu0.4.c	/^	char vertex;           \/\/顶点域$/;"	m	struct:vnode	file:
 vertex	tu.c	/^	char vertex;           \/\/顶点域$/;"	m	struct:vnode	file:
 vertex	tuc.c	/^	VertexType vertex;	\/\/顶点域$/;"	m	struct:vnode	file:
+visit	mytu.c	/^int visit[MaxVertexNum] = {FALSE};$/;"	v
+visit	mytu0.1.c	/^int visit[MaxVertexNum] = {FALSE};$/;"	v
+visit	mytu0.2.c	/^int visit[MaxVertexNum] = {FALSE};$/;"	v
+visit	mytu0.3.c	/^int visit[MaxVertexNum] = {FALSE};$/;"	v
+visit	mytu0.4.c	/^int visit[MaxVertexNum] = {FALSE};$/;"	v
 visited	tu.c	/^Boolean visited[MaxVertexNum];$/;"	v
 visited	tuc.c	/^Boolean visited[MaxVertexNum];  $/;"	v
 vnode	mytu.c	/^typedef struct vnode{     \/\/顶点表结点$/;"	s	file:
+vnode	mytu0.1.c	/^typedef struct vnode{     \/\/顶点表结点$/;"	s	file:
+vnode	mytu0.2.c	/^typedef struct vnode{     \/\/顶点表结点$/;"	s	file:
+vnode	mytu0.3.c	/^typedef struct vnode{     \/\/顶点表结点$/;"	s	file:
+vnode	mytu0.4.c	/^typedef struct vnode{     \/\/顶点表结点$/;"	s	file:
 vnode	tu.c	/^typedef struct vnode{     \/\/顶点表结点$/;"	s	file:
 vnode	tuc.c	/^typedef struct vnode	\/\/顶点边结点$/;"	s	file:

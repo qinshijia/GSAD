@@ -2,13 +2,13 @@
 #include<stdlib.h>
 #include<malloc.h>
 
-#define MaxVertexNum 50        	//定义最大顶点数
-#define SUCCESS	0		//函数执行成功
-#define FAILURE -1		//函数执行失败
-#define ERROR	-1		//函数执行失败
-#define TRUE 1			//已经遍历过
-#define FALSE 0			//未遍历
-#define DEEPLIMIT 2		//有界深度优先搜索算法的 深度界限
+#define MaxVertexNum 	50        	//定义最大顶点数
+#define SUCCESS		0		//函数执行成功
+#define FAILURE 	-1		//函数执行失败
+#define ERROR		-1		//函数执行失败
+#define TRUE 		1		//已经遍历过
+#define FALSE 		0		//未遍历
+#define DEEPLIMIT 	2		//有界深度优先搜索算法的 深度界限
 
 typedef struct node{       	//边表结点
 
@@ -32,17 +32,16 @@ typedef struct {
 } ALGraph;               //图类型
 
 //           建立图的邻接表           
-void CreatALGraph(ALGraph *G)
+void CreatALGraph(ALGraph *G,char fileName[])
 {
-	int i,j,k,cost;
+	int i,j,k,cost,evaluate;
 	char a;
 	EdgeNode *s;        //定义边表结点
 	FILE *fp;
-	if((fp = fopen("a.txt","r")) == NULL){
+	if((fp = fopen(fileName,"r")) == NULL){
 		perror("open file error\n");
 		return;
 	}
-
 //	printf("请输入顶点数和边数: ");
 //	scanf("%d%d",&i,&j); //读入顶点数和边数
 	fscanf(fp,"%d%d",&i,&j); //读入顶点数和边数
@@ -66,16 +65,18 @@ void CreatALGraph(ALGraph *G)
 	{ //建立边表
 		//cin>>i;cin>>j;        //读入边（Vi，Vj）的顶点对序号
 //		scanf("%d%d%d",&i,&j,&cost);
-		fscanf(fp,"%d%d%d",&i,&j,&cost);
+		fscanf(fp,"%d%d%d%d",&i,&j,&cost,&evaluate);
 	fgetc(fp);
 		s=(EdgeNode *)malloc(sizeof(EdgeNode));    //生成边表结点
 		s->adjvex=j;                 //邻接点序号为j
 		s->cost = cost;
+		s->evaluate = evaluate;
 		s->next=G->adjlist[i].firstedge;
 		G->adjlist[i].firstedge=s;     //将新结点*S插入顶点Vi的边表头部
 		s=(EdgeNode *)malloc(sizeof(EdgeNode)); 
 		s->adjvex=i;                  //邻接点序号为i
 		s->cost = cost;
+		s->evaluate = evaluate;
 		s->next=G->adjlist[j].firstedge;   
 		G->adjlist[j].firstedge=s;      //将新结点*S插入顶点Vj的边表头部
 	}
@@ -150,8 +151,8 @@ int EnQueue(TYPE *open,int *in,int *out,TYPE value){
 }
 
 //有序的入队列
-
-int OrderEnQueue(TYPE *open,int *in,int *out,TYPE value){
+//根据cost排序
+int OrderEnQueue(TYPE *open,int *in,int *out,TYPE value,int mode){
 	TYPE tempNode;
 	int temp;
 	int i;
@@ -167,12 +168,23 @@ int OrderEnQueue(TYPE *open,int *in,int *out,TYPE value){
 	if((*in) == (*out)){			//队空条件 in == out
 		open[i] = value;
 	}else{
-		for(i ;i > (*out); i--){
-			if(value->cost < open[i-1]->cost){
-				open[i] = open[i-1];
-			}else{
-				open[i] = value;
-			}
+		switch(mode){
+	
+			case 0:	for(i ;i > (*out); i--){
+					if(value->cost < open[i-1]->cost){
+						open[i] = open[i-1];
+					}else{
+						open[i] = value;
+					}
+
+				}
+			case 1:	for(i ;i > (*out); i--){
+					if(value->evaluate < open[i-1]->evaluate){
+						open[i] = open[i-1];
+					}else{
+						open[i] = value;
+					}
+				}
 
 		}
 	}
@@ -392,7 +404,7 @@ int  CostSearch(ALGraph *G,char value){
 	tempNode = G->adjlist[0].firstedge;
 	visit[0] = TRUE;
 	tempNode->cost = cost;
-	OrderEnQueue(open,&inOpen,&outOpen,tempNode);//将第一个节点的下一个节点存入open表
+	OrderEnQueue(open,&inOpen,&outOpen,tempNode,0);//将第一个节点的下一个节点存入open表
 	while(1){
 		emptyOpen = GetQueue(open,&inOpen,&outOpen,&tempNode);	//从open表中取出第一个值
 		if(emptyOpen == -1){					//open表为空,找不到目标节点
@@ -427,7 +439,7 @@ int  CostSearch(ALGraph *G,char value){
 			if(visit[n] == FALSE){
 				tempNode->father = fatherNode;
 				tempNode->cost = cost + tempNode->cost;
-				OrderEnQueue(open,&inOpen,&outOpen,tempNode);
+				OrderEnQueue(open,&inOpen,&outOpen,tempNode,0);
 				visit[n] = TRUE;
 			}
 			tempNode = tempNode->next;
@@ -440,37 +452,39 @@ int  CostSearch(ALGraph *G,char value){
 int  BestSearch(ALGraph *G,char value){
 	//memset(open,NULL,sizeof(MaxVertexNum));//初始化open和close表
 	//memset(close,NULL,sizeof(MaxVertexNum));
-	int i,n,cost;
+	int i,n,cost,evaluate;
 	int inOpen,outOpen,emptyOpen;
 	int inClose,outClose,emptyClose;
+	EdgeNode  *tempNode,*fatherNode;			//临时节点 n
+
 	n = 0;
 	cost = 0;
+	evaluate = 0;
 	memset(visit,0,sizeof(visit));
 	inOpen = inClose = 0;			//初始化队列的队首和队尾
 	outOpen = outClose = 0;
 	emptyOpen = emptyClose = 0;
-	EdgeNode  *tempNode,*fatherNode;			//临时节点 n
 	tempNode = G->adjlist[0].firstedge;
 	visit[0] = TRUE;
 	tempNode->cost = cost;
-	OrderEnQueue(open,&inOpen,&outOpen,tempNode);//将第一个节点的下一个节点存入open表
+	OrderEnQueue(open,&inOpen,&outOpen,tempNode,1);//将第一个节点的下一个节点存入open表
 	while(1){
 		emptyOpen = GetQueue(open,&inOpen,&outOpen,&tempNode);	//从open表中取出第一个值
 		if(emptyOpen == -1){					//open表为空,找不到目标节点
-			printf("CostSearch not find %c. \n",value);
+			printf("BestSearch not find %c. \n",value);
 			return ERROR;
 		}
 		n = tempNode->adjvex;
 		visit[n] = TRUE;
-		printf("when CostSearchfind the %d element : %c cost %d\n",n,G->adjlist[n].vertex,tempNode->cost);
+		printf("when BestSearchfind the %d element : %c cost %d\n",n,G->adjlist[n].vertex,tempNode->cost);
 		Push(close,&inClose,tempNode);		//将该节点存入close表
 		if(G->adjlist[n].vertex == value){			//是否为目标节点？
-			printf("CostSearch find %c and cost %d.  \n",value,tempNode->cost);
+			printf("BestSearch find %c and cost %d.  \n",value,tempNode->cost);
 			do{						//输出close表中所有的节点
 				emptyClose = Pop(close,&inClose,&tempNode);
 				if(emptyClose != -1 && tempNode->adjvex == n){
 					n = tempNode->adjvex;
-					printf("CostSearch close element : %c\n",G->adjlist[n].vertex);
+					printf("BestSearch close element : %c\n",G->adjlist[n].vertex);
 					tempNode= tempNode->father;
 					if(tempNode == NULL){
 						break;
@@ -488,7 +502,9 @@ int  BestSearch(ALGraph *G,char value){
 			if(visit[n] == FALSE){
 				tempNode->father = fatherNode;
 				tempNode->cost = cost + tempNode->cost;
-				OrderEnQueue(open,&inOpen,&outOpen,tempNode);
+				tempNode->evaluate = tempNode->cost + tempNode->evaluate;
+				printf("evaluate = %d\n",tempNode->evaluate);
+				OrderEnQueue(open,&inOpen,&outOpen,tempNode,1);
 				visit[n] = TRUE;
 			}
 			tempNode = tempNode->next;
@@ -501,11 +517,13 @@ int  BestSearch(ALGraph *G,char value){
 int main(){
 	ALGraph G;
 	char find = 'e';
-	CreatALGraph(&G);
+	char fileName[27] = "a.txt";
+	CreatALGraph(&G,fileName);
 	show(&G);
 	DFS(&G,find);
 	BFS(&G,find);
 	LimitDFS(&G,find);
 	CostSearch(&G,find);
+	BestSearch(&G,find);
 	return 0;
 }
