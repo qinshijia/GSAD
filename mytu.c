@@ -387,6 +387,71 @@ int LimitDFS(ALGraph *G,char value){
 	}
 }
 
+
+//迭代加深
+
+int IterDFS(ALGraph *G,char value){
+	//memset(open,NULL,sizeof(MaxVertexNum));//初始化open和close表
+	//memset(close,NULL,sizeof(MaxVertexNum));
+	memset(visit,0,sizeof(visit));
+	int i,n,deep;
+	int inOpen,emptyOpen;
+	int inClose,emptyClose;
+	n = 0;
+	deep = 0;
+	inOpen = inClose = 0;			//初始化队列的队首和队尾
+	emptyOpen = emptyClose = 0;
+	EdgeNode  *tempNode,*fatherNode;			//临时节点 n
+	tempNode = G->adjlist[0].firstedge;
+	visit[0] = TRUE;
+	tempNode->father= NULL;
+	tempNode->deep = deep;
+	Push(open,&inOpen,tempNode);				//将第一个节点的下一个节点存入open表
+	while(1){
+		emptyOpen = Pop(open,&inOpen,&tempNode);	//从open表中取出第一个值
+		if(emptyOpen == -1){					//open表为空,找不到目标节点
+			printf("LimitDFS not find %c. \n",value);
+			return ERROR;
+		}
+		n = tempNode->adjvex;
+		visit[n] = TRUE;
+		printf("when LimitDFS find the %d element : %c\n",n,G->adjlist[n].vertex);
+		Push(close,&inClose,tempNode);				//将该节点存入close表
+		if(G->adjlist[n].vertex == value){			//是否为目标节点？
+			do{						//输出close表中所有的节点
+				emptyClose = Pop(close,&inClose,&tempNode);
+				if(emptyClose != -1 && tempNode->adjvex == n){
+					n = tempNode->adjvex;
+					printf("LimitDFS close element : %c\n",G->adjlist[n].vertex);
+					tempNode= tempNode->father;
+					if(tempNode == NULL){
+						break;
+					}
+					n = tempNode->adjvex;
+				}
+			}while(emptyClose != -1);
+			printf("LimitDFS fine %c. \n",value);
+			return SUCCESS; 	
+		}
+		deep = tempNode->deep;					
+		if(deep == DEEPLIMIT){					//深度是否等于深度限制
+			continue;
+		}
+		deep = deep + 1;					//深度加 1
+		tempNode = G->adjlist[n].firstedge;			//找到后继节点
+		fatherNode = tempNode;
+		while(tempNode != NULL){
+			n = tempNode->adjvex;
+			if(visit[n] == FALSE){
+				tempNode->father = fatherNode;
+				tempNode->deep = deep;
+				Push(open,&inOpen,tempNode);
+				visit[n] = TRUE;
+			}
+			tempNode = tempNode->next;
+		}	
+	}
+}
 //代价图搜索
 int  CostSearch(ALGraph *G,char value){
 	//memset(open,NULL,sizeof(MaxVertexNum));//初始化open和close表
