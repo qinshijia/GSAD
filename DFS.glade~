@@ -170,11 +170,6 @@
               <object class="GtkTextView" id="textview1">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="hscroll_policy">natural</property>
-                <property name="pixels_below_lines">1</property>
-                <property name="editable">False</property>
-                <property name="wrap_mode">char</property>
-                <property name="indent">1</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -234,10 +229,5 @@
         </child>
       </object>
     </child>
-  </object>
-  <object class="GtkSizeGroup" id="sizegroup1">
-    <widgets>
-      <widget name="textview1"/>
-    </widgets>
   </object>
 </interface>
