@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<malloc.h>
+#include"GUI.h"
 
 #define MaxVertexNum 	50        	//定义最大顶点数
 #define SUCCESS		0		//函数执行成功
@@ -10,6 +11,12 @@
 #define FALSE 		0		//未遍历
 #define DEEPLIMIT 	2		//有界深度优先搜索算法的 深度界限
 
+extern	GtkWidget 	*mainwindow;
+extern 	GtkWidget 	*Tstart,*Tend; 
+extern	GtkWidget 	*Ffile;
+extern	GtkWidget  	*Topen,*Tclose;
+extern	GtkTextBuffer	*bufopen,*bufclose;
+/*
 typedef struct node{       	//边表结点
 
 	char adjvex;          	//邻接点域
@@ -30,7 +37,7 @@ typedef struct {
 	AdjList adjlist;     //邻接表
 	int n,e;             //图中当前顶点数和边数
 } ALGraph;               //图类型
-
+*/
 typedef EdgeNode*  TYPE;
 EdgeNode*  open[MaxVertexNum]; //open表，next指向父节点
 EdgeNode*  Close[MaxVertexNum];//close表，next指向父节点，下标表示编号
@@ -226,6 +233,7 @@ int  BFS(ALGraph *G,char value){
 	EnQueue(open,&inOpen,&outOpen,tempNode);//将第一个节点的下一个节点存入open表
 	while(1){
 		emptyOpen = GetQueue(open,&inOpen,&outOpen,&tempNode);	//从open表中取出第一个值
+		showOpenaStack(open,&G,&inOpen);
 		if(emptyOpen == -1){					//open表为空,找不到目标节点
 			printf("BFS not find %c. \n",value);
 			return ERROR;

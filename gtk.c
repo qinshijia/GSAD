@@ -2,10 +2,11 @@
 #include <string.h>
 #include "mytu.h"
 
-GtkWidget *mainwindow;
-GtkWidget *Tstart,*Tend; 
-GtkWidget *Ffile;
-
+GtkWidget 	*mainwindow;
+GtkWidget 	*Tstart,*Tend; 
+GtkWidget 	*Ffile;
+GtkWidget  	*Topen,*Tclose;
+GtkTextBuffer	*bufopen,*bufclose;
 
 
 void BFS_step(GtkWidget *widget,gpointer data){
@@ -37,6 +38,32 @@ void BFS_next(GtkWidget *widget,gpointer data){
 	printf("BFS_next\n");
 }
 
+void showOpenaStack(EdgeNode* *open,ALGraph *G,int *in){
+	int num,n;
+	char value;
+	char *p;
+	p = &value;
+	const gchar *text="How are you!";
+	GtkTextIter start,end;
+	EdgeNode *tempNode;
+	num = *in;
+	while(num--){
+		tempNode = open[num];
+		n = tempNode->adjvex;
+		value = G->adjlist[n].vertex;
+		//显示
+		printf("\nshow open..%c..%d.1\n",value,n);		 
+		gtk_text_buffer_get_bounds(GTK_TEXT_BUFFER(bufopen),&start,&end);/*获得缓冲区开始和结束位置的Iter*/
+		printf("\nshow open.....2\n");		 
+		gtk_text_buffer_insert(GTK_TEXT_BUFFER(bufopen),&start,p,1);/*插入文本到缓冲区*/
+		printf("\nshow open.....3\n");		 
+
+	}
+	
+}
+void showClose(){
+
+}
 //关闭算法窗口，返回主窗口
 void back_parent(GtkWidget *widget,gpointer data){
 	gtk_widget_show (mainwindow);//顯示窗體
@@ -64,6 +91,11 @@ void button_clicked_bfs(GtkWidget *widget,gpointer data)
 	Tend = GTK_WIDGET (gtk_builder_get_object (builder, "Tend"));
 	gtk_entry_set_text(GTK_ENTRY(Tstart),"a");
 	gtk_entry_set_text(GTK_ENTRY(Tend),"c");
+	
+	Topen = GTK_WIDGET (gtk_builder_get_object (builder, "Topen"));
+	Tclose = GTK_WIDGET (gtk_builder_get_object (builder, "Tclose"));
+	bufopen = gtk_text_view_get_buffer(GTK_TEXT_VIEW(Topen));	
+	bufclose = gtk_text_view_get_buffer(GTK_TEXT_VIEW(Tclose));	
 
 	Ffile = GTK_WIDGET(gtk_builder_get_object (builder,"Ffile"));
 	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(Ffile),"./");
