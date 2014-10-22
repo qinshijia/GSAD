@@ -227,7 +227,17 @@
           </packing>
         </child>
         <child>
-          <placeholder/>
+          <object class="GtkFileChooserButton" id="filechooserbutton1">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="create_folders">False</property>
+          </object>
+          <packing>
+            <property name="left_attach">0</property>
+            <property name="top_attach">2</property>
+            <property name="width">1</property>
+            <property name="height">1</property>
+          </packing>
         </child>
         <child>
           <placeholder/>

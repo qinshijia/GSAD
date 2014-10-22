@@ -12,15 +12,6 @@
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <child>
-          <object class="GtkComboBox" id="combobox1">
-            <property name="width_request">244</property>
-            <property name="height_request">20</property>
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="halign">start</property>
-          </object>
-        </child>
-        <child>
           <object class="GtkLabel" id="label1">
             <property name="width_request">66</property>
             <property name="height_request">28</property>
@@ -48,7 +39,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkEntry" id="entry1">
+          <object class="GtkEntry" id="Tstart">
             <property name="width_request">166</property>
             <property name="height_request">29</property>
             <property name="visible">True</property>
@@ -62,11 +53,12 @@
           </packing>
         </child>
         <child>
-          <object class="GtkEntry" id="entry2">
+          <object class="GtkEntry" id="Tend">
             <property name="width_request">166</property>
             <property name="height_request">29</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="max_length">1</property>
           </object>
           <packing>
             <property name="x">77</property>
@@ -166,6 +158,18 @@
           <packing>
             <property name="x">273</property>
             <property name="y">37</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkFileChooserButton" id="file">
+            <property name="width_request">225</property>
+            <property name="height_request">28</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+          </object>
+          <packing>
+            <property name="x">15</property>
+            <property name="y">7</property>
           </packing>
         </child>
       </object>
