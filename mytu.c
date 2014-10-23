@@ -231,17 +231,20 @@ int  BFS(ALGraph *G,char value){
 	Visit[0] = TRUE;
 	tempNode->father = NULL;
 	EnQueue(open,&inOpen,&outOpen,tempNode);//将第一个节点的下一个节点存入open表
+	showOpenaQueue(open, G,inOpen,outOpen);
 	while(1){
 		emptyOpen = GetQueue(open,&inOpen,&outOpen,&tempNode);	//从open表中取出第一个值
-		showOpenaStack(open,&G,&inOpen);
+		showOpenaQueue(open, G,inOpen,outOpen);
 		if(emptyOpen == -1){					//open表为空,找不到目标节点
 			printf("BFS not find %c. \n",value);
 			return ERROR;
 		}
 		n = tempNode->adjvex;
+		printf("DFS G value is %c\n",G->adjlist[n].vertex);
 		Visit[n] = TRUE;
 		printf("when BFS find the %d element : %c\n",n,G->adjlist[n].vertex);
 		Push(Close,&inClose,tempNode);		//将该节点存入close表
+		showClose(Close, G,&inClose);
 		if(G->adjlist[n].vertex == value){			//是否为目标节点？
 			do{						//输出Close表中所有的节点
 				emptyClose = Pop(Close,&inClose,&tempNode);
@@ -266,6 +269,7 @@ int  BFS(ALGraph *G,char value){
 			if(Visit[n] == FALSE){
 				tempNode->father = fatherNode;
 				EnQueue(open,&inOpen,&outOpen,tempNode);
+				showOpenaQueue(open, G,inOpen,outOpen);
 				Visit[n] = TRUE;
 			}
 			tempNode = tempNode->next;
