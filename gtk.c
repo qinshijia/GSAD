@@ -3,7 +3,7 @@
 #include <string.h>
 #include "mytu.h"
 
-GtkWidget 	*mainwindow;
+GtkWidget 	*mainwindow,*Algwindow;
 GtkWidget 	*Tstart,*Tend; 
 GtkWidget 	*Ffile;
 GtkWidget  	*Topen,*Tclose;
@@ -19,6 +19,8 @@ void BFS_step(GtkWidget *widget,gpointer data){
 	end = gtk_entry_get_text(GTK_ENTRY(Tend));
 	file= gtk_file_chooser_get_filename (GTK_FILE_CHOOSER(Ffile));
 
+	printf("bfs type is %s\n",data);
+	printf("BFS_step....data is %s\n",data);
 	GtkTextIter Gstart,Gend;
 	gtk_text_buffer_get_bounds(GTK_TEXT_BUFFER(bufopen),&Gstart,&Gend);
 	gtk_text_buffer_delete(GTK_TEXT_BUFFER(bufopen),&Gstart,&Gend);
@@ -29,7 +31,31 @@ void BFS_step(GtkWidget *widget,gpointer data){
 	}
 	CreatALGraph(&G,file);
 	show(&G);
-	BFS(&G,*end);
+	if(!(strcmp(data,"BFS"))){
+
+		BFS(&G,*end);
+
+	}else if(!(strcmp(data,"DFS"))){
+
+		DFS(&G,*end);
+
+	}else if(!(strcmp(data,"LimitDFS"))){
+
+		LimitDFS(&G,*end);
+
+	}else if(!(strcmp(data,"IterDFS"))){
+
+		IterDFS(&G,*end);
+
+	}else if(!(strcmp(data,"CostSearch"))){
+
+		CostSearch(&G,*end);
+
+	}else if(!(strcmp(data,"BestSearch"))){
+
+		BestSearch(&G,*end);
+		
+	}
 	printf("BFS_step\tstart %s\t end %s\tfilename %s\n",start,end,file);
 }
 void BFS_next(GtkWidget *widget,gpointer data){
@@ -63,17 +89,17 @@ void showOpenaQueue(EdgeNode* *open,ALGraph *G,int in,int out){
 	if(empty < out){
 		empty = empty + MaxVertexNum;
 	}
-	while(empty > out){
+	in = out;
+	while(empty > in  ){
 		empty--;
-		in--;
-		if(in < 0){
-			in = MaxVertexNum - 1;
+		if(out == MaxVertexNum){
+			out = 0;
 		}
 		memset(text,'\0',sizeof(text));
-		tempNode = open[in];
+		tempNode = open[out];
+		out++;
 		n = tempNode->adjvex;
 		value = G->adjlist[n].vertex;
-		printf("open Queue value = %c\n",value);
 		text[0] = value;
 		strcat(text," ");
 		gtk_text_buffer_get_bounds(GTK_TEXT_BUFFER(bufopen),&start,&end);//显示open表的内容
@@ -83,14 +109,13 @@ void showOpenaQueue(EdgeNode* *open,ALGraph *G,int in,int out){
 	while(gtk_events_pending())
 		gtk_main_iteration();	//为了能刷新文本框的内容
 }
-void showOpenaStack(EdgeNode* *open,ALGraph *G,int *in){
-	int num,n,row;
+void showOpenaStack(EdgeNode* *open,ALGraph *G,int in){
+	int n,row;
 	char value;
 	char *p,text[27];
 	p = &value;
 	GtkTextIter start,end;
 	EdgeNode *tempNode;
-	num = *in;
 	gtk_text_buffer_get_bounds(GTK_TEXT_BUFFER(bufopen),&start,&end);
 	row = gtk_text_buffer_get_line_count(bufopen);			//获取行号
 	value = '0' + row;
@@ -98,9 +123,9 @@ void showOpenaStack(EdgeNode* *open,ALGraph *G,int *in){
 	text[0] = value;
 	strcat(text,":\t");
 	gtk_text_buffer_insert(GTK_TEXT_BUFFER(bufopen),&end,text,strlen(text));//显示行号
-	while(num--){
+	while(in--){
 		memset(text,'\0',sizeof(text));
-		tempNode = open[num];
+		tempNode = open[in];
 		n = tempNode->adjvex;
 		value = G->adjlist[n].vertex;
 		text[0] = value;
@@ -113,15 +138,14 @@ void showOpenaStack(EdgeNode* *open,ALGraph *G,int *in){
 		gtk_main_iteration();	//为了能刷新文本框的内容
 }
 
-void showClose(EdgeNode* *open,ALGraph *G,int *in){
-	int num,n,row;
+void showClose(EdgeNode* *open,ALGraph *G,int in){
+	int n,row;
 	char value;
 	char *p,text[27];
 	p = &value;
 	GtkTextIter start,end;
 	EdgeNode *tempNode;
-	num = *in;
-	if(num <= 0){
+	if(in <= 0){
 		printf("open stack is empty!\n");
 		return;
 	}
@@ -132,9 +156,9 @@ void showClose(EdgeNode* *open,ALGraph *G,int *in){
 	text[0] = value;
 	strcat(text,":\t");
 	gtk_text_buffer_insert(GTK_TEXT_BUFFER(bufclose),&end,text,strlen(text));//显示行号
-	while(num--){
+	while(in--){
 		memset(text,'\0',sizeof(text));
-		tempNode = open[num];
+		tempNode = open[in];
 		n = tempNode->adjvex;
 		value = G->adjlist[n].vertex;
 		text[0] = value;
@@ -146,9 +170,6 @@ void showClose(EdgeNode* *open,ALGraph *G,int *in){
 	while(gtk_events_pending())
 		gtk_main_iteration();	//为了能刷新文本框的内容
 
-}
-void bufChange (GtkTextBuffer *textbuffer,gpointer user_data){
-	printf("buffer changed!\n");
 }
 
 
@@ -165,13 +186,13 @@ void button_clicked_bfs(GtkWidget *widget,gpointer data)
 {
 	gtk_widget_hide(mainwindow); //隐藏主窗口
 
+	printf("button_clicked_bfs....data is %s\n",data);
 	GtkWidget *Bstep,*Bcont;  
 	GtkBuilder *builder;
-	GtkWidget *window,*parent;
+	GtkWidget *parent;
 	builder = gtk_builder_new ();//指針分配空間
 	gtk_builder_add_from_file(builder,"BFS.glade",NULL);
-	window = GTK_WIDGET (gtk_builder_get_object (builder, "window"));//獲取window串口使用權
-//	parent = gtk_widget_get_parent_window(parent);
+	Algwindow = GTK_WIDGET (gtk_builder_get_object (builder, "window"));//獲取window串口使用權
 
 	Bstep = GTK_WIDGET (gtk_builder_get_object (builder, "Bstep"));//獲取控件使用權
 	Bcont = GTK_WIDGET (gtk_builder_get_object (builder, "Bcont"));//獲取控件使用權
@@ -185,7 +206,6 @@ void button_clicked_bfs(GtkWidget *widget,gpointer data)
 	Tclose = GTK_WIDGET (gtk_builder_get_object (builder, "Tclose"));
 	bufopen = gtk_text_view_get_buffer(GTK_TEXT_VIEW(Topen));	
 	bufclose = gtk_text_view_get_buffer(GTK_TEXT_VIEW(Tclose));	
-        g_signal_connect(G_OBJECT(bufopen),"changed",G_CALLBACK(bufChange),NULL);
 
 	Ffile = GTK_WIDGET(gtk_builder_get_object (builder,"Ffile"));
 	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(Ffile),"./");
@@ -195,17 +215,40 @@ void button_clicked_bfs(GtkWidget *widget,gpointer data)
 	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (Ffile), filter);
 	gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(Ffile),"a.txt" );
 
+	if(!(strcmp(data,"BFS"))){
+
+		gtk_window_set_title(GTK_WINDOW(Algwindow),"广度优先搜索算法");
+
+	}else if(!(strcmp(data,"DFS"))){
+
+		gtk_window_set_title(GTK_WINDOW(Algwindow),"深度优先搜索算法");
+
+	}else if(!(strcmp(data,"LimitDFS"))){
+
+		gtk_window_set_title(GTK_WINDOW(Algwindow),"深度受限搜索算法");
+
+	}else if(!(strcmp(data,"IterDFS"))){
+
+		gtk_window_set_title(GTK_WINDOW(Algwindow),"迭代搜索算法");
+
+	}else if(!(strcmp(data,"CostSearch"))){
+
+		gtk_window_set_title(GTK_WINDOW(Algwindow),"等代价搜索算法");
+
+	}else if(!(strcmp(data,"BestSearch"))){
+
+		gtk_window_set_title(GTK_WINDOW(Algwindow),"最佳优先搜索算法");
+		
+	}
 	gtk_builder_connect_signals (builder, NULL);//連接裏面的信號到槽
-	gtk_container_add(GTK_CONTAINER(window), Bstep);
-	gtk_container_add(GTK_CONTAINER(window), Bcont);
-        g_signal_connect(G_OBJECT(Bstep),"clicked",G_CALLBACK(BFS_step),NULL);
+	gtk_container_add(GTK_CONTAINER(Algwindow), Bstep);
+	gtk_container_add(GTK_CONTAINER(Algwindow), Bcont);
+        g_signal_connect(G_OBJECT(Bstep),"clicked",G_CALLBACK(BFS_step),data);
         g_signal_connect(G_OBJECT(Bcont),"clicked",G_CALLBACK(BFS_next),NULL);
 
-	g_signal_connect_swapped(G_OBJECT(window),"destroy",G_CALLBACK(back_parent),NULL );
+	g_signal_connect_swapped(G_OBJECT(Algwindow),"destroy",G_CALLBACK(back_parent),NULL );
 	g_object_unref (G_OBJECT (builder));  //釋放xml內存空間
-	gtk_widget_show (window);//顯示窗體
-//	gtk_main ();//迴路等待
-//	gtk_widget_show (mainwindow);//顯示窗體
+	gtk_widget_show (Algwindow);//顯示窗體
 }
 
 int main (int argc, char *argv[])
@@ -228,7 +271,13 @@ int main (int argc, char *argv[])
 
 	gtk_builder_connect_signals (builder, NULL);//連接裏面的信號到槽
 	gtk_container_add(GTK_CONTAINER(mainwindow), Bbfs);
-        g_signal_connect(G_OBJECT(Bbfs),"clicked",G_CALLBACK(button_clicked_bfs),NULL);
+        g_signal_connect(G_OBJECT(Ball),"clicked",G_CALLBACK(button_clicked_bfs),"ALL");
+        g_signal_connect(G_OBJECT(Bbfs),"clicked",G_CALLBACK(button_clicked_bfs),"BFS");
+        g_signal_connect(G_OBJECT(Bdfs),"clicked",G_CALLBACK(button_clicked_bfs),"DFS");
+        g_signal_connect(G_OBJECT(BlimitDfs),"clicked",G_CALLBACK(button_clicked_bfs),"LimitDFS");
+        g_signal_connect(G_OBJECT(Bbests),"clicked",G_CALLBACK(button_clicked_bfs),"BestSearch");
+        g_signal_connect(G_OBJECT(Bcosts),"clicked",G_CALLBACK(button_clicked_bfs),"CostSearch");
+        g_signal_connect(G_OBJECT(Biters),"clicked",G_CALLBACK(button_clicked_bfs),"IterDFS");
 	g_signal_connect_swapped(G_OBJECT(mainwindow),"destroy",G_CALLBACK(exit),NULL );
 	g_object_unref (G_OBJECT (builder));  //釋放xml內存空間
 	gtk_widget_show (mainwindow);//顯示窗體

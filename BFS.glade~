@@ -124,18 +124,6 @@
           </packing>
         </child>
         <child>
-          <object class="GtkTextView" id="Tclose">
-            <property name="width_request">273</property>
-            <property name="height_request">91</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-          </object>
-          <packing>
-            <property name="x">271</property>
-            <property name="y">153</property>
-          </packing>
-        </child>
-        <child>
           <object class="GtkLabel" id="label4">
             <property name="width_request">61</property>
             <property name="height_request">22</property>
@@ -149,18 +137,6 @@
           </packing>
         </child>
         <child>
-          <object class="GtkTextView" id="Topen">
-            <property name="width_request">273</property>
-            <property name="height_request">80</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-          </object>
-          <packing>
-            <property name="x">273</property>
-            <property name="y">37</property>
-          </packing>
-        </child>
-        <child>
           <object class="GtkFileChooserButton" id="Ffile">
             <property name="width_request">225</property>
             <property name="height_request">28</property>
@@ -170,6 +146,51 @@
           <packing>
             <property name="x">15</property>
             <property name="y">7</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkScrolledWindow" id="scrolledwindow1">
+            <property name="width_request">249</property>
+            <property name="height_request">80</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="shadow_type">in</property>
+            <child>
+              <object class="GtkTextView" id="Topen">
+                <property name="width_request">273</property>
+                <property name="height_request">80</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="editable">False</property>
+                <property name="cursor_visible">False</property>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="x">273</property>
+            <property name="y">40</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkScrolledWindow" id="scrolledwindow2">
+            <property name="width_request">245</property>
+            <property name="height_request">80</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="shadow_type">in</property>
+            <child>
+              <object class="GtkTextView" id="Tclose">
+                <property name="width_request">273</property>
+                <property name="height_request">91</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="editable">False</property>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="x">276</property>
+            <property name="y">156</property>
           </packing>
         </child>
       </object>
