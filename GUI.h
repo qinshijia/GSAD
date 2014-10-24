@@ -4,3 +4,4 @@
 void showOpenaStack(EdgeNode* open,ALGraph *G,int in);
 void showClose(EdgeNode* open,ALGraph *G,int in);
 void showOpenaQueue(EdgeNode* *open,ALGraph *G,int in,int out);
+void showResult(int findFlag,int openNum,int closeNum);

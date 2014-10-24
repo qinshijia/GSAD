@@ -21,8 +21,8 @@
             <property name="label" translatable="yes">起始点</property>
           </object>
           <packing>
-            <property name="x">5</property>
-            <property name="y">57</property>
+            <property name="x">4</property>
+            <property name="y">52</property>
           </packing>
         </child>
         <child>
@@ -35,7 +35,7 @@
             <property name="justify">right</property>
           </object>
           <packing>
-            <property name="y">93</property>
+            <property name="y">100</property>
           </packing>
         </child>
         <child>
@@ -46,45 +46,33 @@
             <property name="can_focus">True</property>
             <property name="halign">start</property>
             <property name="max_length">1</property>
+            <property name="placeholder_text" translatable="yes">请输入起始点</property>
+            <property name="input_purpose">alpha</property>
           </object>
           <packing>
-            <property name="x">77</property>
-            <property name="y">48</property>
+            <property name="x">79</property>
+            <property name="y">53</property>
           </packing>
         </child>
         <child>
           <object class="GtkEntry" id="Tend">
-            <property name="width_request">166</property>
+            <property name="width_request">164</property>
             <property name="height_request">29</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="max_length">1</property>
+            <property name="shadow_type">out</property>
+            <property name="placeholder_text" translatable="yes">请输入目标点</property>
+            <property name="input_purpose">alpha</property>
           </object>
           <packing>
-            <property name="x">77</property>
-            <property name="y">88</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkButton" id="Bcont">
-            <property name="label" translatable="yes">连续执行</property>
-            <property name="width_request">100</property>
-            <property name="height_request">80</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
-            <property name="relief">half</property>
-            <property name="yalign">0.49000000953674316</property>
-          </object>
-          <packing>
-            <property name="x">142</property>
-            <property name="y">152</property>
+            <property name="x">78</property>
+            <property name="y">98</property>
           </packing>
         </child>
         <child>
           <object class="GtkButton" id="Bstep">
             <property name="label" translatable="yes">单步执行</property>
-            <property name="width_request">100</property>
+            <property name="width_request">169</property>
             <property name="height_request">80</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
@@ -93,8 +81,8 @@
             <property name="yalign">0.49000000953674316</property>
           </object>
           <packing>
-            <property name="x">20</property>
-            <property name="y">152</property>
+            <property name="x">41</property>
+            <property name="y">175</property>
           </packing>
         </child>
         <child>
@@ -113,7 +101,7 @@
         <child>
           <object class="GtkSeparator" id="separator1">
             <property name="width_request">100</property>
-            <property name="height_request">271</property>
+            <property name="height_request">470</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="orientation">vertical</property>
@@ -133,13 +121,13 @@
           </object>
           <packing>
             <property name="x">272</property>
-            <property name="y">123</property>
+            <property name="y">300</property>
           </packing>
         </child>
         <child>
           <object class="GtkFileChooserButton" id="Ffile">
-            <property name="width_request">225</property>
-            <property name="height_request">28</property>
+            <property name="width_request">217</property>
+            <property name="height_request">32</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
           </object>
@@ -151,13 +139,13 @@
         <child>
           <object class="GtkScrolledWindow" id="scrolledwindow1">
             <property name="width_request">249</property>
-            <property name="height_request">80</property>
+            <property name="height_request">245</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="shadow_type">in</property>
             <child>
               <object class="GtkTextView" id="Topen">
-                <property name="width_request">273</property>
+                <property name="width_request">100</property>
                 <property name="height_request">80</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -168,20 +156,20 @@
           </object>
           <packing>
             <property name="x">273</property>
-            <property name="y">40</property>
+            <property name="y">33</property>
           </packing>
         </child>
         <child>
           <object class="GtkScrolledWindow" id="scrolledwindow2">
             <property name="width_request">245</property>
-            <property name="height_request">80</property>
+            <property name="height_request">127</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="shadow_type">in</property>
             <child>
               <object class="GtkTextView" id="Tclose">
-                <property name="width_request">273</property>
-                <property name="height_request">91</property>
+                <property name="width_request">100</property>
+                <property name="height_request">80</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="editable">False</property>
@@ -190,7 +178,99 @@
           </object>
           <packing>
             <property name="x">276</property>
-            <property name="y">156</property>
+            <property name="y">326</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="label5">
+            <property name="width_request">120</property>
+            <property name="height_request">80</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">是否找到目标节点</property>
+          </object>
+          <packing>
+            <property name="x">12</property>
+            <property name="y">271</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="label6">
+            <property name="width_request">114</property>
+            <property name="height_request">80</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">OPEN表扩展节点</property>
+          </object>
+          <packing>
+            <property name="x">16</property>
+            <property name="y">331</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="label7">
+            <property name="width_request">118</property>
+            <property name="height_request">80</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">CLOSE表扩展节点</property>
+          </object>
+          <packing>
+            <property name="x">13</property>
+            <property name="y">387</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkTextView" id="Tfind">
+            <property name="width_request">90</property>
+            <property name="height_request">28</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="pixels_above_lines">1</property>
+            <property name="editable">False</property>
+            <property name="input_purpose">alpha</property>
+          </object>
+          <packing>
+            <property name="x">149</property>
+            <property name="y">294</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkTextView" id="TcloseNum">
+            <property name="width_request">88</property>
+            <property name="height_request">26</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="editable">False</property>
+          </object>
+          <packing>
+            <property name="x">152</property>
+            <property name="y">414</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkTextView" id="TopenNum">
+            <property name="width_request">89</property>
+            <property name="height_request">29</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="editable">False</property>
+          </object>
+          <packing>
+            <property name="x">151</property>
+            <property name="y">354</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="label8">
+            <property name="width_request">20</property>
+            <property name="height_request">55</property>
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+          </object>
+          <packing>
+            <property name="x">521</property>
+            <property name="y">282</property>
           </packing>
         </child>
       </object>
