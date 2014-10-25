@@ -8,7 +8,7 @@ GtkWidget 	*Tstart,*Tend;
 GtkWidget 	*Ffile;
 GtkTextBuffer	*bufopen,*bufclose;
 GtkTextBuffer	*buffind,*bufopenNum,*bufcloseNum;
-GtkTextTag 	*underline;
+GtkTextTag 	*addOpen_style,*addClose_style;
 
 void Textview_clear(){
 
@@ -75,10 +75,8 @@ void Algorithm_start(GtkWidget *widget,gpointer data){
 		BestSearch(&G,*end);
 		
 	}
-	printf("Algorithm_start\tstart %s\t end %s\tfilename %s\n",start,end,file);
 }
 void showResult(int findFlag,int openNum,int closeNum){
-	printf("showResult.......0\n");
 	char buffer[8];
 	GtkTextIter start,end;
 
@@ -111,25 +109,26 @@ void showResult(int findFlag,int openNum,int closeNum){
 
 void showOpenaQueue(EdgeNode* *open,ALGraph *G,int in,int out){
 	//sleep(1);
-	int n,row,empty,col;
+	int n,row,preNum,empty,num,addFlag,len;
 	char value;
 	char *p,text[27];
-	gchar *temp;
 	p = &value;
+	addFlag = 0;
+	len = 0;
 	GtkTextIter start,end;
 	EdgeNode *tempNode;
 
-	col = 1;
+	preNum = 1;
 	gtk_text_buffer_get_bounds(GTK_TEXT_BUFFER(bufopen),&start,&end);
 	row = gtk_text_buffer_get_line_count(bufopen);			//获取行号
+	memset(text,'\0',sizeof(text));
+	sprintf(text,"%d",row);
+	len = strlen(text);
 
 	gtk_text_iter_backward_line(&end);				//向后移一行
-	col = gtk_text_iter_get_chars_in_line(&end);			//获取该行字符数
-	printf("text is .....%d....\n",col);
+	preNum = gtk_text_iter_get_chars_in_line(&end);			//获取该行字符数
+	preNum = (preNum-len-2)/2;			//计算元素个数
 
-	value = '0' + row;
-	memset(text,'\0',sizeof(text));
-	text[0] = value;
 	strcat(text,":\t");
 	gtk_text_buffer_get_bounds(GTK_TEXT_BUFFER(bufopen),&start,&end);
 	gtk_text_buffer_insert(GTK_TEXT_BUFFER(bufopen),&end,text,strlen(text));//显示行号
@@ -140,30 +139,87 @@ void showOpenaQueue(EdgeNode* *open,ALGraph *G,int in,int out){
 	if(empty < out){
 		empty = empty + MaxVertexNum;
 	}
-	in = out;
-	while(empty > in  ){
-		empty--;
+	num = empty - out;		//当前open表的中个数
+	if(num > preNum){		//open表中添加数据
+		addFlag = 1;
+	}
+	in = in - 1;
+	while(num--){
 		if(out == MaxVertexNum){
 			out = 0;
 		}
 		memset(text,'\0',sizeof(text));
 		tempNode = open[out];
-		out++;
 		n = tempNode->adjvex;
 		value = G->adjlist[n].vertex;
 		text[0] = value;
 		strcat(text," ");
 		gtk_text_buffer_get_bounds(GTK_TEXT_BUFFER(bufopen),&start,&end);//显示open表的内容
-		gtk_text_buffer_insert_with_tags(GTK_TEXT_BUFFER(bufopen),&end,text,strlen(text),underline,NULL);
-//		gtk_text_buffer_insert(GTK_TEXT_BUFFER(bufopen),&end,text,strlen(text));/*插入文本到缓冲区*/
-		system("pause");
+		if(addFlag&&(out == in)){			//open表内容增加
+			gtk_text_buffer_insert_with_tags(GTK_TEXT_BUFFER(bufopen),&end,text,strlen(text),addOpen_style,NULL);
+
+		}else{
+			gtk_text_buffer_insert(GTK_TEXT_BUFFER(bufopen),&end,text,strlen(text));/*插入文本到缓冲区*/
+		}
+		out++;
 	}
-		gtk_text_buffer_insert(GTK_TEXT_BUFFER(bufopen),&end,"\n",1);/*插入文本到缓冲区*/
+	gtk_text_buffer_insert(GTK_TEXT_BUFFER(bufopen),&end,"\n",1);/*插入文本到缓冲区*/
 	while(gtk_events_pending())
 		gtk_main_iteration();	//为了能刷新文本框的内容
 }
 void showOpenaStack(EdgeNode* *open,ALGraph *G,int in){
 
+	int n,row,len,num,preNum,addFlag;
+	char value;
+	char *p,text[27];
+	GtkTextIter start,end;
+	EdgeNode *tempNode;
+
+	p = &value;
+	num = 0;
+	len = 0;
+	preNum = 0;
+	addFlag = 0;
+	memset(text,'\0',sizeof(text));
+	gtk_text_buffer_get_bounds(GTK_TEXT_BUFFER(bufopen),&start,&end);
+	row = gtk_text_buffer_get_line_count(bufopen);			//获取行号
+	sprintf(text,"%d",row);
+	len = strlen(text);
+
+	gtk_text_iter_backward_line(&end);				//向后移一行
+	preNum = gtk_text_iter_get_chars_in_line(&end);			//获取该行字符数
+	preNum = (preNum-len-2)/2;			//计算元素个数
+	
+	if(preNum < in){
+		addFlag = 1;
+	}
+	strcat(text,":\t");
+	gtk_text_buffer_get_bounds(GTK_TEXT_BUFFER(bufopen),&start,&end);
+	gtk_text_buffer_insert(GTK_TEXT_BUFFER(bufopen),&end,text,strlen(text));//显示行号
+
+	in = in - 1;
+	while(num <= in){
+		memset(text,'\0',sizeof(text));
+		tempNode = open[num];
+		n = tempNode->adjvex;
+		value = G->adjlist[n].vertex;
+		text[0] = value;
+		strcat(text," ");
+		gtk_text_buffer_get_bounds(GTK_TEXT_BUFFER(bufopen),&start,&end);//显示open表的内容
+		if(addFlag&&(num == in)){			//open表内容增加
+			gtk_text_buffer_insert_with_tags(GTK_TEXT_BUFFER(bufopen),&end,text,strlen(text),addOpen_style,NULL);
+
+		}else{
+			gtk_text_buffer_insert(GTK_TEXT_BUFFER(bufopen),&end,text,strlen(text));/*插入文本到缓冲区*/
+		}
+		num++;
+	}
+	gtk_text_buffer_insert(GTK_TEXT_BUFFER(bufopen),&end,"\n",1);/*插入文本到缓冲区*/
+	while(gtk_events_pending())
+		gtk_main_iteration();	//为了能刷新文本框的内容
+}
+
+void showClose(EdgeNode* *open,ALGraph *G,int in){
 	int n,row,num;
 	char value;
 	char *p,text[27];
@@ -172,60 +228,35 @@ void showOpenaStack(EdgeNode* *open,ALGraph *G,int in){
 
 	p = &value;
 	num = 0;
-	gtk_text_buffer_get_bounds(GTK_TEXT_BUFFER(bufopen),&start,&end);
-	row = gtk_text_buffer_get_line_count(bufopen);			//获取行号
-	value = '0' + row;
 	memset(text,'\0',sizeof(text));
-	text[0] = value;
-	strcat(text,":\t");
-	gtk_text_buffer_insert(GTK_TEXT_BUFFER(bufopen),&end,text,strlen(text));//显示行号
-
-	while(num < in){
-		printf("showOpenaStack.....in = %d\n",in);
-		memset(text,'\0',sizeof(text));
-		tempNode = open[num];
-		num++;
-		n = tempNode->adjvex;
-		value = G->adjlist[n].vertex;
-		text[0] = value;
-		strcat(text," ");
-		gtk_text_buffer_get_bounds(GTK_TEXT_BUFFER(bufopen),&start,&end);//显示open表的内容
-		gtk_text_buffer_insert(GTK_TEXT_BUFFER(bufopen),&end,text,strlen(text));/*插入文本到缓冲区*/
-	}
-	gtk_text_buffer_insert(GTK_TEXT_BUFFER(bufopen),&end,"\n",1);/*插入文本到缓冲区*/
-	while(gtk_events_pending())
-		gtk_main_iteration();	//为了能刷新文本框的内容
-}
-
-void showClose(EdgeNode* *open,ALGraph *G,int in){
-	int n,row;
-	char value;
-	char *p,text[27];
-	p = &value;
-	GtkTextIter start,end;
-	EdgeNode *tempNode;
 	if(in <= 0){
 		printf("open stack is empty!\n");
 		return;
 	}
-	gtk_text_buffer_get_bounds(GTK_TEXT_BUFFER(bufclose),&start,&end);
 	row = gtk_text_buffer_get_line_count(bufclose);			//获取行号
-	value = '0' + row;
-	memset(text,'\0',sizeof(text));
-	text[0] = value;
+	sprintf(text,"%d",row);
 	strcat(text,":\t");
+	gtk_text_buffer_get_bounds(GTK_TEXT_BUFFER(bufclose),&start,&end);
 	gtk_text_buffer_insert(GTK_TEXT_BUFFER(bufclose),&end,text,strlen(text));//显示行号
-	while(in--){
+
+	in = in - 1;
+	while(num <= in){
 		memset(text,'\0',sizeof(text));
-		tempNode = open[in];
+		tempNode = open[num];
 		n = tempNode->adjvex;
 		value = G->adjlist[n].vertex;
 		text[0] = value;
 		strcat(text," ");
 		gtk_text_buffer_get_bounds(GTK_TEXT_BUFFER(bufclose),&start,&end);//显示open表的内容
-		gtk_text_buffer_insert(GTK_TEXT_BUFFER(bufclose),&end,text,strlen(text));/*插入文本到缓冲区*/
+		if(num == in){			//open表内容增加
+			gtk_text_buffer_insert_with_tags(GTK_TEXT_BUFFER(bufclose),&end,text,strlen(text),addClose_style,NULL);
+
+		}else{
+			gtk_text_buffer_insert(GTK_TEXT_BUFFER(bufclose),&end,text,strlen(text));/*插入文本到缓冲区*/
+		}
+		num++;
 	}
-		gtk_text_buffer_insert(GTK_TEXT_BUFFER(bufclose),&end,"\n",1);/*插入文本到缓冲区*/
+	gtk_text_buffer_insert(GTK_TEXT_BUFFER(bufclose),&end,"\n",1);/*插入文本到缓冲区*/
 	while(gtk_events_pending())
 		gtk_main_iteration();	//为了能刷新文本框的内容
 
@@ -245,7 +276,6 @@ void clicked_Algorithm(GtkWidget *widget,gpointer data)
 {
 	gtk_widget_hide(mainwindow); //隐藏主窗口
 
-	printf("bfs..............1\n");
 	GtkWidget *Bstep;  
 	GtkWidget *Topen,*Tclose;
 	GtkWidget *Tfind,*TopenNum,*TcloseNum;
@@ -258,13 +288,11 @@ void clicked_Algorithm(GtkWidget *widget,gpointer data)
 
 	Bstep = GTK_WIDGET (gtk_builder_get_object (builder, "Bstep"));//獲取控件使用權
 
-	printf("bfs..............2\n");
 	Tstart = GTK_WIDGET (gtk_builder_get_object (builder, "Tstart"));
 	Tend = GTK_WIDGET (gtk_builder_get_object (builder, "Tend"));
 	gtk_entry_set_text(GTK_ENTRY(Tstart),"a");
 	gtk_entry_set_text(GTK_ENTRY(Tend),"c");
 	
-	printf("bfs..............3\n");
 	Topen = GTK_WIDGET (gtk_builder_get_object (builder, "Topen"));
 	Tclose = GTK_WIDGET (gtk_builder_get_object (builder, "Tclose"));
 	Tfind = GTK_WIDGET (gtk_builder_get_object (builder, "Tfind"));
@@ -276,10 +304,9 @@ void clicked_Algorithm(GtkWidget *widget,gpointer data)
 	bufopenNum = gtk_text_view_get_buffer(GTK_TEXT_VIEW(TopenNum));	
 	bufcloseNum = gtk_text_view_get_buffer(GTK_TEXT_VIEW(TcloseNum));	
 	gtk_text_tag_new("1");
-	underline = gtk_text_buffer_create_tag (bufopen, "underline", "underline",PANGO_UNDERLINE_SINGLE, NULL);
+	addOpen_style = gtk_text_buffer_create_tag (bufopen, "foreground", "foreground","red", NULL);
+	addClose_style = gtk_text_buffer_create_tag (bufclose, "foreground", "foreground","blue", NULL);
 	
-	
-	printf("bfs..............4\n");
 	Ffile = GTK_WIDGET(gtk_builder_get_object (builder,"Ffile"));
 	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(Ffile),"./");
 	GtkFileFilter *filter;
@@ -288,7 +315,6 @@ void clicked_Algorithm(GtkWidget *widget,gpointer data)
 	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (Ffile), filter);
 	gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(Ffile),"a.txt" );
 
-	printf("bfs..............5\n");
 	if(!(strcmp(data,"BFS"))){
 
 		gtk_window_set_title(GTK_WINDOW(Algwindow),"广度优先搜索算法");
@@ -317,7 +343,6 @@ void clicked_Algorithm(GtkWidget *widget,gpointer data)
 	gtk_builder_connect_signals (builder, NULL);//連接裏面的信號到槽
 	gtk_container_add(GTK_CONTAINER(Algwindow), Bstep);
         g_signal_connect(G_OBJECT(Bstep),"clicked",G_CALLBACK(Algorithm_start),data);
-	printf("bfs..............6\n");
 
 	g_signal_connect_swapped(G_OBJECT(Algwindow),"destroy",G_CALLBACK(back_parent),NULL );
 	g_object_unref (G_OBJECT (builder));  //釋放xml內存空間

@@ -150,14 +150,17 @@ int OrderEnQueue(TYPE *open,int *in,int *out,TYPE value,int mode){
 						open[i] = open[i-1];
 					}else{
 						open[i] = value;
+						break;
 					}
 
 				}
+				break;
 			case 1:	for(i ;i > (*out); i--){
 					if(value->evaluate < open[i-1]->evaluate){
 						open[i] = open[i-1];
 					}else{
 						open[i] = value;
+						break;
 					}
 				}
 
@@ -414,18 +417,21 @@ int IterDFS(ALGraph *G,char value){
 	//memset(open,NULL,sizeof(MaxVertexNum));//初始化open和Close表
 	//memset(Close,NULL,sizeof(MaxVertexNum));
 	memset(Visit,0,sizeof(Visit));
-	int i,n,deep,findFlag;
+	int i,n,deep,limit,findFlag;
 	int inOpen,emptyOpen,numOpen;
 	int inClose,emptyClose,numClose;
 	EdgeNode  *tempNode,*fatherNode;			//临时节点 n
 
 	n = 0;
 	deep = 0;
+	limit = 0;
 	findFlag = 0;
 	inOpen = inClose = 0;			//初始化队列的队首和队尾
 	numOpen = numClose = 0;
 	emptyOpen = emptyClose = 0;
 
+labelStar:
+	printf("limit = %d\n",limit);
 	tempNode = G->adjlist[0].firstedge;
 	Visit[0] = TRUE;
 	tempNode->father= NULL;
@@ -438,17 +444,22 @@ int IterDFS(ALGraph *G,char value){
 		emptyOpen = Pop(open,&inOpen,&tempNode);	//从open表中取出第一个值
 		showOpenaStack(open,G,inOpen);
 		if(emptyOpen == -1){					//open表为空,找不到目标节点
-			findFlag = 0;
-			showResult(findFlag,numOpen,numClose);
-			printf("IterDFS not find %c. \n",value);
-			return ERROR;
+			if(numOpen < G->n){
+				limit++;
+				goto labelStar;
+			}else{
+				findFlag = 0;
+				showResult(findFlag,numOpen,numClose);
+				printf("IterDFS not find %c. \n",value);
+				return ERROR;
+			}
 		}
 		n = tempNode->adjvex;
 		Visit[n] = TRUE;
 		printf("when IterDFS find the %d element : %c\n",n,G->adjlist[n].vertex);
 		Push(Close,&inClose,tempNode);				//将该节点存入close表
 		numClose++;
-		showClose(open,G,inClose);
+		showClose(Close,G,inClose);
 
 		if(G->adjlist[n].vertex == value){			//是否为目标节点？
 			findFlag = 1;
@@ -471,7 +482,7 @@ int IterDFS(ALGraph *G,char value){
 			return SUCCESS; 	
 		}
 		deep = tempNode->deep;					
-		if(deep == DEEPLIMIT){					//深度是否等于深度限制
+		if(deep == limit){					//深度是否等于深度限制
 			continue;
 		}
 		deep = deep + 1;					//深度加 1
@@ -575,6 +586,7 @@ int  BestSearch(ALGraph *G,char value){
 	int inClose,outClose,emptyClose,numClose;
 	EdgeNode  *tempNode,*fatherNode;			//临时节点 n
 
+	memset(Visit,0,sizeof(Visit));
 	n = 0;
 	cost = 0;
 	findFlag = 0;
@@ -595,6 +607,7 @@ int  BestSearch(ALGraph *G,char value){
 
 	while(1){
 		emptyOpen = GetQueue(open,&inOpen,&outOpen,&tempNode);	//从open表中取出第一个值
+		showOpenaQueue(open,G,inOpen,outOpen);
 		if(emptyOpen == -1){					//open表为空,找不到目标节点
 			findFlag = 0;
 			showResult(findFlag,numOpen,numClose);
@@ -630,11 +643,16 @@ int  BestSearch(ALGraph *G,char value){
 		fatherNode = tempNode;
 		while(tempNode != NULL){
 			n = tempNode->adjvex;
+			printf("1%c\t",G->adjlist[n].vertex);
 			if(Visit[n] == FALSE){
 				tempNode->father = fatherNode;
 				tempNode->cost = cost + tempNode->cost;
 				tempNode->evaluate = tempNode->cost + tempNode->evaluate;
+			n = tempNode->adjvex;
+			printf("2%c\t",G->adjlist[n].vertex);
 				OrderEnQueue(open,&inOpen,&outOpen,tempNode,1);
+			n = tempNode->adjvex;
+			printf("3%c\t\n",G->adjlist[n].vertex);
 				numOpen++;
 				showOpenaQueue(open,G,inOpen,outOpen);
 				Visit[n] = TRUE;
