@@ -8,7 +8,7 @@ int main(){
 		open[i] = 0;
 	}
 	for(i = 0;i < 5; i++){
-		open[i] = i;
+		open[i] = i+1;
 	}
 	for(i ; i > j; i--){
 		if(value < open[i-1]){
@@ -17,6 +17,9 @@ int main(){
 			open[i] = value;
 			break;
 		}
+	}
+	if(i == j){
+		open[i] = value;
 	}
 	
 	for(i = 0;i < 10; i++){

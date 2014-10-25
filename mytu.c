@@ -126,6 +126,80 @@ int EnQueue(TYPE *open,int *in,int *out,TYPE value){
 }
 
 //有序的入队列
+int OrderEnQueue(TYPE *open,int *in,int *out,TYPE value,int mode){
+	TYPE tempNode;
+	int temp,next;
+	int i,tempIn,tempOut;
+
+	tempIn = *in;
+	tempOut = *out;
+	temp = (tempIn+1)%MaxVertexNum;		//队满条件 in+1 = out
+
+	if(temp == tempOut){
+		printf("queue is fulled!\n");
+		return ERROR;
+	}
+	i = tempIn;
+	if(i < tempOut){				//解决循环队列的问题
+		i = i + MaxVertexNum;
+	}
+	if(tempIn == tempOut){			//队空条件 in == out
+		open[tempIn] = value;
+	}else{
+		switch(mode)
+		{
+
+			case 0:	for(i ;i > tempOut; i--){
+					printf("value->cost = %d,open[next]->cost = %d\n",value->cost,open[tempIn-1]->cost);
+					next = tempIn - 1;
+					if(next < 0){
+						next = MaxVertexNum - 1;
+					}
+					if(value->cost < open[next]->cost){
+						open[tempIn] = open[next];
+					}else{
+						open[tempIn] = value;
+						break;
+					}
+					tempIn--;
+					if(tempIn < 0){
+						tempIn = MaxVertexNum - 1;
+					}
+
+				}
+				if(i == tempOut){
+					open[tempIn] = value;
+				}
+				break;
+			case 1:	for(i ;i > tempOut; i--){
+					printf("value->cost = %d,open[next]->cost = %d\n",value->evaluate,open[tempIn-1]->evaluate);
+					next = tempIn - 1;
+					if(next < 0){
+						next = MaxVertexNum - 1;
+					}
+					if(value->evaluate < open[next]->evaluate){
+						open[tempIn] = open[next];
+					}else{
+						open[tempIn] = value;
+						break;
+					}
+					tempIn--;
+					if(tempIn < 0){
+						tempIn = MaxVertexNum - 1;
+					}
+				}
+				if(i == tempOut){
+					open[tempIn] = value;
+				}
+				break;
+
+		}
+	}
+
+	(*in) = temp;
+	return SUCCESS;
+}
+/*
 //根据cost排序
 int OrderEnQueue(TYPE *open,int *in,int *out,TYPE value,int mode){
 	TYPE tempNode;
@@ -170,7 +244,7 @@ int OrderEnQueue(TYPE *open,int *in,int *out,TYPE value,int mode){
 	(*in) = temp;
 	return SUCCESS;
 }
-
+*/
 //出队列
 //参数说明：open 数组，in 队首指针，out 队尾指针
 int GetQueue(TYPE *open,int *in,int *out,TYPE *value){
