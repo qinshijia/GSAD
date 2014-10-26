@@ -2,6 +2,7 @@
 #include <glib.h>
 #include <string.h>
 #include "mytu.h"
+#include "allAlg.h"
 
 GtkWidget 	*mainwindow,*Algwindow;
 GtkWidget 	*Tstart,*Tend; 
@@ -9,6 +10,8 @@ GtkWidget 	*Ffile;
 GtkTextBuffer	*bufopen,*bufclose;
 GtkTextBuffer	*buffind,*bufopenNum,*bufcloseNum;
 GtkTextTag 	*addOpen_style,*addClose_style;
+
+extern GtkWidget	*TallOpen[6],*TallClose[6],*TallFind[6];	
 
 void Textview_clear(){
 
@@ -95,11 +98,13 @@ void showResult(int findFlag,int openNum,int closeNum){
 	memset(buffer,'\0',sizeof(buffer));
 	sprintf(buffer,"%d",openNum);
 	gtk_text_buffer_insert(GTK_TEXT_BUFFER(bufopenNum),&end,buffer,strlen(buffer));//显示行号
-	
+
 	gtk_text_buffer_get_bounds(GTK_TEXT_BUFFER(bufcloseNum),&start,&end);
 	memset(buffer,'\0',sizeof(buffer));
 	sprintf(buffer,"%d",closeNum);
 	gtk_text_buffer_insert(GTK_TEXT_BUFFER(bufcloseNum),&end,buffer,strlen(buffer));//显示行号
+
+gtk_entry_set_text(GTK_ENTRY(TallOpen[0]),"w");
 
 	while(gtk_events_pending())
 		gtk_main_iteration();	//为了能刷新文本框的内容
@@ -369,7 +374,7 @@ int main (int argc, char *argv[])
 
 	gtk_builder_connect_signals (builder, NULL);//連接裏面的信號到槽
 	gtk_container_add(GTK_CONTAINER(mainwindow), Bbfs);
-        g_signal_connect(G_OBJECT(Ball),"clicked",G_CALLBACK(clicked_Algorithm),"ALL");
+        g_signal_connect(G_OBJECT(Ball),"clicked",G_CALLBACK(clicked_All),"ALL");
         g_signal_connect(G_OBJECT(Bbfs),"clicked",G_CALLBACK(clicked_Algorithm),"BFS");
         g_signal_connect(G_OBJECT(Bdfs),"clicked",G_CALLBACK(clicked_Algorithm),"DFS");
         g_signal_connect(G_OBJECT(BlimitDfs),"clicked",G_CALLBACK(clicked_Algorithm),"LimitDFS");
@@ -379,8 +384,6 @@ int main (int argc, char *argv[])
 	g_signal_connect_swapped(G_OBJECT(mainwindow),"destroy",G_CALLBACK(exit),NULL );
 	g_object_unref (G_OBJECT (builder));  //釋放xml內存空間
 	gtk_widget_show (mainwindow);//顯示窗體
-	GDK_THREADS_ENTER();
 	gtk_main ();//迴路等待
-	GDK_THREADS_LEAVE();
 	return 0;
 }
