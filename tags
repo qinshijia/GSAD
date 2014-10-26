@@ -6,81 +6,88 @@
 !_TAG_PROGRAM_VERSION	5.7	//
 ALGraph	type.h	/^} ALGraph;               \/\/图类型$/;"	t	typeref:struct:__anon1
 AdjList	type.h	/^typedef VertexNode AdjList[MaxVertexNum];       \/\/AdjList是邻接表类型$/;"	t
-Algorithm_start	gtk.c	/^void Algorithm_start(GtkWidget *widget,gpointer data){$/;"	f
-Algwindow	gtk.c	/^GtkWidget 	*mainwindow,*Algwindow;$/;"	v
+Algorithm_start	main.c	/^void Algorithm_start(GtkWidget *widget,gpointer data){$/;"	f
+Algwindow	main.c	/^GtkWidget 	*mainwindow,*Algwindow;$/;"	v
 Allwindow	allAlg.c	/^GtkWidget	*Allwindow;$/;"	v
-BFS	mytu.c	/^int  BFS(ALGraph *G,char value){$/;"	f
-BestSearch	mytu.c	/^int  BestSearch(ALGraph *G,char value){$/;"	f
+BFS	Algorithm.c	/^Result  BFS(ALGraph *G,char value){$/;"	f
+BestSearch	Algorithm.c	/^Result  BestSearch(ALGraph *G,char value){$/;"	f
 CC	Makefile	/^CC = gcc$/;"	m
 CFLAGS	Makefile	/^CFLAGS = -Wall -g$/;"	m
-Close	mytu.c	/^EdgeNode*  Close[MaxVertexNum];\/\/close表，next指向父节点，下标表示编号$/;"	v
-CostSearch	mytu.c	/^int  CostSearch(ALGraph *G,char value){$/;"	f
-CreatALGraph	mytu.c	/^void CreatALGraph(ALGraph *G,char fileName[])$/;"	f
-DEEPLIMIT	mytu.c	12;"	d	file:
-DFS	mytu.c	/^int DFS(ALGraph *G,char value){$/;"	f
-ERROR	mytu.c	9;"	d	file:
+Close	Algorithm.c	/^EdgeNode*  Close[MaxVertexNum];\/\/close表，next指向父节点，下标表示编号$/;"	v
+CostSearch	Algorithm.c	/^Result  CostSearch(ALGraph *G,char value){$/;"	f
+CreatALGraph	Algorithm.c	/^void CreatALGraph(ALGraph *G,char fileName[])$/;"	f
+DEEPLIMIT	Algorithm.c	12;"	d	file:
+DFS	Algorithm.c	/^Result DFS(ALGraph *G,char value){$/;"	f
+ERROR	Algorithm.c	9;"	d	file:
 EdgeNode	type.h	/^}EdgeNode;$/;"	t	typeref:struct:node
-EnQueue	mytu.c	/^int EnQueue(TYPE *open,int *in,int *out,TYPE value){$/;"	f
-FAILURE	mytu.c	8;"	d	file:
-FALSE	mytu.c	11;"	d	file:
+EnQueue	Algorithm.c	/^int EnQueue(TYPE *open,int *in,int *out,TYPE value){$/;"	f
+FAILURE	Algorithm.c	8;"	d	file:
+FALSE	Algorithm.c	11;"	d	file:
 FallFile	allAlg.c	/^GtkWidget	*FallFile;$/;"	v
-Ffile	gtk.c	/^GtkWidget 	*Ffile;$/;"	v
-GetQueue	mytu.c	/^int GetQueue(TYPE *open,int *in,int *out,TYPE *value){$/;"	f
-IterDFS	mytu.c	/^int IterDFS(ALGraph *G,char value){$/;"	f
+Ffile	main.c	/^GtkWidget 	*Ffile;$/;"	v
+G	Algorithm.c	/^ALGraph G;$/;"	v
+GetQueue	Algorithm.c	/^int GetQueue(TYPE *open,int *in,int *out,TYPE *value){$/;"	f
+IterDFS	Algorithm.c	/^Result IterDFS(ALGraph *G,char value){$/;"	f
 LDFLAGS	Makefile	/^LDFLAGS = $/;"	m
-LimitDFS	mytu.c	/^int LimitDFS(ALGraph *G,char value){$/;"	f
-MaxVertexNum	mytu.c	6;"	d	file:
+LimitDFS	Algorithm.c	/^Result LimitDFS(ALGraph *G,char value){$/;"	f
+MaxVertexNum	Algorithm.c	6;"	d	file:
 MaxVertexNum	type.h	2;"	d
-OrderEnQueue	mytu.c	/^int OrderEnQueue(TYPE *open,int *in,int *out,TYPE value,int mode){$/;"	f
-Pop	mytu.c	/^int Pop(TYPE *open,int *out,TYPE *value){$/;"	f
-Push	mytu.c	/^int Push(TYPE *open,int *in,TYPE value){$/;"	f
+OrderEnQueue	Algorithm.c	/^int OrderEnQueue(TYPE *open,int *in,int *out,TYPE value,int mode){$/;"	f
+Pop	Algorithm.c	/^int Pop(TYPE *open,int *out,TYPE *value){$/;"	f
+Push	Algorithm.c	/^int Push(TYPE *open,int *in,TYPE value){$/;"	f
+Result	type.h	/^}Result;$/;"	t	typeref:struct:result
 SRC	Makefile	/^SRC = $(wildcard *.c)$/;"	m
-SUCCESS	mytu.c	7;"	d	file:
-TARGET	Makefile	/^TARGET = web_server$/;"	m
-TRUE	mytu.c	10;"	d	file:
-TYPE	mytu.c	/^typedef EdgeNode*  TYPE;$/;"	t	file:
+SUCCESS	Algorithm.c	7;"	d	file:
+TARGET	Makefile	/^TARGET = Graph-Algorithm-demo$/;"	m
+TRUE	Algorithm.c	10;"	d	file:
+TYPE	Algorithm.c	/^typedef EdgeNode*  TYPE;$/;"	t	file:
 TallClose	allAlg.c	/^GtkWidget	*TallOpen[6],*TallClose[6],*TallFind[6];	$/;"	v
 TallEnd	allAlg.c	/^GtkWidget 	*TallStart,*TallEnd; $/;"	v
 TallFind	allAlg.c	/^GtkWidget	*TallOpen[6],*TallClose[6],*TallFind[6];	$/;"	v
 TallOpen	allAlg.c	/^GtkWidget	*TallOpen[6],*TallClose[6],*TallFind[6];	$/;"	v
 TallStart	allAlg.c	/^GtkWidget 	*TallStart,*TallEnd; $/;"	v
-Tend	gtk.c	/^GtkWidget 	*Tstart,*Tend; $/;"	v
-Textview_clear	gtk.c	/^void Textview_clear(){$/;"	f
-Tstart	gtk.c	/^GtkWidget 	*Tstart,*Tend; $/;"	v
+Tend	main.c	/^GtkWidget 	*Tstart,*Tend; $/;"	v
+Textview_clear	main.c	/^void Textview_clear(){$/;"	f
+Tstart	main.c	/^GtkWidget 	*Tstart,*Tend; $/;"	v
 VertexNode	type.h	/^}VertexNode;$/;"	t	typeref:struct:vnode
-Visit	mytu.c	/^int Visit[MaxVertexNum] = {FALSE};$/;"	v
-addClose_style	gtk.c	/^GtkTextTag 	*addOpen_style,*addClose_style;$/;"	v
-addOpen_style	gtk.c	/^GtkTextTag 	*addOpen_style,*addClose_style;$/;"	v
+Visit	Algorithm.c	/^int Visit[MaxVertexNum] = {FALSE};$/;"	v
+addClose_style	main.c	/^GtkTextTag 	*addOpen_style,*addClose_style;$/;"	v
+addOpen_style	main.c	/^GtkTextTag 	*addOpen_style,*addClose_style;$/;"	v
 adjlist	type.h	/^	AdjList adjlist;     \/\/邻接表$/;"	m	struct:__anon1
 adjvex	type.h	/^	char adjvex;          	\/\/邻接点域$/;"	m	struct:node
 all_start	allAlg.c	/^void all_start(){$/;"	f
 back_main	allAlg.c	/^void back_main(GtkWidget *widget,gpointer data){$/;"	f
-back_parent	gtk.c	/^void back_parent(GtkWidget *widget,gpointer data){$/;"	f
-bufclose	gtk.c	/^GtkTextBuffer	*bufopen,*bufclose;$/;"	v
-bufcloseNum	gtk.c	/^GtkTextBuffer	*buffind,*bufopenNum,*bufcloseNum;$/;"	v
-buffind	gtk.c	/^GtkTextBuffer	*buffind,*bufopenNum,*bufcloseNum;$/;"	v
-bufopen	gtk.c	/^GtkTextBuffer	*bufopen,*bufclose;$/;"	v
-bufopenNum	gtk.c	/^GtkTextBuffer	*buffind,*bufopenNum,*bufcloseNum;$/;"	v
-clicked_Algorithm	gtk.c	/^void clicked_Algorithm(GtkWidget *widget,gpointer data)$/;"	f
+back_parent	main.c	/^void back_parent(GtkWidget *widget,gpointer data){$/;"	f
+bufclose	main.c	/^GtkTextBuffer	*bufopen,*bufclose;$/;"	v
+bufcloseNum	main.c	/^GtkTextBuffer	*buffind,*bufopenNum,*bufcloseNum;$/;"	v
+buffind	main.c	/^GtkTextBuffer	*buffind,*bufopenNum,*bufcloseNum;$/;"	v
+bufopen	main.c	/^GtkTextBuffer	*bufopen,*bufclose;$/;"	v
+bufopenNum	main.c	/^GtkTextBuffer	*buffind,*bufopenNum,*bufcloseNum;$/;"	v
+clicked_Algorithm	main.c	/^void clicked_Algorithm(GtkWidget *widget,gpointer data)$/;"	f
 clicked_All	allAlg.c	/^void clicked_All(GtkWidget *widget,gpointer data){$/;"	f
 cost	type.h	/^	int cost;		\/\/代价$/;"	m	struct:node
 deep	type.h	/^	int deep;		\/\/节点深度$/;"	m	struct:node
 e	type.h	/^	int n,e;             \/\/图中当前顶点数和边数$/;"	m	struct:__anon1
 evaluate	type.h	/^	int evaluate;		\/\/估价$/;"	m	struct:node
-exit	gtk.c	/^void exit(GtkWidget *widget,gpointer data){$/;"	f
+exit	main.c	/^void exit(GtkWidget *widget,gpointer data){$/;"	f
 father	type.h	/^	struct node *next,*father;    \/\/链域$/;"	m	struct:node	typeref:struct:node::
+findFlag	type.h	/^	int findFlag;$/;"	m	struct:result
 firstedge	type.h	/^	EdgeNode *firstedge; \/\/边表头指针$/;"	m	struct:vnode
-main	gtk.c	/^int main (int argc, char *argv[])$/;"	f
-mainwindow	gtk.c	/^GtkWidget 	*mainwindow,*Algwindow;$/;"	v
+main	main.c	/^int main (int argc, char *argv[])$/;"	f
+mainwindow	main.c	/^GtkWidget 	*mainwindow,*Algwindow;$/;"	v
 n	type.h	/^	int n,e;             \/\/图中当前顶点数和边数$/;"	m	struct:__anon1
 next	type.h	/^	struct node *next,*father;    \/\/链域$/;"	m	struct:node	typeref:struct:node::node
 node	type.h	/^typedef struct node{       	\/\/边表结点$/;"	s
+numClose	type.h	/^	int numClose;$/;"	m	struct:result
+numOpen	type.h	/^	int numOpen;$/;"	m	struct:result
 objs	Makefile	/^objs = $(patsubst %.c,%.o,$(SRC))$/;"	m
-open	mytu.c	/^EdgeNode*  open[MaxVertexNum]; \/\/open表，next指向父节点$/;"	v
-show	mytu.c	/^void show(ALGraph *G){$/;"	f
-showClose	gtk.c	/^void showClose(EdgeNode* *open,ALGraph *G,int in){$/;"	f
-showOpenaQueue	gtk.c	/^void showOpenaQueue(EdgeNode* *open,ALGraph *G,int in,int out){$/;"	f
-showOpenaStack	gtk.c	/^void showOpenaStack(EdgeNode* *open,ALGraph *G,int in){$/;"	f
-showResult	gtk.c	/^void showResult(int findFlag,int openNum,int closeNum){$/;"	f
+open	Algorithm.c	/^EdgeNode*  open[MaxVertexNum]; \/\/open表，next指向父节点$/;"	v
+result	type.h	/^typedef struct result{$/;"	s
+searchResult	Algorithm.c	/^Result	   searchResult;$/;"	v
+show	Algorithm.c	/^void show(ALGraph *G){$/;"	f
+showClose	main.c	/^void showClose(EdgeNode* *open,ALGraph *G,int in){$/;"	f
+showOpenaQueue	main.c	/^void showOpenaQueue(EdgeNode* *open,ALGraph *G,int in,int out){$/;"	f
+showOpenaStack	main.c	/^void showOpenaStack(EdgeNode* *open,ALGraph *G,int in){$/;"	f
+showResult	main.c	/^void showResult(Result res){$/;"	f
 vertex	type.h	/^	char vertex;           \/\/顶点域$/;"	m	struct:vnode
 vnode	type.h	/^typedef struct vnode{     \/\/顶点表结点$/;"	s

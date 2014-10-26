@@ -1,4 +1,5 @@
 #include <gtk/gtk.h>
+#include <stdlib.h>
 #include <glib.h>
 #include <string.h>
 #include "Algorithm.h"
@@ -37,51 +38,13 @@ void Textview_clear(){
 	
 }
 
-void Algorithm_start(GtkWidget *widget,gpointer data){
-	ALGraph G;
-	char find = 'e';
-  	const	char *start,*end;
-	const 	char *file;
-	start = gtk_entry_get_text(GTK_ENTRY(Tstart));
-	end = gtk_entry_get_text(GTK_ENTRY(Tend));
-	file= gtk_file_chooser_get_filename (GTK_FILE_CHOOSER(Ffile));
-
-	Textview_clear();
-
-	if(file == NULL){
-		gtk_message_dialog_new(gtk_widget_get_parent_window(Ffile),GTK_DIALOG_MODAL,GTK_MESSAGE_ERROR,GTK_BUTTONS_OK,NULL);
-	}
-	CreatALGraph(&G,file);
-	show(&G);
-	if(!(strcmp(data,"BFS"))){
-
-		BFS(&G,*end);
-
-	}else if(!(strcmp(data,"DFS"))){
-
-		DFS(&G,*end);
-
-	}else if(!(strcmp(data,"LimitDFS"))){
-
-		LimitDFS(&G,*end);
-
-	}else if(!(strcmp(data,"IterDFS"))){
-
-		IterDFS(&G,*end);
-
-	}else if(!(strcmp(data,"CostSearch"))){
-
-		CostSearch(&G,*end);
-
-	}else if(!(strcmp(data,"BestSearch"))){
-
-		BestSearch(&G,*end);
-		
-	}
-}
-void showResult(int findFlag,int openNum,int closeNum){
+void showResult(Result res){
 	char buffer[8];
+	int findFlag,openNum,closeNum;
 	GtkTextIter start,end;
+	findFlag = res.findFlag;
+	openNum = res.numOpen;
+	closeNum = res.numClose;
 
 	gtk_text_buffer_get_bounds(GTK_TEXT_BUFFER(buffind),&start,&end);
 	memset(buffer,'\0',sizeof(buffer));
@@ -104,15 +67,62 @@ void showResult(int findFlag,int openNum,int closeNum){
 	sprintf(buffer,"%d",closeNum);
 	gtk_text_buffer_insert(GTK_TEXT_BUFFER(bufcloseNum),&end,buffer,strlen(buffer));//显示行号
 
-gtk_entry_set_text(GTK_ENTRY(TallOpen[0]),"w");
-
 	while(gtk_events_pending())
 		gtk_main_iteration();	//为了能刷新文本框的内容
-
-	
 }
 
-void showOpenaQueue(EdgeNode* *open,ALGraph *G,int in,int out){
+void Algorithm_start(GtkWidget *widget,gpointer data){
+	int showFlag;
+	char find = 'e';
+  	const	char *start,*end;
+	const 	char *file;
+	Result  res;
+	showFlag = 1;
+	start = gtk_entry_get_text(GTK_ENTRY(Tstart));
+	end = gtk_entry_get_text(GTK_ENTRY(Tend));
+	file= gtk_file_chooser_get_filename (GTK_FILE_CHOOSER(Ffile));
+
+	Textview_clear();
+
+	if(file == NULL){
+//		gtk_message_dialog_new(gtk_widget_get_parent_window(Ffile),GTK_DIALOG_MODAL,GTK_MESSAGE_ERROR,GTK_BUTTONS_OK,NULL);
+	}
+	printf("the file is %s\n",file);
+	CreatALGraph(file);
+	show(&G);
+	if(!(strcmp(data,"BFS"))){
+
+		res = BFS(*start,*end,showFlag);
+		showResult(res);
+
+	}else if(!(strcmp(data,"DFS"))){
+
+		res = DFS(*start,*end,showFlag);
+		showResult(res);
+
+	}else if(!(strcmp(data,"LimitDFS"))){
+
+		res = LimitDFS(*start,*end,showFlag);
+		showResult(res);
+
+	}else if(!(strcmp(data,"IterDFS"))){
+
+		res = IterDFS(*start,*end,showFlag);
+		showResult(res);
+
+	}else if(!(strcmp(data,"CostSearch"))){
+
+		res = CostSearch(*start,*end,showFlag);
+		showResult(res);
+
+	}else if(!(strcmp(data,"BestSearch"))){
+
+		res = BestSearch(*start,*end,showFlag);
+		showResult(res);
+		
+	}
+}
+void showOpenaQueue(EdgeNode* *open,int in,int out){
 	//sleep(1);
 	int n,row,preNum,empty,num,addFlag,len;
 	char value;
@@ -172,7 +182,7 @@ void showOpenaQueue(EdgeNode* *open,ALGraph *G,int in,int out){
 	while(gtk_events_pending())
 		gtk_main_iteration();	//为了能刷新文本框的内容
 }
-void showOpenaStack(EdgeNode* *open,ALGraph *G,int in){
+void showOpenaStack(EdgeNode* *open,int in){
 
 	int n,row,len,num,preNum,addFlag;
 	char value;
@@ -224,7 +234,7 @@ void showOpenaStack(EdgeNode* *open,ALGraph *G,int in){
 		gtk_main_iteration();	//为了能刷新文本框的内容
 }
 
-void showClose(EdgeNode* *open,ALGraph *G,int in){
+void showClose(EdgeNode* *open,int in){
 	int n,row,num;
 	char value;
 	char *p,text[27];
@@ -273,7 +283,7 @@ void showClose(EdgeNode* *open,ALGraph *G,int in){
 void back_parent(GtkWidget *widget,gpointer data){
 	gtk_widget_show (mainwindow);//顯示窗體
 }
-void exit(GtkWidget *widget,gpointer data){
+void exit_GraphSearch(GtkWidget *widget,gpointer data){
 	gtk_main_quit ();  //退出程序
 }
 
@@ -362,7 +372,9 @@ int main (int argc, char *argv[])
 	builder = gtk_builder_new ();//指針分配空間
 	gtk_builder_add_from_file(builder,"main.glade",NULL);
 	mainwindow = GTK_WIDGET (gtk_builder_get_object (builder, "mainwindow"));//獲取window串口使用權
-	gtk_window_set_title(mainwindow,"图搜索算法对比研究");
+	gtk_window_set_title(GTK_WINDOW(mainwindow),"图搜索算法对比研究");
+
+	G = (ALGraph *)malloc(sizeof(ALGraph));
 
 	Ball = GTK_WIDGET (gtk_builder_get_object (builder, "all"));	//獲取控件使用權
 	Bdfs = GTK_WIDGET (gtk_builder_get_object (builder, "DFS"));
@@ -381,7 +393,7 @@ int main (int argc, char *argv[])
         g_signal_connect(G_OBJECT(Bbests),"clicked",G_CALLBACK(clicked_Algorithm),"BestSearch");
         g_signal_connect(G_OBJECT(Bcosts),"clicked",G_CALLBACK(clicked_Algorithm),"CostSearch");
         g_signal_connect(G_OBJECT(Biters),"clicked",G_CALLBACK(clicked_Algorithm),"IterDFS");
-	g_signal_connect_swapped(G_OBJECT(mainwindow),"destroy",G_CALLBACK(exit),NULL );
+	g_signal_connect_swapped(G_OBJECT(mainwindow),"destroy",G_CALLBACK(exit_GraphSearch),NULL );
 	g_object_unref (G_OBJECT (builder));  //釋放xml內存空間
 	gtk_widget_show (mainwindow);//顯示窗體
 	gtk_main ();//迴路等待

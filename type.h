@@ -14,11 +14,16 @@ typedef struct vnode{     //顶点表结点
 	EdgeNode *firstedge; //边表头指针
 }VertexNode;
 
+typedef struct result{
+	int numOpen;
+	int numClose;
+	int findFlag;
+}Result;
 typedef VertexNode AdjList[MaxVertexNum];       //AdjList是邻接表类型
 
 typedef struct { 
 	AdjList adjlist;     //邻接表
 	int n,e;             //图中当前顶点数和边数
-} ALGraph;               //图类型
+}ALGraph;               //图类型
 
 

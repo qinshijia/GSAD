@@ -12,6 +12,7 @@ GtkWidget	*TallOpen[6],*TallClose[6],*TallFind[6];
 
 void all_start(){
 	ALGraph G;
+	int showFlag;
 	char find = 'e';
   	const	char *start,*end;
 	const 	char *file;
@@ -20,15 +21,18 @@ void all_start(){
 	end = gtk_entry_get_text(GTK_ENTRY(TallEnd));
 	file= gtk_file_chooser_get_filename (GTK_FILE_CHOOSER(FallFile));
 
-	CreatALGraph(&G,file);
+	printf("all-start.....start = %c,end = %c,file = %s\n",*start,*end,file);
+
+	showFlag = 0;
+	CreatALGraph(file);
 	show(&G);
 
-		BFS(&G,*end);
+		BFS(*start,*end,showFlag);
 
 
 
 
-gtk_entry_set_text(GTK_ENTRY(TallStart),"w");
+//gtk_entry_set_text(GTK_ENTRY(TallStart),"w");
 }
 
 
@@ -51,7 +55,6 @@ void clicked_All(GtkWidget *widget,gpointer data){
 	gtk_builder_add_from_file(builder,"all.glade",NULL);
 	Allwindow = GTK_WIDGET (gtk_builder_get_object (builder, "window"));//獲取window串口使用權
 	gtk_window_set_title(GTK_WINDOW(Allwindow),"图搜索算法对比研究");
-	TallStart = GTK_WIDGET (gtk_builder_get_object (builder, "TallStart"));//獲取window串口使用權
 
 	FallFile = GTK_WIDGET(gtk_builder_get_object (builder,"Ffile"));
 	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(FallFile),"./");
@@ -63,8 +66,10 @@ void clicked_All(GtkWidget *widget,gpointer data){
 
 	Bstart = GTK_WIDGET (gtk_builder_get_object (builder, "Bstart"));//獲取控件使用權
 
-	TallStart = GTK_WIDGET (gtk_builder_get_object (builder,"TtallStart"));//獲取控件使用權
+	TallStart = GTK_WIDGET (gtk_builder_get_object (builder,"TallStart"));//獲取控件使用權
 	TallEnd = GTK_WIDGET (gtk_builder_get_object (builder, "TallEnd"));//獲取控件使用權
+	gtk_entry_set_text(GTK_ENTRY(TallStart),"a");
+	gtk_entry_set_text(GTK_ENTRY(TallEnd),"c");
 
 	gtk_builder_connect_signals (builder, NULL);//連接裏面的信號到槽
 	gtk_container_add(GTK_CONTAINER(Allwindow), Bstart);
