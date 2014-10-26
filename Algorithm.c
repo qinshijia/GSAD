@@ -639,6 +639,7 @@ Result  CostSearch(char start ,char target,int showFlag){
 		if(emptyOpen == -1){					//open表为空,找不到目标节点
 			findFlag = 0;
 			printf("CostSearch not find %c. \n",target);
+			searchResult.cost = tempNode->cost;
 			break;
 		}
 		n = tempNode->adjvex;
@@ -649,6 +650,7 @@ Result  CostSearch(char start ,char target,int showFlag){
 		if(G->adjlist[n].vertex == target){			//是否为目标节点？
 			findFlag = 1;
 			printf("CostSearch find %c and cost %d.  \n",target,tempNode->cost);
+			searchResult.cost = tempNode->cost;
 			do{						//输出Close表中所有的节点
 				emptyClose = Pop(Close,&inClose,&tempNode,0);
 				if(emptyClose != -1 && tempNode->adjvex == n){
@@ -723,6 +725,7 @@ Result  BestSearch(char start,char target,int showFlag){
 		if(emptyOpen == -1){					//open表为空,找不到目标节点
 			findFlag = 0;
 			printf("BestSearch not find %c. \n",target);
+			searchResult.cost = tempNode->cost;
 			break;
 		}
 		n = tempNode->adjvex;
@@ -733,6 +736,7 @@ Result  BestSearch(char start,char target,int showFlag){
 		if(G->adjlist[n].vertex == target){			//是否为目标节点？
 			findFlag = 1;
 			printf("BestSearch find %c and cost %d.  \n",target,tempNode->cost);
+			searchResult.cost = tempNode->cost;
 			do{						//输出Close表中所有的节点
 				emptyClose = Pop(Close,&inClose,&tempNode,0);
 				if(emptyClose != -1 && tempNode->adjvex == n){

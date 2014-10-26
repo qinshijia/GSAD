@@ -9,7 +9,7 @@ GtkWidget 	*mainwindow,*Algwindow;
 GtkWidget 	*Tstart,*Tend,*Tdeep; 
 GtkWidget 	*Ffile;
 GtkTextBuffer	*bufopen,*bufclose;
-GtkTextBuffer	*buffind,*bufopenNum,*bufcloseNum;
+GtkTextBuffer	*buffind,*bufopenNum,*bufcloseNum,*bufcost;
 GtkTextTag 	*addOpen_style,*addClose_style;
 
 extern GtkWidget	*TallOpen[6],*TallClose[6],*TallFind[6];	
@@ -40,11 +40,12 @@ void Textview_clear(){
 
 void showResult(Result res){
 	char buffer[8];
-	int findFlag,openNum,closeNum;
+	int findFlag,openNum,closeNum,cost;
 	GtkTextIter start,end;
 	findFlag = res.findFlag;
 	openNum = res.numOpen;
 	closeNum = res.numClose;
+	cost = res.cost;
 
 	gtk_text_buffer_get_bounds(GTK_TEXT_BUFFER(buffind),&start,&end);
 	memset(buffer,'\0',sizeof(buffer));
@@ -67,6 +68,11 @@ void showResult(Result res){
 	sprintf(buffer,"%d",closeNum);
 	gtk_text_buffer_insert(GTK_TEXT_BUFFER(bufcloseNum),&end,buffer,strlen(buffer));//显示行号
 
+	gtk_text_buffer_get_bounds(GTK_TEXT_BUFFER(bufcost),&start,&end);
+	memset(buffer,'\0',sizeof(buffer));
+	sprintf(buffer,"%d",cost);
+	gtk_text_buffer_insert(GTK_TEXT_BUFFER(bufcost),&end,buffer,strlen(buffer));//显示行号
+
 	while(gtk_events_pending())
 		gtk_main_iteration();	//为了能刷新文本框的内容
 }
@@ -74,9 +80,13 @@ void showResult(Result res){
 void Algorithm_start(GtkWidget *widget,gpointer data){
 	int showFlag;
 	char find = 'e';
+	char cost[8];
   	const	char *start,*end,*deep;
 	const 	char *file;
 	Result  res;
+	EdgeNode *tempNode;
+	GtkTextIter Gstart,Gend;
+	
 	showFlag = 1;
 	start = gtk_entry_get_text(GTK_ENTRY(Tstart));
 	end = gtk_entry_get_text(GTK_ENTRY(Tend));
@@ -121,7 +131,6 @@ void Algorithm_start(GtkWidget *widget,gpointer data){
 
 		res = BestSearch(*start,*end,showFlag);
 		showResult(res);
-		
 	}
 }
 void showOpenaQueue(EdgeNode* *open,int in,int out){
@@ -296,10 +305,10 @@ void clicked_Algorithm(GtkWidget *widget,gpointer data)
 
 	GtkWidget *Bstep;  
 	GtkWidget *Topen,*Tclose;
-	GtkWidget *Tfind,*TopenNum,*TcloseNum;
+	GtkWidget *Tfind,*TopenNum,*TcloseNum,*Tcost;
 	GtkBuilder *builder;
 	GtkWidget *parent;
-	GtkWidget *Ldeep;
+	GtkWidget *Ldeep,*Lcost;
 	
 	builder = gtk_builder_new ();//指針分配空間
 	gtk_builder_add_from_file(builder,"Algorithm.glade",NULL);
@@ -317,12 +326,14 @@ void clicked_Algorithm(GtkWidget *widget,gpointer data)
 	Tfind = GTK_WIDGET (gtk_builder_get_object (builder, "Tfind"));
 	TopenNum = GTK_WIDGET (gtk_builder_get_object (builder, "TopenNum"));
 	TcloseNum = GTK_WIDGET (gtk_builder_get_object (builder, "TcloseNum"));
+	Tcost = GTK_WIDGET (gtk_builder_get_object (builder, "Tcost"));
+	Lcost = GTK_WIDGET (gtk_builder_get_object (builder, "Lcost"));
 	bufopen = gtk_text_view_get_buffer(GTK_TEXT_VIEW(Topen));	
 	bufclose = gtk_text_view_get_buffer(GTK_TEXT_VIEW(Tclose));	
 	buffind = gtk_text_view_get_buffer(GTK_TEXT_VIEW(Tfind));	
 	bufopenNum = gtk_text_view_get_buffer(GTK_TEXT_VIEW(TopenNum));	
 	bufcloseNum = gtk_text_view_get_buffer(GTK_TEXT_VIEW(TcloseNum));	
-	gtk_text_tag_new("1");
+	bufcost = gtk_text_view_get_buffer(GTK_TEXT_VIEW(Tcost));	
 	addOpen_style = gtk_text_buffer_create_tag (bufopen, "foreground", "foreground","red", NULL);
 	addClose_style = gtk_text_buffer_create_tag (bufclose, "foreground", "foreground","blue", NULL);
 	
