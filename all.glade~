@@ -4,7 +4,9 @@
   <requires lib="gtk+" version="3.10"/>
   <object class="GtkWindow" id="window">
     <property name="can_focus">False</property>
+    <property name="resizable">False</property>
     <property name="window_position">center</property>
+    <property name="destroy_with_parent">True</property>
     <child>
       <object class="GtkFixed" id="fixed1">
         <property name="visible">True</property>
@@ -70,6 +72,7 @@
             <property name="height_request">29</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="max_length">1</property>
             <property name="shadow_type">out</property>
             <property name="placeholder_text" translatable="yes">请输入目标点</property>
             <property name="input_purpose">alpha</property>
@@ -81,14 +84,14 @@
         </child>
         <child>
           <object class="GtkButton" id="Bstart">
-            <property name="label" translatable="yes">单步执行</property>
+            <property name="label" translatable="yes">执行</property>
             <property name="width_request">169</property>
             <property name="height_request">80</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
-            <property name="relief">half</property>
-            <property name="yalign">0.49000000953674316</property>
+            <property name="xalign">0.49000000953674316</property>
+            <property name="yalign">0.47999998927116394</property>
           </object>
           <packing>
             <property name="x">41</property>
@@ -144,9 +147,10 @@
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="entry1">
+              <object class="GtkEntry" id="TallOpen1">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="editable">False</property>
               </object>
               <packing>
                 <property name="left_attach">1</property>
@@ -156,9 +160,10 @@
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="entry2">
+              <object class="GtkEntry" id="TallClose1">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="editable">False</property>
               </object>
               <packing>
                 <property name="left_attach">2</property>
@@ -168,9 +173,10 @@
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="entry3">
+              <object class="GtkEntry" id="TallFind1">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="editable">False</property>
               </object>
               <packing>
                 <property name="left_attach">3</property>
@@ -180,9 +186,10 @@
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="entry4">
+              <object class="GtkEntry" id="TallOpen2">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="editable">False</property>
               </object>
               <packing>
                 <property name="left_attach">1</property>
@@ -192,9 +199,10 @@
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="entry5">
+              <object class="GtkEntry" id="TallOpen3">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="editable">False</property>
               </object>
               <packing>
                 <property name="left_attach">1</property>
@@ -204,9 +212,10 @@
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="entry6">
+              <object class="GtkEntry" id="TallOpen4">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="editable">False</property>
               </object>
               <packing>
                 <property name="left_attach">1</property>
@@ -216,9 +225,10 @@
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="entry7">
+              <object class="GtkEntry" id="TallOpen5">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="editable">False</property>
               </object>
               <packing>
                 <property name="left_attach">1</property>
@@ -228,9 +238,10 @@
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="entry8">
+              <object class="GtkEntry" id="TallOpen6">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="editable">False</property>
               </object>
               <packing>
                 <property name="left_attach">1</property>
@@ -308,7 +319,7 @@
               <object class="GtkLabel" id="label11">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">最佳优先搜索算法</property>
+                <property name="label" translatable="yes">等代价搜索算法</property>
               </object>
               <packing>
                 <property name="left_attach">0</property>
@@ -318,9 +329,10 @@
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="entry9">
+              <object class="GtkEntry" id="TallClose2">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="editable">False</property>
               </object>
               <packing>
                 <property name="left_attach">2</property>
@@ -330,9 +342,10 @@
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="entry10">
+              <object class="GtkEntry" id="TallFind2">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="editable">False</property>
               </object>
               <packing>
                 <property name="left_attach">3</property>
@@ -342,9 +355,10 @@
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="entry11">
+              <object class="GtkEntry" id="TallFind3">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="editable">False</property>
               </object>
               <packing>
                 <property name="left_attach">3</property>
@@ -354,9 +368,10 @@
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="entry12">
+              <object class="GtkEntry" id="TallClose3">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="editable">False</property>
               </object>
               <packing>
                 <property name="left_attach">2</property>
@@ -366,9 +381,10 @@
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="entry13">
+              <object class="GtkEntry" id="TallClose4">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="editable">False</property>
               </object>
               <packing>
                 <property name="left_attach">2</property>
@@ -378,9 +394,10 @@
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="entry14">
+              <object class="GtkEntry" id="TallClose5">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="editable">False</property>
               </object>
               <packing>
                 <property name="left_attach">2</property>
@@ -390,9 +407,10 @@
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="entry16">
+              <object class="GtkEntry" id="TallFind4">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="editable">False</property>
               </object>
               <packing>
                 <property name="left_attach">3</property>
@@ -402,9 +420,10 @@
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="entry17">
+              <object class="GtkEntry" id="TallFind6">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="editable">False</property>
               </object>
               <packing>
                 <property name="left_attach">3</property>
@@ -414,9 +433,10 @@
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="entry18">
+              <object class="GtkEntry" id="TallFind5">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="editable">False</property>
               </object>
               <packing>
                 <property name="left_attach">3</property>
@@ -426,9 +446,10 @@
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="entry19">
+              <object class="GtkEntry" id="TallClose6">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="editable">False</property>
               </object>
               <packing>
                 <property name="left_attach">2</property>

@@ -284,6 +284,7 @@ void back_parent(GtkWidget *widget,gpointer data){
 	gtk_widget_show (mainwindow);//顯示窗體
 }
 void exit_GraphSearch(GtkWidget *widget,gpointer data){
+	freeGraph();
 	gtk_main_quit ();  //退出程序
 }
 
@@ -296,6 +297,7 @@ void clicked_Algorithm(GtkWidget *widget,gpointer data)
 	GtkWidget *Tfind,*TopenNum,*TcloseNum;
 	GtkBuilder *builder;
 	GtkWidget *parent;
+	GtkWidget *Ldeep;
 	
 	builder = gtk_builder_new ();//指針分配空間
 	gtk_builder_add_from_file(builder,"Algorithm.glade",NULL);
@@ -330,6 +332,10 @@ void clicked_Algorithm(GtkWidget *widget,gpointer data)
 	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (Ffile), filter);
 	gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(Ffile),"a.txt" );
 
+	Ldeep = GTK_WIDGET (gtk_builder_get_object (builder, "Ldeep"));
+	gtk_widget_hide(Ldeep); 
+
+
 	if(!(strcmp(data,"BFS"))){
 
 		gtk_window_set_title(GTK_WINDOW(Algwindow),"广度优先搜索算法");
@@ -341,6 +347,7 @@ void clicked_Algorithm(GtkWidget *widget,gpointer data)
 	}else if(!(strcmp(data,"LimitDFS"))){
 
 		gtk_window_set_title(GTK_WINDOW(Algwindow),"深度受限搜索算法");
+		gtk_widget_show(Ldeep); 
 
 	}else if(!(strcmp(data,"IterDFS"))){
 

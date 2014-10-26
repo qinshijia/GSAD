@@ -96,6 +96,31 @@ int valueIndex(char value){
 	}
 	return index;
 }
+
+void resetVisit(void){
+	int i;
+	for(i = 0;i < MaxVertexNum; i++){
+		Visit[i] = 0;
+	}
+}
+
+void freeGraph(){
+	int n,e;	
+	EdgeNode *tempNode,*freeNode;
+	for(n = 0;n < G->n;n++){
+		tempNode = G->adjlist[n].firstedge;
+			while(tempNode->next != NULL){
+				freeNode = tempNode;
+				tempNode = tempNode->next;
+				free(freeNode);	
+			}
+		free(tempNode);
+	}
+	free(G);
+
+
+}
+
 int Push(TYPE *open,int *in,TYPE value,int showFlag){
 	if((*in) > MaxVertexNum){
 		printf("stack is fulled!\n");
@@ -164,7 +189,6 @@ int OrderEnQueue(TYPE *open,int *in,int *out,TYPE value,int mode,int showFlag){
 		{
 
 			case 0:	for(i ;i > tempOut; i--){
-					printf("value->cost = %d,open[next]->cost = %d\n",value->cost,open[tempIn-1]->cost);
 					next = tempIn - 1;
 					if(next < 0){
 						next = MaxVertexNum - 1;
@@ -186,7 +210,6 @@ int OrderEnQueue(TYPE *open,int *in,int *out,TYPE value,int mode,int showFlag){
 				}
 				break;
 			case 1:	for(i ;i > tempOut; i--){
-					printf("value->cost = %d,open[next]->cost = %d\n",value->evaluate,open[tempIn-1]->evaluate);
 					next = tempIn - 1;
 					if(next < 0){
 						next = MaxVertexNum - 1;
@@ -240,7 +263,7 @@ Result  BFS(char start ,char target,int showFlag){
 	EdgeNode  *tempNode,*fatherNode;			//临时节点 n
 
 
-	memset(Visit,0,sizeof(Visit));
+	resetVisit();
 	n = 0;
 	findFlag = 0;
 	inOpen = inClose = 0;			//初始化队列的队首和队尾
@@ -323,7 +346,7 @@ Result  BFS(char start ,char target,int showFlag){
 //深度优先搜索
 
 Result DFS(char start,char target,int showFlag){
-	memset(Visit,0,sizeof(Visit));
+	resetVisit();
 	int i,n,findFlag,index,showO,showC;
 	int inOpen,emptyOpen,numOpen;
 	int inClose,emptyClose,numClose;
@@ -400,7 +423,7 @@ Result DFS(char start,char target,int showFlag){
 //有界深度优先搜索算法
 
 Result LimitDFS(char start,char target,int showFlag){
-	memset(Visit,0,sizeof(Visit));
+	resetVisit();
 	int i,n,deep,findFlag,index,showO,showC;
 	int inOpen,emptyOpen,numOpen;
 	int inClose,emptyClose,numClose;
@@ -484,8 +507,7 @@ Result LimitDFS(char start,char target,int showFlag){
 	return searchResult;
 }
 Result IterDFS(char start,char target,int showFlag){
-	memset(Visit,0,sizeof(Visit));
-	int i,n,deep,findFlag,index,limit,showO,showC;
+	int i,num,n,deep,findFlag,index,limit,showO,showC;
 	int inOpen,emptyOpen,numOpen;
 	int inClose,emptyClose,numClose;
 	EdgeNode  *tempNode,*fatherNode;			//临时节点 n
@@ -499,27 +521,31 @@ Result IterDFS(char start,char target,int showFlag){
 	}
 
 	n = 0;
-	deep = 0;
 	limit = 0;
 	findFlag = 0;
-	inOpen = inClose = 0;		//初始化队列的队首和队尾
 	numOpen = numClose = 0;
 	emptyOpen = emptyClose = 0;
 	
 
-	index = valueIndex(start);
 labelStar:
+	num = 0;
+	deep = 0;
+	inOpen = inClose = 0;		//初始化队列的队首和队尾
+	resetVisit();
+	index = valueIndex(start);
 	tempNode = G->adjlist[index].firstedge;
 	Visit[index] = TRUE;
 	tempNode->father= NULL;
 	tempNode->deep = deep;
 	Push(open,&inOpen,tempNode,showO);				//将第一个节点的下一个节点存入open表
 	numOpen++;
+	num++;
 
 	while(1){
 		emptyOpen = Pop(open,&inOpen,&tempNode,showO);	//从open表中取出第一个值
 		if(emptyOpen == -1){					//open表为空,找不到目标节点
-			if(numOpen < G->n){
+			if(num < G->n){
+				printf("Iter....limit = %d,num = %d,G->n = %d\n",limit,num,G->n);
 				limit++;
 				goto labelStar;
 			}else{
@@ -565,6 +591,7 @@ labelStar:
 				tempNode->deep = deep;
 				Push(open,&inOpen,tempNode,showO);
 				numOpen++;
+				num++;
 				Visit[n] = TRUE;
 			}
 			tempNode = tempNode->next;
@@ -593,7 +620,7 @@ Result  CostSearch(char start ,char target,int showFlag){
 	n = 0;
 	cost = 0;
 	findFlag = 0;
-	memset(Visit,0,sizeof(Visit));
+	resetVisit();
 	inOpen = inClose = 0;			//初始化队列的队首和队尾
 	outOpen = outClose = 0;
 	numOpen = numClose = 0;
@@ -672,12 +699,11 @@ Result  BestSearch(char start,char target,int showFlag){
 		showC = 0;
 	}
 
-	memset(Visit,0,sizeof(Visit));
+	resetVisit();
 	n = 0;
 	cost = 0;
 	findFlag = 0;
 	evaluate = 0;
-	memset(Visit,0,sizeof(Visit));
 	inOpen = inClose = 0;			//初始化队列的队首和队尾
 	outOpen = outClose = 0;
 	numOpen = numClose = 0;

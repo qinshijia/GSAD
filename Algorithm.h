@@ -12,5 +12,6 @@ Result 		LimitDFS(char start ,char target,int showFlag);
 Result 		IterDFS(char start ,char target,int showFlag);
 Result 		CostSearch(char start ,char target,int showFlag);
 Result 	 	BestSearch(char start ,char target,int showFlag);
+void freeGraph();
 
 

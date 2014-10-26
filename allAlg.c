@@ -12,8 +12,10 @@ GtkWidget	*TallOpen[6],*TallClose[6],*TallFind[6];
 
 void all_start(){
 	ALGraph G;
+	Result res;
 	int showFlag;
 	char find = 'e';
+	char snumOpen[4],snumClose[4],sfindFlag[4];
   	const	char *start,*end;
 	const 	char *file;
 	int numOpen[6],numClose[6],isFind[6];
@@ -26,13 +28,78 @@ void all_start(){
 	showFlag = 0;
 	CreatALGraph(file);
 	show(&G);
-
-		BFS(*start,*end,showFlag);
-
-
-
-
-//gtk_entry_set_text(GTK_ENTRY(TallStart),"w");
+		//广度优先搜索算法
+		res = BFS(*start,*end,showFlag);
+		sprintf(snumOpen,"%d",res.numOpen);
+		sprintf(snumClose,"%d",res.numClose);
+		if(res.findFlag == 1){
+			strcpy(sfindFlag,"是");
+		}else{
+			strcpy(sfindFlag,"否");
+		}
+		gtk_entry_set_text(GTK_ENTRY(TallOpen[0]),snumOpen);
+		gtk_entry_set_text(GTK_ENTRY(TallClose[0]),snumClose);
+		gtk_entry_set_text(GTK_ENTRY(TallFind[0]),sfindFlag);
+		//深度优先搜索算法	
+		res = DFS(*start,*end,showFlag);
+		sprintf(snumOpen,"%d",res.numOpen);
+		sprintf(snumClose,"%d",res.numClose);
+		if(res.findFlag == 1){
+			strcpy(sfindFlag,"是");
+		}else{
+			strcpy(sfindFlag,"否");
+		}
+		gtk_entry_set_text(GTK_ENTRY(TallOpen[1]),snumOpen);
+		gtk_entry_set_text(GTK_ENTRY(TallClose[1]),snumClose);
+		gtk_entry_set_text(GTK_ENTRY(TallFind[1]),sfindFlag);
+		//深度受限搜索算法
+		res = LimitDFS(*start,*end,showFlag);
+		sprintf(snumOpen,"%d",res.numOpen);
+		sprintf(snumClose,"%d",res.numClose);
+		if(res.findFlag == 1){
+			strcpy(sfindFlag,"是");
+		}else{
+			strcpy(sfindFlag,"否");
+		}
+		gtk_entry_set_text(GTK_ENTRY(TallOpen[2]),snumOpen);
+		gtk_entry_set_text(GTK_ENTRY(TallClose[2]),snumClose);
+		gtk_entry_set_text(GTK_ENTRY(TallFind[2]),sfindFlag);
+		//迭代搜索算法
+		res = IterDFS(*start,*end,showFlag);
+		sprintf(snumOpen,"%d",res.numOpen);
+		sprintf(snumClose,"%d",res.numClose);
+		if(res.findFlag == 1){
+			strcpy(sfindFlag,"是");
+		}else{
+			strcpy(sfindFlag,"否");
+		}
+		gtk_entry_set_text(GTK_ENTRY(TallOpen[3]),snumOpen);
+		gtk_entry_set_text(GTK_ENTRY(TallClose[3]),snumClose);
+		gtk_entry_set_text(GTK_ENTRY(TallFind[3]),sfindFlag);
+		//等代价搜索算法
+		res = CostSearch(*start,*end,showFlag);
+		sprintf(snumOpen,"%d",res.numOpen);
+		sprintf(snumClose,"%d",res.numClose);
+		if(res.findFlag == 1){
+			strcpy(sfindFlag,"是");
+		}else{
+			strcpy(sfindFlag,"否");
+		}
+		gtk_entry_set_text(GTK_ENTRY(TallOpen[4]),snumOpen);
+		gtk_entry_set_text(GTK_ENTRY(TallClose[4]),snumClose);
+		gtk_entry_set_text(GTK_ENTRY(TallFind[4]),sfindFlag);
+		//最佳优先搜索算法
+		res = BestSearch(*start,*end,showFlag);
+		sprintf(snumOpen,"%d",res.numOpen);
+		sprintf(snumClose,"%d",res.numClose);
+		if(res.findFlag == 1){
+			strcpy(sfindFlag,"是");
+		}else{
+			strcpy(sfindFlag,"否");
+		}
+		gtk_entry_set_text(GTK_ENTRY(TallOpen[5]),snumOpen);
+		gtk_entry_set_text(GTK_ENTRY(TallClose[5]),snumClose);
+		gtk_entry_set_text(GTK_ENTRY(TallFind[5]),sfindFlag);
 }
 
 
@@ -48,7 +115,6 @@ void clicked_All(GtkWidget *widget,gpointer data){
 
 	GtkWidget *Bstart;  
 	GtkWidget *Topen,*Tclose;
-	GtkWidget *Tfind[6],*TopenNum[6],*TcloseNum[6];
 	GtkBuilder *builder;
 
 	builder = gtk_builder_new ();//指針分配空間
@@ -70,6 +136,27 @@ void clicked_All(GtkWidget *widget,gpointer data){
 	TallEnd = GTK_WIDGET (gtk_builder_get_object (builder, "TallEnd"));//獲取控件使用權
 	gtk_entry_set_text(GTK_ENTRY(TallStart),"a");
 	gtk_entry_set_text(GTK_ENTRY(TallEnd),"c");
+
+	TallOpen[0] = GTK_WIDGET (gtk_builder_get_object (builder,"TallOpen1"));//獲取控件使用權
+	TallOpen[1] = GTK_WIDGET (gtk_builder_get_object (builder,"TallOpen2"));
+	TallOpen[2] = GTK_WIDGET (gtk_builder_get_object (builder,"TallOpen3"));
+	TallOpen[3] = GTK_WIDGET (gtk_builder_get_object (builder,"TallOpen4"));
+	TallOpen[4] = GTK_WIDGET (gtk_builder_get_object (builder,"TallOpen5"));
+	TallOpen[5] = GTK_WIDGET (gtk_builder_get_object (builder,"TallOpen6"));
+
+	TallClose[0] = GTK_WIDGET (gtk_builder_get_object (builder,"TallClose1"));
+	TallClose[1] = GTK_WIDGET (gtk_builder_get_object (builder,"TallClose2"));
+	TallClose[2] = GTK_WIDGET (gtk_builder_get_object (builder,"TallClose3"));
+	TallClose[3] = GTK_WIDGET (gtk_builder_get_object (builder,"TallClose4"));
+	TallClose[4] = GTK_WIDGET (gtk_builder_get_object (builder,"TallClose5"));
+	TallClose[5] = GTK_WIDGET (gtk_builder_get_object (builder,"TallClose6"));
+
+	TallFind[0] = GTK_WIDGET (gtk_builder_get_object (builder,"TallFind1"));
+	TallFind[1] = GTK_WIDGET (gtk_builder_get_object (builder,"TallFind2"));
+	TallFind[2] = GTK_WIDGET (gtk_builder_get_object (builder,"TallFind3"));
+	TallFind[3] = GTK_WIDGET (gtk_builder_get_object (builder,"TallFind4"));
+	TallFind[4] = GTK_WIDGET (gtk_builder_get_object (builder,"TallFind5"));
+	TallFind[5] = GTK_WIDGET (gtk_builder_get_object (builder,"TallFind6"));
 
 	gtk_builder_connect_signals (builder, NULL);//連接裏面的信號到槽
 	gtk_container_add(GTK_CONTAINER(Allwindow), Bstart);
