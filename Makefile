@@ -5,12 +5,12 @@ CC = gcc
 CFLAGS = -Wall -g
 LDFLAGS = 
  
-TARGET = web_server
+TARGET = Graph-Algorithm-demo
 	 
 all:$(TARGET) 
 	 
 $(TARGET):$(objs)
-	$(CC) $(LDFLAGS) $^ -o $@ 
+	$(CC) $(LDFLAGS) $^ -o $@ `pkg-config --cflags --libs gtk+-3.0` 
 	    
 %.o:%.c 
 	$(CC) $(CFLAGS) -c $< -o $@ `pkg-config --cflags --libs gtk+-3.0` 

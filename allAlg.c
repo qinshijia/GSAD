@@ -1,7 +1,7 @@
 #include <gtk/gtk.h>
 #include <glib.h>
 #include <string.h>
-#include "mytu.h"
+#include "Algorithm.h"
 extern GtkWidget	*mainwindow;
 GtkWidget 	*TallStart,*TallEnd; 
 GtkWidget	*Allwindow;
