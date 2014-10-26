@@ -6,14 +6,14 @@
 #include "allAlg.h"
 
 GtkWidget 	*mainwindow,*Algwindow;
-GtkWidget 	*Tstart,*Tend; 
+GtkWidget 	*Tstart,*Tend,*Tdeep; 
 GtkWidget 	*Ffile;
 GtkTextBuffer	*bufopen,*bufclose;
 GtkTextBuffer	*buffind,*bufopenNum,*bufcloseNum;
 GtkTextTag 	*addOpen_style,*addClose_style;
 
 extern GtkWidget	*TallOpen[6],*TallClose[6],*TallFind[6];	
-
+extern int DEEPLIMIT; 
 void Textview_clear(){
 
 	GtkTextIter Gstart,Gend;
@@ -74,12 +74,13 @@ void showResult(Result res){
 void Algorithm_start(GtkWidget *widget,gpointer data){
 	int showFlag;
 	char find = 'e';
-  	const	char *start,*end;
+  	const	char *start,*end,*deep;
 	const 	char *file;
 	Result  res;
 	showFlag = 1;
 	start = gtk_entry_get_text(GTK_ENTRY(Tstart));
 	end = gtk_entry_get_text(GTK_ENTRY(Tend));
+	deep = gtk_entry_get_text(GTK_ENTRY(Tdeep));
 	file= gtk_file_chooser_get_filename (GTK_FILE_CHOOSER(Ffile));
 
 	Textview_clear();
@@ -88,6 +89,7 @@ void Algorithm_start(GtkWidget *widget,gpointer data){
 //		gtk_message_dialog_new(gtk_widget_get_parent_window(Ffile),GTK_DIALOG_MODAL,GTK_MESSAGE_ERROR,GTK_BUTTONS_OK,NULL);
 	}
 	printf("the file is %s\n",file);
+	DEEPLIMIT = atoi(deep);
 	CreatALGraph(file);
 	show(&G);
 	if(!(strcmp(data,"BFS"))){
@@ -333,7 +335,9 @@ void clicked_Algorithm(GtkWidget *widget,gpointer data)
 	gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(Ffile),"a.txt" );
 
 	Ldeep = GTK_WIDGET (gtk_builder_get_object (builder, "Ldeep"));
+	Tdeep = GTK_WIDGET (gtk_builder_get_object (builder, "Tdeep"));
 	gtk_widget_hide(Ldeep); 
+	gtk_widget_hide(Tdeep); 
 
 
 	if(!(strcmp(data,"BFS"))){
@@ -348,6 +352,7 @@ void clicked_Algorithm(GtkWidget *widget,gpointer data)
 
 		gtk_window_set_title(GTK_WINDOW(Algwindow),"深度受限搜索算法");
 		gtk_widget_show(Ldeep); 
+		gtk_widget_show(Tdeep); 
 
 	}else if(!(strcmp(data,"IterDFS"))){
 

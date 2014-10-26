@@ -9,7 +9,7 @@
 #define ERROR		-1		//函数执行失败
 //#define TRUE 		1		//已经遍历过
 //#define FALSE 		0		//未遍历
-#define DEEPLIMIT 	2		//有界深度优先搜索算法的 深度界限
+//#define DEEPLIMIT 	2		//有界深度优先搜索算法的 深度界限
 
 extern	GtkWidget 	*mainwindow;
 extern 	GtkWidget 	*Tstart,*Tend; 
@@ -18,6 +18,7 @@ extern	GtkWidget  	*Topen,*Tclose;
 extern	GtkTextBuffer	*bufopen,*bufclose;
 typedef EdgeNode*  TYPE;
 
+int DEEPLIMIT = 2;
 EdgeNode*  open[MaxVertexNum]; //open表，next指向父节点
 EdgeNode*  Close[MaxVertexNum];//close表，next指向父节点，下标表示编号
 Result	   searchResult;
