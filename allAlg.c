@@ -1,7 +1,7 @@
 #include <gtk/gtk.h>
 #include <glib.h>
 #include <string.h>
-#include "Algorithm.h"
+#include "algorithm.h"
 extern GtkWidget	*mainwindow;
 GtkWidget 	*TallStart,*TallEnd; 
 GtkWidget	*Allwindow;
@@ -50,7 +50,7 @@ void all_start(){
 	gtk_entry_set_text(GTK_ENTRY(TallFind[1]),sfindFlag);
 
 	//深度受限搜索算法
-	res = LimitDFS(*start,*end,showFlag);
+	res = DLS(*start,*end,showFlag);
 	sprintf(snumOpen,"%d",res.numOpen);
 	sprintf(snumClose,"%d",res.numClose);
 	if(res.findFlag == 1){
@@ -63,7 +63,7 @@ void all_start(){
 	gtk_entry_set_text(GTK_ENTRY(TallFind[2]),sfindFlag);
 
 	//迭代搜索算法
-	res = IterDFS(*start,*end,showFlag);
+	res = IDS(*start,*end,showFlag);
 	sprintf(snumOpen,"%d",res.numOpen);
 	sprintf(snumClose,"%d",res.numClose);
 	if(res.findFlag == 1){
@@ -76,7 +76,7 @@ void all_start(){
 	gtk_entry_set_text(GTK_ENTRY(TallFind[3]),sfindFlag);
 
 	//等代价搜索算法
-	res = CostSearch(*start,*end,showFlag);
+	res = UCS(*start,*end,showFlag);
 	sprintf(snumOpen,"%d",res.numOpen);
 	sprintf(snumClose,"%d",res.numClose);
 	if(res.findFlag == 1){
@@ -89,7 +89,7 @@ void all_start(){
 	gtk_entry_set_text(GTK_ENTRY(TallFind[4]),sfindFlag);
 
 	//最佳优先搜索算法
-	res = BestSearch(*start,*end,showFlag);
+	res = BestFS(*start,*end,showFlag);
 	sprintf(snumOpen,"%d",res.numOpen);
 	sprintf(snumClose,"%d",res.numClose);
 	if(res.findFlag == 1){
@@ -128,7 +128,7 @@ void clicked_All(GtkWidget *widget,gpointer data){
 	filter = gtk_file_filter_new();
 	gtk_file_filter_add_pattern(filter,"*.txt");		//过滤 只能选择 .txt 文件
 	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (FallFile), filter);
-	gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(FallFile),"a.txt" );
+	gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(FallFile),"testData.txt" );
 
 	//执行按钮
 	Bstart = GTK_WIDGET (gtk_builder_get_object (builder, "Bstart")); 

@@ -48,7 +48,6 @@ void CreatALGraph(const char fileName[])
 	int i,j,k,cost,evaluate;
 	char a;
 	EdgeNode *s;       				 //定义边表结点
-	printf("open file is %s\n",fileName);
 	FILE *fp;
 	if((fp = fopen(fileName,"r")) == NULL){
 		perror("open file error\n");
@@ -502,7 +501,7 @@ Result DFS(char start,char target,int showFlag){
   #返回值:
   #	Result	搜索结果
   ***********************************************************************/
-Result LimitDFS(char start,char target,int showFlag){
+Result DLS(char start,char target,int showFlag){
 	resetVisit();
 	int n,deep,findFlag,index,showO,showC;
 	int inOpen,emptyOpen,numOpen;
@@ -538,7 +537,7 @@ Result LimitDFS(char start,char target,int showFlag){
 		emptyOpen = Pop(open,&inOpen,&tempNode,showO);			//从open表中取出第一个值
 		if(emptyOpen == -1){						//open表为空,找不到目标节点，算法结束
 			findFlag = 0;
-			printf("LimitDFS not find %c. \n",target);
+			printf("DLS not find %c. \n",target);
 			break;
 		}
 		n = tempNode->adjvex;
@@ -552,7 +551,7 @@ Result LimitDFS(char start,char target,int showFlag){
 				emptyClose = Pop(Close,&inClose,&tempNode,0);
 				if(emptyClose != -1 && tempNode->adjvex == n){
 					n = tempNode->adjvex;
-					printf("LimitDFS Close element : %c\n",G->adjlist[n].vertex);
+					printf("DLS Close element : %c\n",G->adjlist[n].vertex);
 					tempNode= tempNode->father;
 					if(tempNode == NULL){
 						break;
@@ -560,7 +559,7 @@ Result LimitDFS(char start,char target,int showFlag){
 					n = tempNode->adjvex;
 				}
 			}while(emptyClose != -1);
-			printf("LimitDFS fine %c. \n",target);
+			printf("DLS fine %c. \n",target);
 			break;
 		}
 		deep = tempNode->deep;					
@@ -597,7 +596,7 @@ Result LimitDFS(char start,char target,int showFlag){
   #返回值:
   #	Result	搜索结果
   ***********************************************************************/
-Result IterDFS(char start,char target,int showFlag){
+Result IDS(char start,char target,int showFlag){
 	int num,n,deep,findFlag,index,limit,showO,showC;
 	int inOpen,emptyOpen,numOpen;
 	int inClose,emptyClose,numClose;
@@ -641,7 +640,7 @@ labelStar:
 				goto labelStar;
 			}else{					//遍历完所有节点，算法结束
 				findFlag = 0;
-				printf("IterDFS not find %c. \n",target);
+				printf("IDS not find %c. \n",target);
 				break;
 			}
 		}
@@ -656,7 +655,7 @@ labelStar:
 				emptyClose = Pop(Close,&inClose,&tempNode,0);
 				if(emptyClose != -1 && tempNode->adjvex == n){
 					n = tempNode->adjvex;
-					printf("IterDFS Close element : %c\n",G->adjlist[n].vertex);
+					printf("IDS Close element : %c\n",G->adjlist[n].vertex);
 					tempNode= tempNode->father;
 					if(tempNode == NULL){
 						break;
@@ -664,7 +663,7 @@ labelStar:
 					n = tempNode->adjvex;
 				}
 			}while(emptyClose != -1);
-			printf("IterDFS fine %c. \n",target);
+			printf("IDS fine %c. \n",target);
 			break;
 		}
 		deep = tempNode->deep;					
@@ -702,7 +701,7 @@ labelStar:
   #返回值:
   #	Result	搜索结果
   ***********************************************************************/
-Result  CostSearch(char start ,char target,int showFlag){
+Result  UCS(char start ,char target,int showFlag){
 	int n,cost,findFlag,index,showO,showC;
 	int inOpen,outOpen,emptyOpen,numOpen;
 	int inClose,outClose,emptyClose,numClose;
@@ -736,7 +735,7 @@ Result  CostSearch(char start ,char target,int showFlag){
 		emptyOpen = GetQueue(open,&inOpen,&outOpen,&tempNode,showO);	//从open表中取出第一个值
 		if(emptyOpen == -1){						//open表为空,找不到目标节点，算法结束
 			findFlag = 0;
-			printf("CostSearch not find %c. \n",target);
+			printf("UCS not find %c. \n",target);
 			searchResult.cost = tempNode->cost;
 			break;
 		}
@@ -746,13 +745,13 @@ Result  CostSearch(char start ,char target,int showFlag){
 		numClose++;
 		if(G->adjlist[n].vertex == target){				//是目标节点，算法结束
 			findFlag = 1;
-			printf("CostSearch find %c and cost %d.  \n",target,tempNode->cost);
+			printf("UCS find %c and cost %d.  \n",target,tempNode->cost);
 			searchResult.cost = tempNode->cost;
 			do{							//输出Close表中所有的节点
 				emptyClose = Pop(Close,&inClose,&tempNode,0);
 				if(emptyClose != -1 && tempNode->adjvex == n){
 					n = tempNode->adjvex;
-					printf("CostSearch Close element : %c\n",G->adjlist[n].vertex);
+					printf("UCS Close element : %c\n",G->adjlist[n].vertex);
 					tempNode= tempNode->father;
 					if(tempNode == NULL){
 						break;
@@ -792,7 +791,7 @@ Result  CostSearch(char start ,char target,int showFlag){
   #返回值:
   #	Result	搜索结果
   ***********************************************************************/
-Result  BestSearch(char start,char target,int showFlag){
+Result  BestFS(char start,char target,int showFlag){
 	int n,cost,findFlag,index,showO,showC;
 	int inOpen,outOpen,emptyOpen,numOpen;
 	int inClose,outClose,emptyClose,numClose;
@@ -828,24 +827,24 @@ Result  BestSearch(char start,char target,int showFlag){
 		emptyOpen = GetQueue(open,&inOpen,&outOpen,&tempNode,showO);	//从open表中取出第一个值
 		if(emptyOpen == -1){						//open表为空,找不到目标节点，算法结束
 			findFlag = 0;
-			printf("BestSearch not find %c. \n",target);
+			printf("BestFS not find %c. \n",target);
 			searchResult.cost = tempNode->cost;
 			break;
 		}
 		n = tempNode->adjvex;
 		Visit[n] = TRUE;
-		printf("when BestSearchfind the %d element : %c cost %d\n",n,G->adjlist[n].vertex,tempNode->cost);
+		printf("when BestFS find the %d element : %c cost %d\n",n,G->adjlist[n].vertex,tempNode->cost);
 		Push(Close,&inClose,tempNode,showC);				//将该节点存入close表
 		numClose++;
 		if(G->adjlist[n].vertex == target){				//是目标节点，算法结束
 			findFlag = 1;
-			printf("BestSearch find %c and cost %d.  \n",target,tempNode->cost);
+			printf("BestFS find %c and cost %d.  \n",target,tempNode->cost);
 			searchResult.cost = tempNode->cost;
 			do{							//输出Close表中所有的节点
 				emptyClose = Pop(Close,&inClose,&tempNode,0);
 				if(emptyClose != -1 && tempNode->adjvex == n){
 					n = tempNode->adjvex;
-					printf("BestSearch Close element : %c\n",G->adjlist[n].vertex);
+					printf("BestFS Close element : %c\n",G->adjlist[n].vertex);
 					tempNode= tempNode->father;
 					if(tempNode == NULL){
 						break;
@@ -860,16 +859,13 @@ Result  BestSearch(char start,char target,int showFlag){
 		fatherNode = tempNode;
 		while(tempNode != NULL){
 			n = tempNode->adjvex;
-			printf("1%c\t",G->adjlist[n].vertex);
 			if(Visit[n] == FALSE){
 				tempNode->father = fatherNode;
 				tempNode->cost = cost + tempNode->cost;
 				tempNode->evaluate = tempNode->cost + tempNode->evaluate;
 			n = tempNode->adjvex;
-			printf("2%c\t",G->adjlist[n].vertex);
 				OrderEnQueue(open,&inOpen,&outOpen,tempNode,1,showO);
 			n = tempNode->adjvex;
-			printf("3%c\t\n",G->adjlist[n].vertex);
 				numOpen++;
 				Visit[n] = TRUE;
 			}

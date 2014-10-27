@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <glib.h>
 #include <string.h>
-#include "Algorithm.h"
+#include "algorithm.h"
 #include "allAlg.h"
 
 GtkWidget 	*mainwindow,*Algwindow;
@@ -120,22 +120,22 @@ void Algorithm_start(GtkWidget *widget,gpointer data){
 
 	}else if(!(strcmp(data,"LimitDFS"))){		//深度受限搜索算法
 
-		res = LimitDFS(*start,*end,showFlag);
+		res = DLS(*start,*end,showFlag);
 		showResult(res);
 
 	}else if(!(strcmp(data,"IterDFS"))){		//迭代法
 
-		res = IterDFS(*start,*end,showFlag);
+		res = IDS(*start,*end,showFlag);
 		showResult(res);
 
 	}else if(!(strcmp(data,"CostSearch"))){		//等代价
 
-		res = CostSearch(*start,*end,showFlag);
+		res = UCS(*start,*end,showFlag);
 		showResult(res);
 
 	}else if(!(strcmp(data,"BestSearch"))){		//最佳优先
 
-		res = BestSearch(*start,*end,showFlag);
+		res = BestFS(*start,*end,showFlag);
 		showResult(res);
 	}
 }
@@ -321,7 +321,7 @@ void clicked_Algorithm(GtkWidget *widget,gpointer data)
 	
 	//算法窗口
 	builder = gtk_builder_new (); 
-	gtk_builder_add_from_file(builder,"Algorithm.glade",NULL);
+	gtk_builder_add_from_file(builder,"algorithm.glade",NULL);
 	Algwindow = GTK_WIDGET (gtk_builder_get_object (builder, "window")); 
 
 	//执行按钮
@@ -358,7 +358,7 @@ void clicked_Algorithm(GtkWidget *widget,gpointer data)
 	filter = gtk_file_filter_new();
 	gtk_file_filter_add_pattern(filter,"*.txt");		//过滤 只能选择 .txt 文件
 	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (Ffile), filter);
-	gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(Ffile),"a.txt" );//默认a.txt
+	gtk_file_chooser_set_filename(GTK_FILE_CHOOSER(Ffile),"testData.txt" );//默认a.txt
 
 	//深度设置
 	Ldeep = GTK_WIDGET (gtk_builder_get_object (builder, "Ldeep"));

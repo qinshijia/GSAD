@@ -5,7 +5,7 @@ CC = gcc
 CFLAGS = -Wall -g
 LIB =  `pkg-config --cflags --libs gtk+-3.0` 
  
-TARGET = Graph-Algorithm-demo
+TARGET = GSAD
 	 
 all:$(TARGET) clean 
 	 
