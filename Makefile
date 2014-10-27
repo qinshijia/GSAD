@@ -7,7 +7,7 @@ LIB =  `pkg-config --cflags --libs gtk+-3.0`
  
 TARGET = Graph-Algorithm-demo
 	 
-all:$(TARGET) 
+all:$(TARGET) clean 
 	 
 $(TARGET):$(objs)
 	$(CC) $(LDFLAGS) $^ -o $@ $(LIB)
