@@ -833,7 +833,6 @@ Result  BestFS(char start,char target,int showFlag){
 		}
 		n = tempNode->adjvex;
 		Visit[n] = TRUE;
-		printf("when BestFS find the %d element : %c cost %d\n",n,G->adjlist[n].vertex,tempNode->cost);
 		Push(Close,&inClose,tempNode,showC);				//将该节点存入close表
 		numClose++;
 		if(G->adjlist[n].vertex == target){				//是目标节点，算法结束

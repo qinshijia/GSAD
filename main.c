@@ -105,7 +105,6 @@ void Algorithm_start(GtkWidget *widget,gpointer data){
 	if(file == NULL){
 //		gtk_message_dialog_new(gtk_widget_get_parent_window(Ffile),GTK_DIALOG_MODAL,GTK_MESSAGE_ERROR,GTK_BUTTONS_OK,NULL);
 	}
-	printf("the file is %s\n",file);
 	DEEPLIMIT = atoi(deep);
 	CreatALGraph(file);		//建立邻接点表
 	if(!(strcmp(data,"BFS"))){			//广度优先搜索算法
