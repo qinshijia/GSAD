@@ -23,87 +23,89 @@ void all_start(){
 	end = gtk_entry_get_text(GTK_ENTRY(TallEnd));
 	file= gtk_file_chooser_get_filename (GTK_FILE_CHOOSER(FallFile));
 
+	printf("all-start.....start = %c,end = %c,file = %s\n",*start,*end,file);
+
 	showFlag = 0;
 	CreatALGraph(file);
 	show(&G);
 
-	//广度优先搜索算法
-	res = BFS(*start,*end,showFlag);
-	sprintf(snumOpen,"%d",res.numOpen);
-	sprintf(snumClose,"%d",res.numClose);
-	if(res.findFlag == 1){
-		strcpy(sfindFlag,"是");
-	}else{
-		strcpy(sfindFlag,"否");
-	}
-	gtk_entry_set_text(GTK_ENTRY(TallOpen[0]),snumOpen);
-	gtk_entry_set_text(GTK_ENTRY(TallClose[0]),snumClose);
-	gtk_entry_set_text(GTK_ENTRY(TallFind[0]),sfindFlag);
+		//广度优先搜索算法
+		res = BFS(*start,*end,showFlag);
+		sprintf(snumOpen,"%d",res.numOpen);
+		sprintf(snumClose,"%d",res.numClose);
+		if(res.findFlag == 1){
+			strcpy(sfindFlag,"是");
+		}else{
+			strcpy(sfindFlag,"否");
+		}
+		gtk_entry_set_text(GTK_ENTRY(TallOpen[0]),snumOpen);
+		gtk_entry_set_text(GTK_ENTRY(TallClose[0]),snumClose);
+		gtk_entry_set_text(GTK_ENTRY(TallFind[0]),sfindFlag);
 
-	//深度优先搜索算法	
-	res = DFS(*start,*end,showFlag);
-	sprintf(snumOpen,"%d",res.numOpen);
-	sprintf(snumClose,"%d",res.numClose);
-	if(res.findFlag == 1){
-		strcpy(sfindFlag,"是");
-	}else{
-		strcpy(sfindFlag,"否");
-	}
-	gtk_entry_set_text(GTK_ENTRY(TallOpen[1]),snumOpen);
-	gtk_entry_set_text(GTK_ENTRY(TallClose[1]),snumClose);
-	gtk_entry_set_text(GTK_ENTRY(TallFind[1]),sfindFlag);
+		//深度优先搜索算法	
+		res = DFS(*start,*end,showFlag);
+		sprintf(snumOpen,"%d",res.numOpen);
+		sprintf(snumClose,"%d",res.numClose);
+		if(res.findFlag == 1){
+			strcpy(sfindFlag,"是");
+		}else{
+			strcpy(sfindFlag,"否");
+		}
+		gtk_entry_set_text(GTK_ENTRY(TallOpen[1]),snumOpen);
+		gtk_entry_set_text(GTK_ENTRY(TallClose[1]),snumClose);
+		gtk_entry_set_text(GTK_ENTRY(TallFind[1]),sfindFlag);
 
-	//深度受限搜索算法
-	res = LimitDFS(*start,*end,showFlag);
-	sprintf(snumOpen,"%d",res.numOpen);
-	sprintf(snumClose,"%d",res.numClose);
-	if(res.findFlag == 1){
-		strcpy(sfindFlag,"是");
-	}else{
-		strcpy(sfindFlag,"否");
-	}
-	gtk_entry_set_text(GTK_ENTRY(TallOpen[2]),snumOpen);
-	gtk_entry_set_text(GTK_ENTRY(TallClose[2]),snumClose);
-	gtk_entry_set_text(GTK_ENTRY(TallFind[2]),sfindFlag);
+		//深度受限搜索算法
+		res = LimitDFS(*start,*end,showFlag);
+		sprintf(snumOpen,"%d",res.numOpen);
+		sprintf(snumClose,"%d",res.numClose);
+		if(res.findFlag == 1){
+			strcpy(sfindFlag,"是");
+		}else{
+			strcpy(sfindFlag,"否");
+		}
+		gtk_entry_set_text(GTK_ENTRY(TallOpen[2]),snumOpen);
+		gtk_entry_set_text(GTK_ENTRY(TallClose[2]),snumClose);
+		gtk_entry_set_text(GTK_ENTRY(TallFind[2]),sfindFlag);
 
-	//迭代搜索算法
-	res = IterDFS(*start,*end,showFlag);
-	sprintf(snumOpen,"%d",res.numOpen);
-	sprintf(snumClose,"%d",res.numClose);
-	if(res.findFlag == 1){
-		strcpy(sfindFlag,"是");
-	}else{
-		strcpy(sfindFlag,"否");
-	}
-	gtk_entry_set_text(GTK_ENTRY(TallOpen[3]),snumOpen);
-	gtk_entry_set_text(GTK_ENTRY(TallClose[3]),snumClose);
-	gtk_entry_set_text(GTK_ENTRY(TallFind[3]),sfindFlag);
+		//迭代搜索算法
+		res = IterDFS(*start,*end,showFlag);
+		sprintf(snumOpen,"%d",res.numOpen);
+		sprintf(snumClose,"%d",res.numClose);
+		if(res.findFlag == 1){
+			strcpy(sfindFlag,"是");
+		}else{
+			strcpy(sfindFlag,"否");
+		}
+		gtk_entry_set_text(GTK_ENTRY(TallOpen[3]),snumOpen);
+		gtk_entry_set_text(GTK_ENTRY(TallClose[3]),snumClose);
+		gtk_entry_set_text(GTK_ENTRY(TallFind[3]),sfindFlag);
 
-	//等代价搜索算法
-	res = CostSearch(*start,*end,showFlag);
-	sprintf(snumOpen,"%d",res.numOpen);
-	sprintf(snumClose,"%d",res.numClose);
-	if(res.findFlag == 1){
-		strcpy(sfindFlag,"是");
-	}else{
-		strcpy(sfindFlag,"否");
-	}
-	gtk_entry_set_text(GTK_ENTRY(TallOpen[4]),snumOpen);
-	gtk_entry_set_text(GTK_ENTRY(TallClose[4]),snumClose);
-	gtk_entry_set_text(GTK_ENTRY(TallFind[4]),sfindFlag);
+		//等代价搜索算法
+		res = CostSearch(*start,*end,showFlag);
+		sprintf(snumOpen,"%d",res.numOpen);
+		sprintf(snumClose,"%d",res.numClose);
+		if(res.findFlag == 1){
+			strcpy(sfindFlag,"是");
+		}else{
+			strcpy(sfindFlag,"否");
+		}
+		gtk_entry_set_text(GTK_ENTRY(TallOpen[4]),snumOpen);
+		gtk_entry_set_text(GTK_ENTRY(TallClose[4]),snumClose);
+		gtk_entry_set_text(GTK_ENTRY(TallFind[4]),sfindFlag);
 
-	//最佳优先搜索算法
-	res = BestSearch(*start,*end,showFlag);
-	sprintf(snumOpen,"%d",res.numOpen);
-	sprintf(snumClose,"%d",res.numClose);
-	if(res.findFlag == 1){
-		strcpy(sfindFlag,"是");
-	}else{
-		strcpy(sfindFlag,"否");
-	}
-	gtk_entry_set_text(GTK_ENTRY(TallOpen[5]),snumOpen);
-	gtk_entry_set_text(GTK_ENTRY(TallClose[5]),snumClose);
-	gtk_entry_set_text(GTK_ENTRY(TallFind[5]),sfindFlag);
+		//最佳优先搜索算法
+		res = BestSearch(*start,*end,showFlag);
+		sprintf(snumOpen,"%d",res.numOpen);
+		sprintf(snumClose,"%d",res.numClose);
+		if(res.findFlag == 1){
+			strcpy(sfindFlag,"是");
+		}else{
+			strcpy(sfindFlag,"否");
+		}
+		gtk_entry_set_text(GTK_ENTRY(TallOpen[5]),snumOpen);
+		gtk_entry_set_text(GTK_ENTRY(TallClose[5]),snumClose);
+		gtk_entry_set_text(GTK_ENTRY(TallFind[5]),sfindFlag);
 }
 
 
@@ -175,4 +177,4 @@ void clicked_All(GtkWidget *widget,gpointer data){
 	g_signal_connect_swapped(G_OBJECT(Allwindow),"destroy",G_CALLBACK(back_main),NULL );
 	g_object_unref (G_OBJECT (builder));   
 	gtk_widget_show (Allwindow); 
-}
+

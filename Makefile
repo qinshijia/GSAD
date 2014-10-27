@@ -15,7 +15,6 @@ $(TARGET):$(objs)
 %.o:%.c 
 	$(CC) $(CFLAGS) -c $< -o $@ `pkg-config --cflags --libs gtk+-3.0` 
 	        
-.PHONY: clean
 clean:
 	-rm -f $(TARGET)
 	-rm -f $(objs)
