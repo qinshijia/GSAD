@@ -26,6 +26,22 @@ ALGraph *G;
 
 int Visit[MaxVertexNum] = {FALSE};
 
+//显示邻接点表 
+void show(){
+	int i,n;
+	EdgeNode  *temp;
+	n = G->n;
+	for(i = 0;i < n; i++){
+		printf("%c的邻接点有：\t",G->adjlist[i].vertex);
+		temp = G->adjlist[i].firstedge;
+		while(temp != NULL){
+			printf("%c\t",G->adjlist[temp->adjvex].vertex);
+			temp = temp->next;
+		}
+		printf("\n");
+	}
+}
+
 /*建立图的邻接表*/           
 void CreatALGraph(const char fileName[])
 {
@@ -74,22 +90,7 @@ void CreatALGraph(const char fileName[])
 		s->next=G->adjlist[k].firstedge;
 		G->adjlist[k].firstedge=s;     		
 	}
-}
-
-//显示邻接点表 
-void show(ALGraph *G){
-	int i,n;
-	EdgeNode  *temp;
-	n = G->n;
-	for(i = 0;i < n; i++){
-		printf("%c的邻接点有：\t",G->adjlist[i].vertex);
-		temp = G->adjlist[i].firstedge;
-		while(temp != NULL){
-			printf("%c\t",G->adjlist[temp->adjvex].vertex);
-			temp = temp->next;
-		}
-		printf("\n");
-	}
+	show();			//打印邻接点表
 }
 
 //查询元素在边表的值
@@ -113,7 +114,7 @@ void resetVisit(void){
 
 //释放邻接点表
 void freeGraph(){
-	int n,e;	
+	int n;	
 	EdgeNode *tempNode,*freeNode;
 	for(n = 0;n < G->n;n++){
 		tempNode = G->adjlist[n].firstedge;
@@ -217,7 +218,6 @@ int EnQueue(TYPE *open,int *in,int *out,TYPE value,int showFlag){
   #	ERROR	插入失败  
   ***********************************************************************/
 int OrderEnQueue(TYPE *open,int *in,int *out,TYPE value,int mode,int showFlag){
-	TYPE tempNode;
 	int temp,next;
 	int i,tempIn,tempOut;
 
@@ -239,7 +239,7 @@ int OrderEnQueue(TYPE *open,int *in,int *out,TYPE value,int mode,int showFlag){
 		switch(mode)
 		{
 
-			case 0:	for(i ;i > tempOut; i--){  	//按Cost插入
+			case 0:	for( ;i > tempOut; i--){  	//按Cost插入
 					next = tempIn - 1;
 					if(next < 0){
 						next = MaxVertexNum - 1;
@@ -260,7 +260,7 @@ int OrderEnQueue(TYPE *open,int *in,int *out,TYPE value,int mode,int showFlag){
 					open[tempIn] = value;
 				}
 				break;
-			case 1:	for(i ;i > tempOut; i--){	//按evaluate插入
+			case 1:	for( ;i > tempOut; i--){	//按evaluate插入
 					next = tempIn - 1;
 					if(next < 0){
 						next = MaxVertexNum - 1;
@@ -326,7 +326,7 @@ int GetQueue(TYPE *open,int *in,int *out,TYPE *value,int showFlag){
   ***********************************************************************/
 Result  BFS(char start ,char target,int showFlag){
 
-	int i,n,findFlag,index,showC,showO;
+	int n,findFlag,index,showC,showO;
 	int inOpen,outOpen,emptyOpen,numOpen;
 	int inClose,outClose,emptyClose,numClose;
 	EdgeNode  *tempNode,*fatherNode;			 
@@ -420,7 +420,7 @@ Result  BFS(char start ,char target,int showFlag){
   ***********************************************************************/
 Result DFS(char start,char target,int showFlag){
 	resetVisit();
-	int i,n,findFlag,index,showO,showC;
+	int n,findFlag,index,showO,showC;
 	int inOpen,emptyOpen,numOpen;
 	int inClose,emptyClose,numClose;
 	EdgeNode  *tempNode,*fatherNode;
@@ -504,7 +504,7 @@ Result DFS(char start,char target,int showFlag){
   ***********************************************************************/
 Result LimitDFS(char start,char target,int showFlag){
 	resetVisit();
-	int i,n,deep,findFlag,index,showO,showC;
+	int n,deep,findFlag,index,showO,showC;
 	int inOpen,emptyOpen,numOpen;
 	int inClose,emptyClose,numClose;
 	EdgeNode  *tempNode,*fatherNode;			
@@ -598,7 +598,7 @@ Result LimitDFS(char start,char target,int showFlag){
   #	Result	搜索结果
   ***********************************************************************/
 Result IterDFS(char start,char target,int showFlag){
-	int i,num,n,deep,findFlag,index,limit,showO,showC;
+	int num,n,deep,findFlag,index,limit,showO,showC;
 	int inOpen,emptyOpen,numOpen;
 	int inClose,emptyClose,numClose;
 	EdgeNode  *tempNode,*fatherNode;	
@@ -703,7 +703,7 @@ labelStar:
   #	Result	搜索结果
   ***********************************************************************/
 Result  CostSearch(char start ,char target,int showFlag){
-	int i,n,cost,findFlag,index,showO,showC;
+	int n,cost,findFlag,index,showO,showC;
 	int inOpen,outOpen,emptyOpen,numOpen;
 	int inClose,outClose,emptyClose,numClose;
 	EdgeNode  *tempNode,*fatherNode;			//临时节点 n
@@ -793,7 +793,7 @@ Result  CostSearch(char start ,char target,int showFlag){
   #	Result	搜索结果
   ***********************************************************************/
 Result  BestSearch(char start,char target,int showFlag){
-	int i,n,cost,evaluate,findFlag,index,showO,showC;
+	int n,cost,findFlag,index,showO,showC;
 	int inOpen,outOpen,emptyOpen,numOpen;
 	int inClose,outClose,emptyClose,numClose;
 	EdgeNode  *tempNode,*fatherNode;			 
@@ -811,7 +811,6 @@ Result  BestSearch(char start,char target,int showFlag){
 	n = 0;
 	cost = 0;
 	findFlag = 0;
-	evaluate = 0;
 	inOpen = inClose = 0;			 
 	outOpen = outClose = 0;
 	numOpen = numClose = 0;

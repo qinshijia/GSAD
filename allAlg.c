@@ -11,21 +11,17 @@ GtkWidget	*TallOpen[6],*TallClose[6],*TallFind[6];
 
 
 void all_start(){
-	ALGraph G;
 	Result res;
 	int showFlag;
-	char find = 'e';
 	char snumOpen[4],snumClose[4],sfindFlag[4];
   	const	char *start,*end;
 	const 	char *file;
-	int numOpen[6],numClose[6],isFind[6];
 	start = gtk_entry_get_text(GTK_ENTRY(TallStart));
 	end = gtk_entry_get_text(GTK_ENTRY(TallEnd));
 	file= gtk_file_chooser_get_filename (GTK_FILE_CHOOSER(FallFile));
 
 	showFlag = 0;
 	CreatALGraph(file);
-	show(&G);
 
 	//广度优先搜索算法
 	res = BFS(*start,*end,showFlag);
@@ -118,7 +114,6 @@ void clicked_All(GtkWidget *widget,gpointer data){
 	gtk_widget_hide(mainwindow);  
 
 	GtkWidget *Bstart;  
-	GtkWidget *Topen,*Tclose;
 	GtkBuilder *builder;
 
 	builder = gtk_builder_new (); 

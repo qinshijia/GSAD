@@ -89,13 +89,9 @@ void showResult(Result res){
 //开始执行算法
 void Algorithm_start(GtkWidget *widget,gpointer data){
 	int showFlag;
-	char find = 'e';
-	char cost[8];
   	const	char *start,*end,*deep;
 	const 	char *file;
 	Result  res;
-	EdgeNode *tempNode;
-	GtkTextIter Gstart,Gend;
 	
 	//获取输入的值
 	showFlag = 1;
@@ -112,7 +108,6 @@ void Algorithm_start(GtkWidget *widget,gpointer data){
 	printf("the file is %s\n",file);
 	DEEPLIMIT = atoi(deep);
 	CreatALGraph(file);		//建立邻接点表
-	show(&G);			//打印邻接点表
 	if(!(strcmp(data,"BFS"))){			//广度优先搜索算法
 
 		res = BFS(*start,*end,showFlag);
@@ -150,8 +145,7 @@ void showOpenaQueue(EdgeNode* *open,int in,int out){
 	//sleep(1);
 	int n,row,preNum,empty,num,addFlag,len;
 	char value;
-	char *p,text[27];
-	p = &value;
+	char text[27];
 	addFlag = 0;
 	len = 0;
 	GtkTextIter start,end;
@@ -212,11 +206,10 @@ void showOpenaStack(EdgeNode* *open,int in){
 
 	int n,row,len,num,preNum,addFlag;
 	char value;
-	char *p,text[27];
+	char text[27];
 	GtkTextIter start,end;
 	EdgeNode *tempNode;
 
-	p = &value;
 	num = 0;
 	len = 0;
 	preNum = 0;
@@ -264,11 +257,10 @@ void showOpenaStack(EdgeNode* *open,int in){
 void showClose(EdgeNode* *open,int in){
 	int n,row,num;
 	char value;
-	char *p,text[27];
+	char text[27];
 	GtkTextIter start,end;
 	EdgeNode *tempNode;
 
-	p = &value;
 	num = 0;
 	memset(text,'\0',sizeof(text));
 	if(in <= 0){
@@ -325,8 +317,7 @@ void clicked_Algorithm(GtkWidget *widget,gpointer data)
 	GtkWidget *Topen,*Tclose;
 	GtkWidget *Tfind,*TopenNum,*TcloseNum,*Tcost;
 	GtkBuilder *builder;
-	GtkWidget *parent;
-	GtkWidget *Ldeep,*Lcost;
+	GtkWidget *Ldeep;
 	
 	//算法窗口
 	builder = gtk_builder_new (); 
@@ -350,7 +341,6 @@ void clicked_Algorithm(GtkWidget *widget,gpointer data)
 	TopenNum = GTK_WIDGET (gtk_builder_get_object (builder, "TopenNum"));
 	TcloseNum = GTK_WIDGET (gtk_builder_get_object (builder, "TcloseNum"));
 	Tcost = GTK_WIDGET (gtk_builder_get_object (builder, "Tcost"));
-	Lcost = GTK_WIDGET (gtk_builder_get_object (builder, "Lcost"));
 	bufopen = gtk_text_view_get_buffer(GTK_TEXT_VIEW(Topen));	
 	bufclose = gtk_text_view_get_buffer(GTK_TEXT_VIEW(Tclose));	
 	buffind = gtk_text_view_get_buffer(GTK_TEXT_VIEW(Tfind));	

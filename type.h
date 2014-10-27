@@ -2,7 +2,7 @@
 #define MaxVertexNum 	50        	//定义最大顶点数
 typedef struct node{       	//边表结点
 
-	char adjvex;          	//邻接点域
+	int  adjvex;          	//邻接点域
 	struct node *next,*father;    //链域
 	int deep;		//节点深度
 	int cost;		//代价
