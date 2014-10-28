@@ -19,6 +19,8 @@ typedef struct result{
 	int numClose;
 	int findFlag;
 	int cost;
+	int inClose;
+	char target;
 }Result;
 typedef VertexNode AdjList[MaxVertexNum];       //AdjList是邻接表类型
 

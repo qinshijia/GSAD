@@ -7,7 +7,7 @@ LIB =  `pkg-config --cflags --libs gtk+-3.0`
  
 TARGET = GSAD
 	 
-all:$(TARGET) clean 
+all:$(TARGET) clean run
 	 
 $(TARGET):$(objs)
 	$(CC) $(LDFLAGS) $^ -o $@ $(LIB)
@@ -15,5 +15,7 @@ $(TARGET):$(objs)
 %.o:%.c
 	$(CC) $(CFLAGS) -c $< -o $@  $(LIB)
 	        
+run:
+	./$(TARGET)
 clean:
 	-rm -f $(objs)

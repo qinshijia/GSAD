@@ -9,7 +9,7 @@ GtkWidget 	*mainwindow,*Algwindow;
 GtkWidget 	*Tstart,*Tend,*Tdeep; 
 GtkWidget 	*Ffile;
 GtkTextBuffer	*bufopen,*bufclose;
-GtkTextBuffer	*buffind,*bufopenNum,*bufcloseNum,*bufcost;
+GtkTextBuffer	*buffind,*bufopenNum,*bufcloseNum,*bufcost,*bufpath;
 GtkTextTag 	*addOpen_style,*addClose_style;
 
 extern GtkWidget	*TallOpen[6],*TallClose[6],*TallFind[6];	
@@ -40,6 +40,53 @@ void Textview_clear(){
 	
 	gtk_text_buffer_get_bounds(GTK_TEXT_BUFFER(bufcost),&Gstart,&Gend);
 	gtk_text_buffer_delete(GTK_TEXT_BUFFER(bufcost),&Gstart,&Gend);
+
+	gtk_text_buffer_get_bounds(GTK_TEXT_BUFFER(bufpath),&Gstart,&Gend);
+	gtk_text_buffer_delete(GTK_TEXT_BUFFER(bufpath),&Gstart,&Gend);
+}
+
+void showPath(Result res){
+	int n,emptyClose,inClose,findFlag;
+	char target;
+	char buffer[16];
+	EdgeNode *tempNode;
+	GtkTextIter start,end;
+
+	findFlag = res.findFlag;
+	target 	 = res.target; 
+	if(findFlag == 0){
+		memset(buffer,'\0',sizeof(buffer));
+		buffer[0] = target;
+		strcat(buffer,"\tnot find!");
+		gtk_text_buffer_get_bounds(GTK_TEXT_BUFFER(bufpath),&start,&end);	
+		gtk_text_buffer_insert(GTK_TEXT_BUFFER(bufpath),&end,buffer,strlen(buffer)); 
+		return;
+		
+	}
+
+
+	inClose = res.inClose;
+	emptyClose = 0;
+	n = valueIndex(target);
+	do{							//输出Close表中所有的节点
+		emptyClose = Pop(Close,&inClose,&tempNode,0);
+		if(emptyClose != -1 && tempNode->adjvex == n){
+			n = tempNode->adjvex;
+			memset(buffer,'\0',sizeof(buffer));
+			buffer[0] = G->adjlist[n].vertex;
+			gtk_text_buffer_get_bounds(GTK_TEXT_BUFFER(bufpath),&start,&end);	
+			tempNode= tempNode->father;
+			if(tempNode == NULL){
+				gtk_text_buffer_insert(GTK_TEXT_BUFFER(bufpath),&end,buffer,strlen(buffer)); 
+				break;
+			}else{
+				strcat(buffer,"\t->\t");
+				gtk_text_buffer_insert(GTK_TEXT_BUFFER(bufpath),&end,buffer,strlen(buffer)); 
+			}
+			n = tempNode->adjvex;
+		}
+	}while(emptyClose != -1);
+
 }
 
 //在文本框显示搜索结果结果
@@ -81,6 +128,10 @@ void showResult(Result res){
 	memset(buffer,'\0',sizeof(buffer));
 	sprintf(buffer,"%d",cost);
 	gtk_text_buffer_insert(GTK_TEXT_BUFFER(bufcost),&end,buffer,strlen(buffer)); 
+
+
+	//搜索结果路径
+	showPath(res);
 
 	while(gtk_events_pending())
 		gtk_main_iteration();	//刷新文本框的内容
@@ -295,7 +346,6 @@ void showClose(EdgeNode* *open,int in){
 
 }
 
-
 //关闭算法窗口，返回主窗口
 void back_parent(GtkWidget *widget,gpointer data){
 	gtk_widget_show (mainwindow);
@@ -314,7 +364,7 @@ void clicked_Algorithm(GtkWidget *widget,gpointer data)
 
 	GtkWidget *Bstep;  
 	GtkWidget *Topen,*Tclose;
-	GtkWidget *Tfind,*TopenNum,*TcloseNum,*Tcost;
+	GtkWidget *Tfind,*TopenNum,*TcloseNum,*Tcost,*Tpath;
 	GtkBuilder *builder;
 	GtkWidget *Ldeep;
 	
@@ -340,12 +390,14 @@ void clicked_Algorithm(GtkWidget *widget,gpointer data)
 	TopenNum = GTK_WIDGET (gtk_builder_get_object (builder, "TopenNum"));
 	TcloseNum = GTK_WIDGET (gtk_builder_get_object (builder, "TcloseNum"));
 	Tcost = GTK_WIDGET (gtk_builder_get_object (builder, "Tcost"));
+	Tpath = GTK_WIDGET (gtk_builder_get_object (builder, "Tpath"));
 	bufopen = gtk_text_view_get_buffer(GTK_TEXT_VIEW(Topen));	
 	bufclose = gtk_text_view_get_buffer(GTK_TEXT_VIEW(Tclose));	
 	buffind = gtk_text_view_get_buffer(GTK_TEXT_VIEW(Tfind));	
 	bufopenNum = gtk_text_view_get_buffer(GTK_TEXT_VIEW(TopenNum));	
 	bufcloseNum = gtk_text_view_get_buffer(GTK_TEXT_VIEW(TcloseNum));	
 	bufcost = gtk_text_view_get_buffer(GTK_TEXT_VIEW(Tcost));	
+	bufpath = gtk_text_view_get_buffer(GTK_TEXT_VIEW(Tpath));	
 	addOpen_style = gtk_text_buffer_create_tag (bufopen, "foreground", "foreground","red", NULL);	//显示红色字体
 	addClose_style = gtk_text_buffer_create_tag (bufclose, "foreground", "foreground","blue", NULL);//显示蓝色字体
 	

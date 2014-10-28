@@ -5,7 +5,6 @@
 
 #define MaxVertexNum 	50        	//定义最大顶点数
 #define SUCCESS		0		//函数执行成功
-#define FAILURE 	-1		//函数执行失败
 #define ERROR		-1		//函数执行失败
 //#define TRUE 		1		//已经遍历过
 //#define FALSE 		0		//未遍历
@@ -27,7 +26,7 @@ ALGraph *G;
 int Visit[MaxVertexNum] = {FALSE};
 
 //显示邻接点表 
-void show(){
+void showALGraph(){
 	int i,n;
 	EdgeNode  *temp;
 	n = G->n;
@@ -89,7 +88,7 @@ void CreatALGraph(const char fileName[])
 		s->next=G->adjlist[k].firstedge;
 		G->adjlist[k].firstedge=s;     		
 	}
-	show();			//打印邻接点表
+	showALGraph();			//打印邻接点表
 }
 
 //查询元素在边表的值
@@ -97,10 +96,10 @@ int valueIndex(char value){
 	int index;
 	for(index = 0;index < (G->n); index++){
 		if(G->adjlist[index].vertex == value){
-			break;
+			return index;
 		}
 	}
-	return index;
+	return ERROR;
 }
 
 //重置Visit[]
@@ -325,7 +324,7 @@ int GetQueue(TYPE *open,int *in,int *out,TYPE *value,int showFlag){
   ***********************************************************************/
 Result  BFS(char start ,char target,int showFlag){
 
-	int n,findFlag,index,showC,showO;
+	int n,findFlag,index,showC,showO,cost;
 	int inOpen,outOpen,emptyOpen,numOpen;
 	int inClose,outClose,emptyClose,numClose;
 	EdgeNode  *tempNode,*fatherNode;			 
@@ -334,6 +333,7 @@ Result  BFS(char start ,char target,int showFlag){
 	//初始化
 	resetVisit();
 	n = 0;
+	cost = 0;
 	findFlag = 0;
 	inOpen = inClose = 0;			//初始化队列的队首和队尾
 	outOpen = outClose = 0;
@@ -352,6 +352,7 @@ Result  BFS(char start ,char target,int showFlag){
 	tempNode = G->adjlist[index].firstedge;
 	Visit[index] = TRUE;
 	tempNode->father = NULL;
+	tempNode->cost = cost;
 	EnQueue(open,&inOpen,&outOpen,tempNode,showO);				//将起始节点存入open表
 	numOpen++;
 
@@ -369,32 +370,21 @@ Result  BFS(char start ,char target,int showFlag){
 		Push(Close,&inClose,tempNode,showC);				//将该节点存入close表
 		numClose++;
 
+		searchResult.cost = tempNode->cost;
 		if(G->adjlist[n].vertex == target){				//找到目标节点,算法结束
 			findFlag = 1; 
-
-			do{							//输出Close表中所有的节点
-				emptyClose = Pop(Close,&inClose,&tempNode,0);
-				if(emptyClose != -1 && tempNode->adjvex == n){
-					n = tempNode->adjvex;
-					printf("BFS Close element : %c\n",G->adjlist[n].vertex);
-					tempNode= tempNode->father;
-					if(tempNode == NULL){
-						break;
-					}
-					n = tempNode->adjvex;
-				}
-			}while(emptyClose != -1);
-
-			printf("BFS find %c. \n",target);
 			break;
+
 		}
 
+		cost = tempNode->cost;
 		tempNode = G->adjlist[n].firstedge;			//将后继节点存入open表
 		fatherNode = tempNode;
 		while(tempNode != NULL){
 			n = tempNode->adjvex;
 			if(Visit[n] == FALSE){
 				tempNode->father = fatherNode;
+				tempNode->cost = tempNode->cost + cost;
 				EnQueue(open,&inOpen,&outOpen,tempNode,showO);
 				numOpen++;
 				Visit[n] = TRUE;
@@ -405,6 +395,8 @@ Result  BFS(char start ,char target,int showFlag){
 	searchResult.numOpen = numOpen;					//返回结果
 	searchResult.numClose = numClose;
 	searchResult.findFlag = findFlag;
+	searchResult.inClose = inClose;
+	searchResult.target = target;
 	return searchResult;
 }
  
@@ -418,14 +410,15 @@ Result  BFS(char start ,char target,int showFlag){
   #	Result	搜索结果
   ***********************************************************************/
 Result DFS(char start,char target,int showFlag){
-	resetVisit();
-	int n,findFlag,index,showO,showC;
+	int n,cost,findFlag,index,showO,showC;
 	int inOpen,emptyOpen,numOpen;
 	int inClose,emptyClose,numClose;
 	EdgeNode  *tempNode,*fatherNode;
 
 	//初始化
+	resetVisit();
 	n = 0;
+	cost = 0;
 	findFlag = 0;
 	inOpen = inClose = 0;			 
 	numOpen = numClose = 0;
@@ -443,6 +436,7 @@ Result DFS(char start,char target,int showFlag){
 	tempNode = G->adjlist[index].firstedge;
 	Visit[index] = TRUE;
 	tempNode->father= NULL;
+	tempNode->cost = cost;
 	Push(open,&inOpen,tempNode,showO);				//将起始节点存入open表
 	numOpen++;
 	while(1){
@@ -456,29 +450,21 @@ Result DFS(char start,char target,int showFlag){
 		Visit[n] = TRUE; 
 		Push(Close,&inClose,tempNode,showC);			//将该节点存入close表
 		numClose++;
+
+		searchResult.cost = tempNode->cost;
 		if(G->adjlist[n].vertex == target){			//找到目标节点,算法结束
 			findFlag = 1;
-			do{						//输出Close表中所有的节点
-				emptyClose = Pop(Close,&inClose,&tempNode,0);
-				if(emptyClose != -1 && tempNode->adjvex == n){
-					n = tempNode->adjvex;
-					printf("DFS Close element : %c\n",G->adjlist[n].vertex);
-					tempNode= tempNode->father;
-					if(tempNode == NULL){
-						break;
-					}
-					n = tempNode->adjvex;
-				}
-			}while(emptyClose != -1);
-			printf("DFS fine %c. \n",target);
 			break;
+
 		}
+		cost = tempNode->cost;
 		tempNode = G->adjlist[n].firstedge;			//将后继节点存入open表
 		fatherNode = tempNode;
 		while(tempNode != NULL){
 			n = tempNode->adjvex;
 			if(Visit[n] == FALSE){
 				tempNode->father = fatherNode;
+				tempNode->cost = tempNode->cost + cost;
 				Push(open,&inOpen,tempNode,showO);
 				numOpen++;
 				Visit[n] = TRUE;
@@ -489,6 +475,8 @@ Result DFS(char start,char target,int showFlag){
 	searchResult.numOpen = numOpen;					//返回结果
 	searchResult.numClose = numClose;
 	searchResult.findFlag = findFlag;
+	searchResult.inClose = inClose;
+	searchResult.target = target;
 	return searchResult;
 }
  
@@ -502,14 +490,14 @@ Result DFS(char start,char target,int showFlag){
   #	Result	搜索结果
   ***********************************************************************/
 Result DLS(char start,char target,int showFlag){
-	resetVisit();
-	int n,deep,findFlag,index,showO,showC;
+	int n,deep,cost,findFlag,index,showO,showC;
 	int inOpen,emptyOpen,numOpen;
 	int inClose,emptyClose,numClose;
 	EdgeNode  *tempNode,*fatherNode;			
 	
 
 	//初始化
+	resetVisit();
 	if(showFlag == 1){
 		showO = 1;
 		showC = 2;
@@ -519,6 +507,7 @@ Result DLS(char start,char target,int showFlag){
 	}
 
 	n = 0;
+	cost = 0;
 	deep = 0;
 	findFlag = 0;
 	inOpen = inClose = 0;		
@@ -530,6 +519,7 @@ Result DLS(char start,char target,int showFlag){
 	Visit[index] = TRUE;
 	tempNode->father= NULL;
 	tempNode->deep = deep;
+	tempNode->cost = cost;
 	Push(open,&inOpen,tempNode,showO);					//将起始节点存入open表
 	numOpen++;
 
@@ -545,28 +535,18 @@ Result DLS(char start,char target,int showFlag){
 		Push(Close,&inClose,tempNode,showC);				//将该节点存入close表
 		numClose++;
 
+		searchResult.cost = tempNode->cost;
 		if(G->adjlist[n].vertex == target){				//是否为目标节点，算法结束
 			findFlag = 1;
-			do{							//输出Close表中所有的节点
-				emptyClose = Pop(Close,&inClose,&tempNode,0);
-				if(emptyClose != -1 && tempNode->adjvex == n){
-					n = tempNode->adjvex;
-					printf("DLS Close element : %c\n",G->adjlist[n].vertex);
-					tempNode= tempNode->father;
-					if(tempNode == NULL){
-						break;
-					}
-					n = tempNode->adjvex;
-				}
-			}while(emptyClose != -1);
-			printf("DLS fine %c. \n",target);
 			break;
+
 		}
 		deep = tempNode->deep;					
 		if(deep == DEEPLIMIT){					//深度是否等于深度限制
 			continue;
 		}
 		deep = deep + 1;					//深度加 1
+		cost = tempNode->cost;
 		tempNode = G->adjlist[n].firstedge;			//将后继节点存入open表
 		fatherNode = tempNode;
 		while(tempNode != NULL){
@@ -574,6 +554,7 @@ Result DLS(char start,char target,int showFlag){
 			if(Visit[n] == FALSE){
 				tempNode->father = fatherNode;
 				tempNode->deep = deep;
+				tempNode->cost = tempNode->cost + cost;
 				Push(open,&inOpen,tempNode,showO);
 				numOpen++;
 				Visit[n] = TRUE;
@@ -584,6 +565,8 @@ Result DLS(char start,char target,int showFlag){
 	searchResult.numOpen = numOpen;				//返回结果
 	searchResult.numClose = numClose;
 	searchResult.findFlag = findFlag;
+	searchResult.inClose = inClose;
+	searchResult.target = target;
 	return searchResult;
 }
 
@@ -597,7 +580,8 @@ Result DLS(char start,char target,int showFlag){
   #	Result	搜索结果
   ***********************************************************************/
 Result IDS(char start,char target,int showFlag){
-	int num,n,deep,findFlag,index,limit,showO,showC;
+	int num,n,deep,cost,index;
+	int findFlag,limit,showO,showC;
 	int inOpen,emptyOpen,numOpen;
 	int inClose,emptyClose,numClose;
 	EdgeNode  *tempNode,*fatherNode;	
@@ -620,6 +604,7 @@ Result IDS(char start,char target,int showFlag){
 
 labelStar:
 	num = 0;				//一次遍历节点的个数
+	cost = 0;
 	deep = 0;
 	inOpen = inClose = 0;		 
 	resetVisit();
@@ -628,6 +613,7 @@ labelStar:
 	Visit[index] = TRUE;
 	tempNode->father= NULL;
 	tempNode->deep = deep;
+	tempNode->cost = cost;
 	Push(open,&inOpen,tempNode,showO);				//将起始节点存入open表
 	numOpen++;
 	num++;
@@ -649,21 +635,9 @@ labelStar:
 		Push(Close,&inClose,tempNode,showC);				//将该节点存入close表
 		numClose++;
 
+		searchResult.cost = tempNode->cost;
 		if(G->adjlist[n].vertex == target){				//是目标节点，算法结束
 			findFlag = 1;
-			do{							//输出Close表中所有的节点
-				emptyClose = Pop(Close,&inClose,&tempNode,0);
-				if(emptyClose != -1 && tempNode->adjvex == n){
-					n = tempNode->adjvex;
-					printf("IDS Close element : %c\n",G->adjlist[n].vertex);
-					tempNode= tempNode->father;
-					if(tempNode == NULL){
-						break;
-					}
-					n = tempNode->adjvex;
-				}
-			}while(emptyClose != -1);
-			printf("IDS fine %c. \n",target);
 			break;
 		}
 		deep = tempNode->deep;					
@@ -671,6 +645,7 @@ labelStar:
 			continue;
 		}
 		deep = deep + 1;					//深度加 1
+		cost = tempNode->cost;
 		tempNode = G->adjlist[n].firstedge;			//将后继节点存入open表
 		fatherNode = tempNode;
 		while(tempNode != NULL){
@@ -678,6 +653,7 @@ labelStar:
 			if(Visit[n] == FALSE){
 				tempNode->father = fatherNode;
 				tempNode->deep = deep;
+				tempNode->cost = tempNode->cost + cost;
 				Push(open,&inOpen,tempNode,showO);
 				numOpen++;
 				num++;
@@ -689,6 +665,8 @@ labelStar:
 	searchResult.numOpen = numOpen;
 	searchResult.numClose = numClose;
 	searchResult.findFlag = findFlag;
+	searchResult.inClose = inClose;
+	searchResult.target = target;
 	return searchResult;
 }
 
@@ -736,29 +714,16 @@ Result  UCS(char start ,char target,int showFlag){
 		if(emptyOpen == -1){						//open表为空,找不到目标节点，算法结束
 			findFlag = 0;
 			printf("UCS not find %c. \n",target);
-			searchResult.cost = tempNode->cost;
 			break;
 		}
 		n = tempNode->adjvex;
 		Visit[n] = TRUE; 
 		Push(Close,&inClose,tempNode,showC);				//将该节点存入close表
 		numClose++;
+		
+		searchResult.cost = tempNode->cost;
 		if(G->adjlist[n].vertex == target){				//是目标节点，算法结束
 			findFlag = 1;
-			printf("UCS find %c and cost %d.  \n",target,tempNode->cost);
-			searchResult.cost = tempNode->cost;
-			do{							//输出Close表中所有的节点
-				emptyClose = Pop(Close,&inClose,&tempNode,0);
-				if(emptyClose != -1 && tempNode->adjvex == n){
-					n = tempNode->adjvex;
-					printf("UCS Close element : %c\n",G->adjlist[n].vertex);
-					tempNode= tempNode->father;
-					if(tempNode == NULL){
-						break;
-					}
-					n = tempNode->adjvex;
-				}
-			}while(emptyClose != -1);
 			break;
 		}
 		cost = tempNode->cost;
@@ -779,6 +744,8 @@ Result  UCS(char start ,char target,int showFlag){
 	searchResult.numOpen = numOpen;			//返回结果
 	searchResult.numClose = numClose;
 	searchResult.findFlag = findFlag;
+	searchResult.inClose = inClose;
+	searchResult.target = target;
 	return searchResult;
 }
  
@@ -828,29 +795,15 @@ Result  BestFS(char start,char target,int showFlag){
 		if(emptyOpen == -1){						//open表为空,找不到目标节点，算法结束
 			findFlag = 0;
 			printf("BestFS not find %c. \n",target);
-			searchResult.cost = tempNode->cost;
 			break;
 		}
 		n = tempNode->adjvex;
 		Visit[n] = TRUE;
 		Push(Close,&inClose,tempNode,showC);				//将该节点存入close表
 		numClose++;
+		searchResult.cost = tempNode->cost;
 		if(G->adjlist[n].vertex == target){				//是目标节点，算法结束
 			findFlag = 1;
-			printf("BestFS find %c and cost %d.  \n",target,tempNode->cost);
-			searchResult.cost = tempNode->cost;
-			do{							//输出Close表中所有的节点
-				emptyClose = Pop(Close,&inClose,&tempNode,0);
-				if(emptyClose != -1 && tempNode->adjvex == n){
-					n = tempNode->adjvex;
-					printf("BestFS Close element : %c\n",G->adjlist[n].vertex);
-					tempNode= tempNode->father;
-					if(tempNode == NULL){
-						break;
-					}
-					n = tempNode->adjvex;
-				}
-			}while(emptyClose != -1);
 			break;
 		}
 		cost = tempNode->cost;
@@ -874,5 +827,7 @@ Result  BestFS(char start,char target,int showFlag){
 	searchResult.numOpen = numOpen;			//返回结果 
 	searchResult.numClose = numClose;
 	searchResult.findFlag = findFlag;
+	searchResult.inClose = inClose;
+	searchResult.target = target;
 	return searchResult;
 }
