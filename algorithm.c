@@ -2,6 +2,10 @@
 #include<stdlib.h>
 #include<malloc.h>
 #include"GUI.h"
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+
 
 #define MaxVertexNum 	50        	//定义最大顶点数
 #define SUCCESS		0		//函数执行成功
@@ -13,12 +17,12 @@
 extern	GtkWidget 	*mainwindow;
 extern 	GtkWidget 	*Tstart,*Tend; 
 extern	GtkWidget 	*Ffile;
-extern	GtkWidget  	*Topen,*Tclose;
-extern	GtkTextBuffer	*bufopen,*bufclose;
+extern	GtkWidget  	*TOpen,*Tclose;
+extern	GtkTextBuffer	*bufOpen,*bufclose;
 typedef EdgeNode*  TYPE;
 
 int DEEPLIMIT = 2;
-EdgeNode*  open[MaxVertexNum]; 			//open表
+EdgeNode*  Open[MaxVertexNum]; 			//open表
 EdgeNode*  Close[MaxVertexNum];			//close表
 Result	   searchResult;
 ALGraph *G;
@@ -41,21 +45,25 @@ void showALGraph(){
 	}
 }
 
+
 /*建立图的邻接表*/           
-void CreatALGraph(const char fileName[])
+int CreatALGraph(const char fileName[])
 {
 	int i,j,k,cost,evaluate;
 	char a;
 	EdgeNode *s;       				 //定义边表结点
 	FILE *fp;
 	if((fp = fopen(fileName,"r")) == NULL){
-		perror("open file error\n");
-		return;
+		perror("Open file error\n");
+		showError("文件不存在！");
+		return ERROR;
 	}
+	while(fgetc(fp) != '\n');			//去掉注释行
 	fscanf(fp,"%d%d",&i,&j);			 //读入顶点数和边数
 	G->n=i;G->e=j;
 	fgetc(fp);
 
+	while(fgetc(fp) != '\n');			//去掉注释行
 	for(i=0;i<G->n;i++)   				 //建立边表
 	{
 		fscanf(fp,"%c",&a);
@@ -64,6 +72,7 @@ void CreatALGraph(const char fileName[])
 		G->adjlist[i].firstedge=NULL; 		//边表置为空表
 	}
 
+	while(fgetc(fp) != '\n');			//去掉注释行
 	for(k=0;k<G->e;k++) 				//建立邻接表
 	{ 
 		fscanf(fp,"%d%d%d%d",&i,&j,&cost,&evaluate);
@@ -88,7 +97,9 @@ void CreatALGraph(const char fileName[])
 		s->next=G->adjlist[k].firstedge;
 		G->adjlist[k].firstedge=s;     		
 	}
+	fclose(fp);
 	showALGraph();			//打印邻接点表
+	return SUCCESS;
 }
 
 //查询元素在边表的值
@@ -131,24 +142,24 @@ void freeGraph(){
 /*************************************************************************
    #将元素插入表头
    #参数说明:
-   #	*open  	要插入的表	in/out;
+   #	*Open  	要插入的表	in/out;
    #	*in 	插入位置	in/out;
    #	value 	插入的值	in;
-   #	showFlag显示标志	in; = 0 不显示;= 1 显示open表;= 2显示close表;
+   #	showFlag显示标志	in; = 0 不显示;= 1 显示Open表;= 2显示close表;
    #返回值:
    #	SUCCESS	插入成功
    #	ERROR	插入失败  
   ***********************************************************************/
-int Push(TYPE *open,int *in,TYPE value,int showFlag){
+int Push(TYPE *Open,int *in,TYPE value,int showFlag){
 	if((*in) > MaxVertexNum){		//表满
 		printf("stack is fulled!\n");
 		return ERROR;
 	}
-	open[*in] = value;
+	Open[*in] = value;
 	(*in)++;
 	switch(showFlag){
-		case 1:	showOpenaStack(open,(*in));break;
-		case 2:	showClose(open, (*in));break;
+		case 1:	showOpenaStack(Open,(*in));break;
+		case 2:	showClose(Open, (*in));break;
 
 	}
 	return SUCCESS;
@@ -156,66 +167,66 @@ int Push(TYPE *open,int *in,TYPE value,int showFlag){
 /*************************************************************************
   #取出表头元素
   #参数说明:
-  #	*open  	元素所在的表	in/out;
+  #	*Open  	元素所在的表	in/out;
   #	*out 	取出元素位置	in/out;
   #	*value 	返回元素的值	out;
-  #	showFlag显示标志	in; = 0 不显示;= 1 显示open表;= 2显示close表;
+  #	showFlag显示标志	in; = 0 不显示;= 1 显示Open表;= 2显示close表;
   #返回值:
   #	SUCCESS	取出成功
   #	ERROR	取出失败  
   ***********************************************************************/
-int Pop(TYPE *open,int *out,TYPE *value,int showFlag){
+int Pop(TYPE *Open,int *out,TYPE *value,int showFlag){
 	if((*out) <= 0){
 		return ERROR;
 	}
 	(*out)--;
-	*value = open[*out];
+	*value = Open[*out];
 	switch(showFlag){
-		case 1:	showOpenaStack(open,(*out));break;
-		case 2:	showClose(open,(*out));break;
+		case 1:	showOpenaStack(Open,(*out));break;
+		case 2:	showClose(Open,(*out));break;
 	}
 	return SUCCESS;
 }
 /*************************************************************************
   #将元素插入队尾
   #参数说明:
-  #	*open  	要插入的队列	in/out;
+  #	*Open  	要插入的队列	in/out;
   #	*in 	队尾位置	in/out;
   #	*out 	队首位置	in/out;
   #	value 	插入的值	in;
-  #	showFlag显示标志	in; = 0 不显示;= 1 显示open表;= 2显示close表;
+  #	showFlag显示标志	in; = 0 不显示;= 1 显示Open表;= 2显示close表;
   #返回值:
   #	SUCCESS	插入成功
   #	ERROR	插入失败  
   ***********************************************************************/
-int EnQueue(TYPE *open,int *in,int *out,TYPE value,int showFlag){
+int EnQueue(TYPE *Open,int *in,int *out,TYPE value,int showFlag){
 	int temp;
 	temp = ((*in)+1)%MaxVertexNum;		//队满条件 in+1 = out
 	if(temp == (*out)){
 		printf("queue is fulled!\n");
 		return ERROR;
 	}
-	open[*in] = value;
+	Open[*in] = value;
 	(*in) = temp;
 	if(showFlag == 1){
-		showOpenaQueue(open,(*in),(*out));
+		showOpenaQueue(Open,(*in),(*out));
 	}
 	return SUCCESS;
 }
 /*************************************************************************
   #将元素插入队尾
   #参数说明:
-  #	*open  	要插入的队列	in/out;
+  #	*Open  	要插入的队列	in/out;
   #	*in 	队尾位置	in/out;
   #	*out 	队首位置	in/out;
   #	value 	插入的值	in;
   # 	mode	排序模式	in; = 0 按cost排序; = 1 按evaluate排序
-  #	showFlag显示标志	in; = 0 不显示;= 1 显示open表;= 2显示close表;
+  #	showFlag显示标志	in; = 0 不显示;= 1 显示Open表;= 2显示close表;
   #返回值:
   #	SUCCESS	插入成功
   #	ERROR	插入失败  
   ***********************************************************************/
-int OrderEnQueue(TYPE *open,int *in,int *out,TYPE value,int mode,int showFlag){
+int OrderEnQueue(TYPE *Open,int *in,int *out,TYPE value,int mode,int showFlag){
 	int temp,next;
 	int i,tempIn,tempOut;
 
@@ -232,7 +243,7 @@ int OrderEnQueue(TYPE *open,int *in,int *out,TYPE value,int mode,int showFlag){
 		i = i + MaxVertexNum;
 	}
 	if(tempIn == tempOut){			//队空条件 in == out
-		open[tempIn] = value;
+		Open[tempIn] = value;
 	}else{
 		switch(mode)
 		{
@@ -242,10 +253,10 @@ int OrderEnQueue(TYPE *open,int *in,int *out,TYPE value,int mode,int showFlag){
 					if(next < 0){
 						next = MaxVertexNum - 1;
 					}
-					if(value->cost < open[next]->cost){
-						open[tempIn] = open[next];
+					if(value->cost < Open[next]->cost){
+						Open[tempIn] = Open[next];
 					}else{
-						open[tempIn] = value;
+						Open[tempIn] = value;
 						break;
 					}
 					tempIn--;
@@ -255,7 +266,7 @@ int OrderEnQueue(TYPE *open,int *in,int *out,TYPE value,int mode,int showFlag){
 
 				}
 				if(i == tempOut){
-					open[tempIn] = value;
+					Open[tempIn] = value;
 				}
 				break;
 			case 1:	for( ;i > tempOut; i--){	//按evaluate插入
@@ -263,10 +274,10 @@ int OrderEnQueue(TYPE *open,int *in,int *out,TYPE value,int mode,int showFlag){
 					if(next < 0){
 						next = MaxVertexNum - 1;
 					}
-					if(value->evaluate < open[next]->evaluate){
-						open[tempIn] = open[next];
+					if(value->evaluate < Open[next]->evaluate){
+						Open[tempIn] = Open[next];
 					}else{
-						open[tempIn] = value;
+						Open[tempIn] = value;
 						break;
 					}
 					tempIn--;
@@ -275,7 +286,7 @@ int OrderEnQueue(TYPE *open,int *in,int *out,TYPE value,int mode,int showFlag){
 					}
 				}
 				if(i == tempOut){
-					open[tempIn] = value;
+					Open[tempIn] = value;
 				}
 				break;
 
@@ -284,30 +295,30 @@ int OrderEnQueue(TYPE *open,int *in,int *out,TYPE value,int mode,int showFlag){
 
 	(*in) = temp;
 	if(showFlag == 1){
-		showOpenaQueue(open,(*in),(*out));
+		showOpenaQueue(Open,(*in),(*out));
 	}
 	return SUCCESS;
 }
 /*************************************************************************
   #取出队首元素
   #参数说明:
-  #	*open  	元素所在的队列	in/out;
+  #	*Open  	元素所在的队列	in/out;
   #	*in 	队尾位置	in/out;
   #	*out 	队首位置	in/out;
   #	*value 	取出元素的值	out;
-  #	showFlag显示标志	in; = 0 不显示;= 1 显示open表;= 2显示close表;
+  #	showFlag显示标志	in; = 0 不显示;= 1 显示Open表;= 2显示close表;
   #返回值:
   #	SUCCESS	取出成功
   #	ERROR	取出失败  
   ***********************************************************************/
-int GetQueue(TYPE *open,int *in,int *out,TYPE *value,int showFlag){
+int GetQueue(TYPE *Open,int *in,int *out,TYPE *value,int showFlag){
 	if((*in) == (*out)){		//队空条件 in == out
 		return ERROR;
 	}
-	*value = open[*out];
+	*value = Open[*out];
 	(*out) = ((*out)+1)%MaxVertexNum;
 	if(showFlag == 1){
-		showOpenaQueue(open,(*in),(*out));
+		showOpenaQueue(Open,(*in),(*out));
 	}
 	return SUCCESS;
 }
@@ -340,10 +351,10 @@ Result  BFS(char start ,char target,int showFlag){
 	emptyOpen = emptyClose = 0;
 	numOpen = numClose = 0;
 	
-	if(showFlag == 1){			//显示open和 close表
+	if(showFlag == 1){			//显示Open和 close表
 		showO = 1;
 		showC = 2;
-	}else{					//不显示open和 close表
+	}else{					//不显示Open和 close表
 		showO = 0;
 		showC = 0;
 	}
@@ -353,13 +364,13 @@ Result  BFS(char start ,char target,int showFlag){
 	Visit[index] = TRUE;
 	tempNode->father = NULL;
 	tempNode->cost = cost;
-	EnQueue(open,&inOpen,&outOpen,tempNode,showO);				//将起始节点存入open表
+	EnQueue(Open,&inOpen,&outOpen,tempNode,showO);				//将起始节点存入open表
 	numOpen++;
 
 	while(1){
-		emptyOpen = GetQueue(open,&inOpen,&outOpen,&tempNode,showO);	//从open表中取出第一个值
+		emptyOpen = GetQueue(Open,&inOpen,&outOpen,&tempNode,showO);	//从open表中取出第一个值
 
-		if(emptyOpen == -1){						//open表为空,找不到目标节点,算法结束
+		if(emptyOpen == -1){						//Open表为空,找不到目标节点,算法结束
 			findFlag = 0;
 			printf("BFS not find %c. \n",target);
 			break;
@@ -378,14 +389,14 @@ Result  BFS(char start ,char target,int showFlag){
 		}
 
 		cost = tempNode->cost;
-		tempNode = G->adjlist[n].firstedge;			//将后继节点存入open表
+		tempNode = G->adjlist[n].firstedge;			//将后继节点存入Open表
 		fatherNode = tempNode;
 		while(tempNode != NULL){
 			n = tempNode->adjvex;
 			if(Visit[n] == FALSE){
 				tempNode->father = fatherNode;
 				tempNode->cost = tempNode->cost + cost;
-				EnQueue(open,&inOpen,&outOpen,tempNode,showO);
+				EnQueue(Open,&inOpen,&outOpen,tempNode,showO);
 				numOpen++;
 				Visit[n] = TRUE;
 			}
@@ -424,10 +435,10 @@ Result DFS(char start,char target,int showFlag){
 	numOpen = numClose = 0;
 	emptyOpen = emptyClose = 0; 
 	
-	if(showFlag == 1){		//显示open和 close表
+	if(showFlag == 1){		//显示Open和 close表
 		showO = 1;
 		showC = 2;
-	}else{				//不显示open和 close表
+	}else{				//不显示Open和 close表
 		showO = 0;
 		showC = 0;
 	}
@@ -437,10 +448,10 @@ Result DFS(char start,char target,int showFlag){
 	Visit[index] = TRUE;
 	tempNode->father= NULL;
 	tempNode->cost = cost;
-	Push(open,&inOpen,tempNode,showO);				//将起始节点存入open表
+	Push(Open,&inOpen,tempNode,showO);				//将起始节点存入open表
 	numOpen++;
 	while(1){
-		emptyOpen = Pop(open,&inOpen,&tempNode,showO);		//从open表中取出第一个值
+		emptyOpen = Pop(Open,&inOpen,&tempNode,showO);		//从open表中取出第一个值
 		if(emptyOpen == -1){					//找到目标节点,算法结束
 			findFlag = 0;
 			printf("DFS not find %c. \n",target);
@@ -458,14 +469,14 @@ Result DFS(char start,char target,int showFlag){
 
 		}
 		cost = tempNode->cost;
-		tempNode = G->adjlist[n].firstedge;			//将后继节点存入open表
+		tempNode = G->adjlist[n].firstedge;			//将后继节点存入Open表
 		fatherNode = tempNode;
 		while(tempNode != NULL){
 			n = tempNode->adjvex;
 			if(Visit[n] == FALSE){
 				tempNode->father = fatherNode;
 				tempNode->cost = tempNode->cost + cost;
-				Push(open,&inOpen,tempNode,showO);
+				Push(Open,&inOpen,tempNode,showO);
 				numOpen++;
 				Visit[n] = TRUE;
 			}
@@ -520,12 +531,12 @@ Result DLS(char start,char target,int showFlag){
 	tempNode->father= NULL;
 	tempNode->deep = deep;
 	tempNode->cost = cost;
-	Push(open,&inOpen,tempNode,showO);					//将起始节点存入open表
+	Push(Open,&inOpen,tempNode,showO);					//将起始节点存入open表
 	numOpen++;
 
 	while(1){
-		emptyOpen = Pop(open,&inOpen,&tempNode,showO);			//从open表中取出第一个值
-		if(emptyOpen == -1){						//open表为空,找不到目标节点，算法结束
+		emptyOpen = Pop(Open,&inOpen,&tempNode,showO);			//从open表中取出第一个值
+		if(emptyOpen == -1){						//Open表为空,找不到目标节点，算法结束
 			findFlag = 0;
 			printf("DLS not find %c. \n",target);
 			break;
@@ -547,7 +558,7 @@ Result DLS(char start,char target,int showFlag){
 		}
 		deep = deep + 1;					//深度加 1
 		cost = tempNode->cost;
-		tempNode = G->adjlist[n].firstedge;			//将后继节点存入open表
+		tempNode = G->adjlist[n].firstedge;			//将后继节点存入Open表
 		fatherNode = tempNode;
 		while(tempNode != NULL){
 			n = tempNode->adjvex;
@@ -555,7 +566,7 @@ Result DLS(char start,char target,int showFlag){
 				tempNode->father = fatherNode;
 				tempNode->deep = deep;
 				tempNode->cost = tempNode->cost + cost;
-				Push(open,&inOpen,tempNode,showO);
+				Push(Open,&inOpen,tempNode,showO);
 				numOpen++;
 				Visit[n] = TRUE;
 			}
@@ -614,13 +625,13 @@ labelStar:
 	tempNode->father= NULL;
 	tempNode->deep = deep;
 	tempNode->cost = cost;
-	Push(open,&inOpen,tempNode,showO);				//将起始节点存入open表
+	Push(Open,&inOpen,tempNode,showO);				//将起始节点存入open表
 	numOpen++;
 	num++;
 
 	while(1){
-		emptyOpen = Pop(open,&inOpen,&tempNode,showO);		//从open表中取出第一个值
-		if(emptyOpen == -1){					//open表为空,找不到目标节点
+		emptyOpen = Pop(Open,&inOpen,&tempNode,showO);		//从open表中取出第一个值
+		if(emptyOpen == -1){					//Open表为空,找不到目标节点
 			if(num < G->n){ 			//没有遍历完所有节点，深度加 1，继续遍历
 				limit++;
 				goto labelStar;
@@ -646,7 +657,7 @@ labelStar:
 		}
 		deep = deep + 1;					//深度加 1
 		cost = tempNode->cost;
-		tempNode = G->adjlist[n].firstedge;			//将后继节点存入open表
+		tempNode = G->adjlist[n].firstedge;			//将后继节点存入Open表
 		fatherNode = tempNode;
 		while(tempNode != NULL){
 			n = tempNode->adjvex;
@@ -654,7 +665,7 @@ labelStar:
 				tempNode->father = fatherNode;
 				tempNode->deep = deep;
 				tempNode->cost = tempNode->cost + cost;
-				Push(open,&inOpen,tempNode,showO);
+				Push(Open,&inOpen,tempNode,showO);
 				numOpen++;
 				num++;
 				Visit[n] = TRUE;
@@ -707,11 +718,11 @@ Result  UCS(char start ,char target,int showFlag){
 	Visit[index] = TRUE;
 	tempNode->cost = cost;
 	tempNode->father = NULL;
-	OrderEnQueue(open,&inOpen,&outOpen,tempNode,0,showO);//将第一个节点的下一个节点存入open表
+	OrderEnQueue(Open,&inOpen,&outOpen,tempNode,0,showO);//将第一个节点的下一个节点存入open表
 	numOpen++;
 	while(1){
-		emptyOpen = GetQueue(open,&inOpen,&outOpen,&tempNode,showO);	//从open表中取出第一个值
-		if(emptyOpen == -1){						//open表为空,找不到目标节点，算法结束
+		emptyOpen = GetQueue(Open,&inOpen,&outOpen,&tempNode,showO);	//从open表中取出第一个值
+		if(emptyOpen == -1){						//Open表为空,找不到目标节点，算法结束
 			findFlag = 0;
 			printf("UCS not find %c. \n",target);
 			break;
@@ -727,14 +738,14 @@ Result  UCS(char start ,char target,int showFlag){
 			break;
 		}
 		cost = tempNode->cost;
-		tempNode = G->adjlist[n].firstedge;			//将后继节点存入open表
+		tempNode = G->adjlist[n].firstedge;			//将后继节点存入Open表
 		fatherNode = tempNode;
 		while(tempNode != NULL){
 			n = tempNode->adjvex;
 			if(Visit[n] == FALSE){
 				tempNode->father = fatherNode;
 				tempNode->cost = cost + tempNode->cost;
-				OrderEnQueue(open,&inOpen,&outOpen,tempNode,0,showO);
+				OrderEnQueue(Open,&inOpen,&outOpen,tempNode,0,showO);
 				numOpen++;
 				Visit[n] = TRUE;
 			}
@@ -787,12 +798,12 @@ Result  BestFS(char start,char target,int showFlag){
 	Visit[index] = TRUE;
 	tempNode->cost = cost;
 	tempNode->father = NULL;
-	OrderEnQueue(open,&inOpen,&outOpen,tempNode,1,showO);//将起始节点存入open表
+	OrderEnQueue(Open,&inOpen,&outOpen,tempNode,1,showO);//将起始节点存入open表
 	numOpen++;
 
 	while(1){
-		emptyOpen = GetQueue(open,&inOpen,&outOpen,&tempNode,showO);	//从open表中取出第一个值
-		if(emptyOpen == -1){						//open表为空,找不到目标节点，算法结束
+		emptyOpen = GetQueue(Open,&inOpen,&outOpen,&tempNode,showO);	//从open表中取出第一个值
+		if(emptyOpen == -1){						//Open表为空,找不到目标节点，算法结束
 			findFlag = 0;
 			printf("BestFS not find %c. \n",target);
 			break;
@@ -807,7 +818,7 @@ Result  BestFS(char start,char target,int showFlag){
 			break;
 		}
 		cost = tempNode->cost;
-		tempNode = G->adjlist[n].firstedge;				//将后继节点存入open表
+		tempNode = G->adjlist[n].firstedge;				//将后继节点存入Open表
 		fatherNode = tempNode;
 		while(tempNode != NULL){
 			n = tempNode->adjvex;
@@ -816,7 +827,7 @@ Result  BestFS(char start,char target,int showFlag){
 				tempNode->cost = cost + tempNode->cost;
 				tempNode->evaluate = tempNode->cost + tempNode->evaluate;
 			n = tempNode->adjvex;
-				OrderEnQueue(open,&inOpen,&outOpen,tempNode,1,showO);
+				OrderEnQueue(Open,&inOpen,&outOpen,tempNode,1,showO);
 			n = tempNode->adjvex;
 				numOpen++;
 				Visit[n] = TRUE;
@@ -830,4 +841,14 @@ Result  BestFS(char start,char target,int showFlag){
 	searchResult.inClose = inClose;
 	searchResult.target = target;
 	return searchResult;
+}
+
+
+//建立测试文件
+void CreateFile(){
+	int 	fp;
+	char	buffer[] = "顶点数 边数\n6 7\n顶点名称\na b c d e f\n起始顶点编号 	终点编号	代价值	估价值\n0 1 1 6\n0 2 1 7\n1 3 1 1\n2 3 1 1\n2 4 1 1\n3 4 1 1\n4 5 1 1";
+	fp = open("./testData.txt",O_WRONLY|O_CREAT,S_IRUSR|S_IWUSR);
+	write(fp,buffer,sizeof(buffer));
+	close(fp);
 }

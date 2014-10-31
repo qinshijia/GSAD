@@ -4,7 +4,7 @@
 #include <string.h>
 #include "algorithm.h"
 #include "allAlg.h"
-
+//main.c
 GtkWidget 	*mainwindow,*Algwindow;
 GtkWidget 	*Tstart,*Tend,*Tdeep; 
 GtkWidget 	*Ffile;
@@ -44,7 +44,32 @@ void Textview_clear(){
 	gtk_text_buffer_get_bounds(GTK_TEXT_BUFFER(bufpath),&Gstart,&Gend);
 	gtk_text_buffer_delete(GTK_TEXT_BUFFER(bufpath),&Gstart,&Gend);
 }
-
+void showError(char *message){
+	GtkWidget *dialog;
+	dialog = gtk_message_dialog_new(NULL,GTK_DIALOG_MODAL,GTK_MESSAGE_ERROR,GTK_BUTTONS_OK,message,NULL);
+	gtk_dialog_run(GTK_DIALOG(dialog)); 
+	gtk_widget_destroy(dialog);
+}
+/*
+void dialog()
+{
+	GtkWidget *button;
+	GtkWidget *dialog;
+	 
+	dialog=gtk_dialog_new( );
+	 
+	button=gtk_button_new_with_label(“Yes”);
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->action_area),button,TRUE,TRUE,0);
+	gtk_signal_connect(GTK_OBJECT(button),”clicked”,G_CALLBACK(gtk_main_quit),NULL);
+	gtk_widget_show(button);
+	 
+	button=gtk_button_new_with_label(“No”);
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->action_area),button,TRUE,TRUE,0);
+//	gtk_signal_connect(GTK_OBJECT(button),”clicked”,G_CALLBACK(destroy),dialog);
+	gtk_widget_show(button);
+	gtk_widget_show(dialog);
+}
+*/
 void showPath(Result res){
 	int n,emptyClose,inClose,findFlag;
 	char target;
@@ -139,11 +164,11 @@ void showResult(Result res){
 
 //开始执行算法
 void Algorithm_start(GtkWidget *widget,gpointer data){
-	int showFlag;
+	int showFlag,runFlag;
   	const	char *start,*end,*deep;
 	const 	char *file;
 	Result  res;
-	
+
 	//获取输入的值
 	showFlag = 1;
 	start = gtk_entry_get_text(GTK_ENTRY(Tstart));			//起始点
@@ -152,12 +177,36 @@ void Algorithm_start(GtkWidget *widget,gpointer data){
 	file= gtk_file_chooser_get_filename (GTK_FILE_CHOOSER(Ffile));	//文件位置
 
 	Textview_clear();
-
-	if(file == NULL){
-//		gtk_message_dialog_new(gtk_widget_get_parent_window(Ffile),GTK_DIALOG_MODAL,GTK_MESSAGE_ERROR,GTK_BUTTONS_OK,NULL);
-	}
+	
 	DEEPLIMIT = atoi(deep);
-	CreatALGraph(file);		//建立邻接点表
+
+	//判断输入合法性
+	runFlag = CreatALGraph(file);		//建立邻接点表
+	if(runFlag == -1){
+		return;
+	}
+	runFlag = strcmp(start,"");
+	if(!runFlag){
+		showError("请输入起点！");
+		return;
+	}
+	runFlag = strcmp(end,"");
+	if(!runFlag){
+		showError("请输入目标点！");
+		return;
+	}
+	runFlag = strcmp(deep,"");
+	if(!runFlag){
+		showError("请输入受限深度！");
+		return;
+	}
+	runFlag = valueIndex(*start);
+	if(runFlag == -1){
+		showError("请输入正确的起点！");
+		return;
+	}
+
+
 	if(!(strcmp(data,"BFS"))){			//广度优先搜索算法
 
 		res = BFS(*start,*end,showFlag);
@@ -414,6 +463,7 @@ void clicked_Algorithm(GtkWidget *widget,gpointer data)
 	//深度设置
 	Ldeep = GTK_WIDGET (gtk_builder_get_object (builder, "Ldeep"));
 	Tdeep = GTK_WIDGET (gtk_builder_get_object (builder, "Tdeep"));
+	gtk_entry_set_text(GTK_ENTRY(Tdeep),"3");
 	gtk_widget_hide(Ldeep); 
 	gtk_widget_hide(Tdeep); 
 
@@ -464,6 +514,7 @@ int main (int argc, char *argv[])
 	mainwindow = GTK_WIDGET (gtk_builder_get_object (builder, "mainwindow")); 
 	gtk_window_set_title(GTK_WINDOW(mainwindow),"图搜索算法对比研究");
 
+	CreateFile();
 	G = (ALGraph *)malloc(sizeof(ALGraph));
 
 	// 选择按钮
