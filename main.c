@@ -5,6 +5,7 @@
 #include "algorithm.h"
 #include "allAlg.h"
 //main.c
+//master main.c
 GtkWidget 	*mainwindow,*Algwindow;
 GtkWidget 	*Tstart,*Tend,*Tdeep; 
 GtkWidget 	*Ffile;
